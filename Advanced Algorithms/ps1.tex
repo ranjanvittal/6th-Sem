@@ -1,0 +1,119 @@
+\documentclass[12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb,complexity}
+\begin{document}
+
+\hrule
+\vspace{3mm}
+\noindent
+{\sf IITM-CS6840-2015 : Advanced Complexity Theory  \hfill Given on: Jan 27, 07:30am}
+\vspace{3mm} \\
+\noindent
+{\sf Problem Set \#1 \hfill Due on : Feb 04, 07:00am}
+\vspace{3mm}
+\hrule
+
+\begin{parts}
+\part
+Given a graph G, do BFS starting from any node. Let the root be coloured
+black and all its children be coloured red. Basically any node in 2*i+1
+level is coloured black and any node in 2*i+2 level is coloured red. Now while
+doing bfs, if we encounter a node which initially occurred at an odd level
+occurring at an even level or vice versa, this implies there exists an odd cycle
+in the graph and the graph cannot be $2-coloured$. Otherwise if we go on
+colouring in this manner we would end up colouring all the vertices either
+red or black and no black and red vertices will have edges between them.
+\part
+The decision version is as follows :\\
+Can you colour the graph using k colours with no two sharing an edge
+having the sme colour ? is the decision version of the same problem.\\
+Assuming the Graph colouring problem is polynomial time solvable using
+Algorithm A:\\
+Given any G, k forward G to A. It would gives us a number k' denoting the
+minimum number of colours used to colour the graph. If $k < k'$ then
+definitely G is not $k-colourable$ while if $ k \ge k'$ then the graph
+can be coloured using k colours. Hence decision version is solvable
+if Graph colouring is.\\
+Assuming decision version is solvable using algorithm A in polynomial:\\
+The graph can definitely be coloured with n colours
+where n denotes the number of vertices that is every vertex
+having a different colour. Now given graph G, ask decision
+version (G, 0), (G, 1), (G, 2) so on till (G, n). Now till some
+$k-1$ the algorithm A would say no and from k it would start saying yes.
+This means that the graph was not $k-1$ colourable while it is indeed
+$k-colourable$. Hence the minimum number of colours required to colour the
+graph is k. The running time of this machine is polynomial composed
+polynomial which is still polynomial hence the
+Graph colouring problem is solvable in polynomial time if decision version is.\\
+\part
+It is given that $3-colouring$ problem is $NP-Complete$. Consider the
+following reduction from $3-colouring$ to decision version :\\
+Given Input G, give input as (G, 3) to the decision version
+the decision version will say yes iff there exists a $3-colouring$ possible.
+Hence $3-colouring \le_m decision$ version. Hence the decision version is $NP-Complete$.
+\part
+Consider a valid $3-colouring$ c of the graph G.
+Assuming RED is coloured with red, if one of vertices $x_i$ or $\overline{x_i}$
+are coloured red then the colouring rule is not satisfied as RED has an edge to
+all these variables. Hence each other variable is either coloured either
+true or false. Now both $x_i$ and $\overline{x_i}$ cannot be coloured
+the same colour because they share an edge between them. Hence one of them
+will be coloured true and the other false.\\
+Given any satisfying assignment to the problem, colour $x_i$ to be false
+if in the satisfying assignment it indeeds turns out to be so and colour
+$\overline{x_i}$ to be true and do similar if $x_i$ is true. Repeat this
+for all the vertices. Hence this will produce a valid 3 colouring
+between containing only the literal edges as 3 colouring condition will
+be satisfied within the literal edges.
+\part
+Let vertex connected to x be $v_1$, connected to y be $v_2$, connected to
+$v_1$ and $v_2$ be $v_3$, connected to $v_3$ be $v_4$ and that connected
+to TRUE and $v_4$ be $v_5$.\\
+Assuming all x, y, z are coloured false, then
+$v_5$ has to be coloured red which implies $v_4$ has to be coloured
+false. Now none of $v_1$ or $v_2$ or $v_3$ can be coloured false because
+one of each's neighbours are coloured false. As these 3 form
+a triangle and one colour is not usable, this widget is not
+3 colourable.\\
+Assuming z is coloured true :\\
+If c(x) != c(y) (c denotes colour), then colour $v_5$ red,
+$v_4$ false and $v_3$ red. Now we know x and y can be either coloured true or false.
+then colour $v_1$ as compliment of
+x (ie) if x is true colour $v_1$ false and so on and colour $v_2$ as
+compliment of y. Now this widget is completely coloured using 3 colours.\\
+If c(x) = c(y), colour $v_2$ to be compliment of c(y), colour $v_1$ red,
+colour $v_3$ same as y and colour $v_4$ red and $v_5$ false.
+Hence in this case it is 3 colourable.
+Assuming exactly one of x or y is coloured true and z is coloured false:\\
+we can easily check that the following strategy works :
+(r denotes red, f denotes false and t denotes true)
+c($v_5$) = r\\
+c($v_4$) = f\\
+c($v_3$) = r\\
+c($v_2$) = $\overline{c(y)}$\\
+c($v_1$) = $\overline{c(x)}$\\
+Assuming both are coloured true,\\
+c($v_5$) = r\\
+c($v_4$) = f\\
+c($v_3$) = t\\
+c($v_2$) = f\\
+c($v_1$) = r\\
+Hence the widget is $3-colorable$ if and only if at least
+one of x,y, or z is coloured c(TRUE).
+\part
+Given that there exists a satisfying assignment accordingly colour
+all the vertices as indicated in part d and use the schema in part e
+to colour all the clause edges. Due to the valid consistency check we
+are guaranteed to have a proper 3 colouring overall.\\
+Given that there exists a valid $3-colouring$, we
+already know that the literals will be coloured either
+true or false and that the compliment colour is
+also appropriate and that a clause widget
+is 3 colourable iff atleast one of the literals in it is
+true. Hence assign the variables as the colour suggests and
+we are assured to end up with a valid satisfying assignment.\\
+Hence by the above proof we have shown that $3-SAT \le_m 3-colouring$
+and $3-SAT$ is $NP-Complete$. Hence $3-colouring$ is $NP-hard$.
+There is a trivial $NP$ machine to do this problem as verifying
+$3-colouring$ is in P. Hence $3-colouring$ is $NP-complete$.
+\end{parts}

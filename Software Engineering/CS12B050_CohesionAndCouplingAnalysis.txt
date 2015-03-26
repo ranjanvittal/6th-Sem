@@ -1,0 +1,94 @@
+Cohesion Analysis :
+
+FoodItem.cpp :
+    Methods :
+        food_item :
+            Is an assigner and hence has communicational
+            cohesion as the information is about a particular
+            object.
+
+    Functions :
+        initialize_food_items :
+            This has functional cohesion and is the best as its only
+            functionality is to initialize different food items.
+
+
+
+Table.cpp :
+    Methods :
+        initialize_table :
+            Is an assigner and hence has communicational
+            cohesion as the information is about a particular
+            object.
+
+        add_food :
+            This again has communicational cohesion as it acts
+            on the tables object.
+
+        check_delivery :
+            This has procedural cohesion in the sense that
+            only if a table is occupied we proceed to check
+            delivery for that table.
+            Other than the check it has sequential cohesion as
+            well as quantity[i] is made up which is sent as input
+            to the next for loop.
+
+        placing_order :
+            This has procedural cohesion in the sense that
+            only if a table is occupied we proceed to placing
+            order for that table.
+
+        print_bill :
+            This also has procedural cohesion similar to above.
+            It has functional cohesion with regards to the other piece
+            of code.
+
+    Functions :
+        initialize_tables :
+            This has functional cohesion and is the best as its only
+            functionality is to initialize different tables.
+
+simulate.cpp
+    Constructor and Destructor:
+        A costructor always has only communicational cohesion.
+
+    Methods :
+        check_and_occupy_table :
+            As the name suggests, the checking is done which leads
+            to procedural cohesion.
+        run :
+            This is the part where the whole simulation
+            takes place. Hence it has some kind of logical
+            cohesion as they are logically categorized to simulation.
+            Like as such checking delivery and printing bills
+            donot have anything to do with each other but they are
+            part of simulation. As all the operations
+            happen on a fixed data, it has communicational cohesion
+            as well.
+
+kickstart.cpp :
+    main :
+        It has a kind of sequential
+        cohesion as the above two are required to instantiate a Simulation
+        object which is used to run the simulation.
+
+
+Coupling Analysis :
+    kickstart.cpp :
+        Temporal coupling in main for initializations.
+
+    Simulation.cpp :
+        run has stamp coupling with all the methods and functions
+        in run as not all the parameters are required in most
+        cases. It has a kind of control coupling
+        with respect to check_delivery, print_bill as status of a table
+        is used as a flag and determines how these run.
+        There exists no coupling with check_and_occupy_table though.
+
+    In the other two files there is not much of coupling and
+    hence there is predominantly no coupling as all the methods
+    and functions are reasonably independent
+    initialize_tables and initialize_food_items
+    which are just helper functions. Placing order method in
+    tables alone has a single call to initialize_table thereby has
+    data coupling in it.

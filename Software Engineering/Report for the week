@@ -1,0 +1,32 @@
+Linearly Arranged Trees for Class Hierarchies
+Problem
+We need to support the creation of linearly arranged trees for class hierarchies. The challenge presented by class hierarchies as opposed to one single class is that, the sizes of classes could arbitrarily vary. We aim to do this in order to gain performance benefits from locality of reference, and hence lesser cache misses.
+
+Plan
+We plan to introduce support for this data structure to the C++ language. We initially proposed 2 possible schemes to achieve this:
+
+1: Language Level Support
+In this scheme, we would have a set of compiler directives that would convey the necessary to create a tree.
+
+2: Library Support
+In this scheme, we plan to create a library that would support the creation and manipulation of linearly arranged trees. The existing framework of Run-time Type Information in C++ would assist us in this.
+
+
+Due to existing support in terms of the C++ RTTI framework, we choose to implement support for the above feature for C++ in the form of a library.
+
+Tasks
+There are a number of tasks ahead that would need a solution.
+
+1: Conveying the classes involved while initializing the tree
+While initializing the tree, the tree instance needs to know the potential classes that would be used in the structure, in order to allocate space for the various sizes of classes. This could be implemented using the existing framework of preprocessor directives of C++, along with a combination of RTTI features supported by C++, and other utilities, such as sizeof().
+
+2: Deciphering the class of the object used in the tree
+The tree structure presented here is an alternative to pointers. When a graph comprising of nodes of different classes is made using pointers, the pointers used are of a base class. A pointer of a base type is used to point to various other nodes in the graph. With this scheme, it’s the responsibility of the user to decipher the correct type of object being pointed to.
+For our proposed scheme, we could either stick to this same restriction, or could aid the user using some form of runtime type information. This is to be done by Ranjan and Samir.
+
+3: Decisions about the interface of the library
+A minimal interface could be created that supports all basic operations over graphs. To do this, we could perhaps look at other minimal graph libraries such as igraph. This
+is to be done by the other three.
+
+4: Benchmarking for Performance
+We need to identify the kind of applications where linearity of storage could lend performance gains. Once we do so, we could identify some tests that would capture the difference in performance when using the traditional method, as against using our proposed structure. The same routine could be written using linked structures, and also using our library, and performance could be compared.

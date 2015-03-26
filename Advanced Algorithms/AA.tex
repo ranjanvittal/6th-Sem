@@ -1,0 +1,989 @@
+\documentclass[solution,addpoints,12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb}
+\usepackage[T1]{fontenc}
+\begin{document}
+\section{Max flow}
+f : V x V $\rightarrow$ R.
+$\forall u \in V - {s, t}$ inflow = outflow. u to v is present implies v to u is not present (edge).
+$0 \le f(e) \le c(e)$ is the capacity constraint.
+Therefore total out of s - in of s = total in of t - out of s. Flow is a function.
+We need to maximize this flow. Initial assumptions made were that there is one source
+and one sink, no anti parallel edge and the vertices donot have constraints.
+But each of the above can be reduced to the max flow problem.
+Let us assume that vertices have constraints. Hence do the following :\\
+Split the vertex with constraint into two vertices such that all the incoming go into one and
+the constraint to that vertex is added as an edge from one split vertex to another and all outgoing edges from the other vertex.\\
+
+\subsection{Ford Fulkerson Template}
+Residual graph ith respect to a valid flow. (Basically the two constraints are capacity constraints
+and inflow equal to outflow). $Capacity - Flow = Residual(C_f)$.\\
+$C_f(u, v) = C(u, v) - f(u, v)$.\\
+No antiparallel edges is assumed because now we are going to introduce a back edge of capacity
+of the flow because using that we can $send$ back the flow.\\
+$C_f(u, v) = f(v, u)$ if $u, v \in E$.\\
+$C_f = 0$ otherwise that is there is no edge between u and v.\\
+s, $v_1$, $v_2$, t.\\
+Take a flow f in G.\\
+Find a flow(f') in the residual graph by finding a path from s to t in the residual graph(R).\\
+$f \uparrow f'(u,v)$ = f(u, v) + f'(u, v) - f'(v, u) if u, v is an edge.
+Capacity constrains is trivially satisfied as we can see that only maximum of
+flow can be sent back and maximum of residual can be flowed forward.
+$f''(u, v) = f(u, v) + f'(u, v) - f'(v, u)$. As the flow is valid in the
+residual graph we can similarly argue that the flow obtained by augmentation
+is also conserved. Hence it is valid.\\
+Our algorithm terminates when there is no path available in the residual graph.
+That is repeat the residual network flow algorithm after you find the new flow
+after first iteration and so on.\\
+Every iteration is linear( O(m + n)).\\
+Number of iteration can be utmost maximum flow which is feasible.\\
+Therefore order is |max flow|*O(m + n).\\
+These are called pseudo polynomial algorithms as it is dependant on some integer value.\\
+$s-t$ cuts are those edges which if we remove the graph becomes disconnected.\\
+There are exponentilly many cuts (s and some vertices and t and some vertices).\\
+Capacity of a cut = sum over c(u, v) where (u, v) is a forward edge that is it
+is from s cut to t cut.\\
+net flow across the cut(s, t) = sum over all the flows from u to v (s to t) - sum over
+all the flows from u to v (t to s).\\
+Ford fulkerson method correctness :\\
+s t cut is a cut where every vertex is either in s or t cut and the capacity is
+defined as sum over all flows across the cut and the flow is the arithmetic sum
+(maybe added or subtracted according to directions) of the cut edges.
+This flow is exactly the same as the flow from s to t.
+Flow conservation holds at every vertex. So all the flows within s will get cancelled
+and similarly t. Basically the sum across the cut is the net flow.\\
+Value of the max flow is equal to capacity of the min cut.
+$max-flow \le min-cut$. For any s t cut we know that the value of the flow
+is less that the capacity of the cut. Therefore the value of the max flow is less
+than the capacity of the mincut.
+\begin{itemize}
+\item
+If f is a max flow then there is no augmented
+path in the residual network.(obvious as else you can pump more flow)
+\item If no augmenting path in residual network then there exists a flow which has
+value equal to that of the capacity of the cut. That is here all the forward edges are saturated
+and all the reverse edges are removed.\\
+Now put all the vertices reachable from s in S and rest all in T(meaning edges with non zero weight). Now consider this cut. Here if we consider the residual network of this graph
+Now our claim is all back edges have weight zero and all the forward edges are saturated.
+This is true because we cannot have more in the residual network as all these if they are not pushed into
+t flow will increase but flow cannot be more than min cut's capacity. Hence we are done.
+\end{itemize}
+\subsection{Edmond-karp}
+f = 0.\\
+Construct $G_f$.\\
+while there exists an $s-t$ path in $G_f$ :\\
+Let p be any shortest path between s and t(unweighted).\\
+Now augment using this.($f = f' \uparrow f''$)\\
+And repeat.\\
+m is number of edges and n is the number of vertices.
+Now we already know that it is correct. Lets show that the number of times
+an edge gets chosen is atmost n(number of vertices).\\
+It is now ensured that every time the shortest path between two vertices is
+bound to increase or remain the same.\\
+The above can be proved by taking two cases as to where a new edge is
+introduced in a path and a new edge is not introduced in the path.\\
+When an edge became critical it definitely increases the path length
+( by atleast 2) of some shortest paths between any source and some other vertex.
+Therefore when each edge becomes critical(that is going to be reversed) then
+the edge introduces a path difference of atleast 2 from the source to atleast one vertex. This particular edge $cannot$ be critical for more than n/2 times because the
+path distance cannot be more than n between any two vertices.\\
+Hence the number of iterations doesnot exceed mn.\\
+Hence the above algorithm is polynomial.\\
+
+There is an nXn grid m persons in the grid. These m persons should
+reach the boundary in vertex disjoint paths -- Done
+
+\section{P, NP}
+From  optimization to decision problems.
+A language belongs to NP if there is a certificate of polynomial
+size and verifiable in polynomial time.\\
+Co-NP is compliment of NP.\\
+Stuff about NP completeness and reductions.
+
+$VC \le_p Hamiltonian$.\\
+\begin{verbatim}
+For every edge u to v do the following :
+    .     .
+    |     |
+    .  X  .
+    |     |
+    .     .
+    |     |
+    .     .
+    |     |
+    .  X  .
+    |     |
+    .     .
+    X represents cross edge between 1st an 3rd.
+    Now if for an edge if we choose only one vertex it is easy to see the cycle
+    entering at u and exiting in the u side and not otherwise. If both are
+    chosen then choose the straight path from u to exit and similarly for v.
+
+    Connect adjacent edges that is by some bfs order. Now the only problem
+    would be to make for entry and exit.
+    Now have k selectors S1 to Sk which are connected to all the entries and exit.
+\end{verbatim}
+\section{Approximation Algorithms}
+Algorithm of an instance is less than or equal to some $\alpha$
+times the optimal answer for all instances. We would be happy if
+we could get $\alpha$ as close as possible to 1. Even for some polynomial
+time solvable problems we might go to find approximation algorithms.
+
+We will find a lower bound and based on that we will guarantee
+the above $\alpha$.
+
+Lower bound :\\
+\begin{itemize}
+\item LB should be as large possible.
+\item We should also compute the LB in polynomial time(efficient).
+\end{itemize}
+
+\subsection{Vertex cover problem (minimum)}
+Maximal matching is one where you cannot add anymore edges to a
+particular matching. Size of the maximal matching is less than
+vertex cover. If you choose all vertices in a maximal matching
+M pick both end points of edges in M to be VC. Therefore
+Our algorithm get 2 times the size of the maximal matching
+which is atmost 2 times optimum.\\
+
+Worst case example for Vertex cover is a complete
+bipartite graph. If Lower bound is fixed and there is a
+possibility of set of equalities to the $\alpha$ then we
+cannot find a better algorithm for that particular LB.
+
+\subsection{Max Cut}
+To design an algorithm where we get m which is atleast
+$\alpha$ times the optimal where $\alpha$ is less than 1.\\
+Partition vertex sets into two sets of vertices where the
+number of edges between them is maximum.\\
+
+Take an arbitrary vertex $V_1$ in A. At every point
+next to this take a vertex $V_i$, put it in B if it is adjacent
+to more vertices in A than in B and vice versa.\\
+Let us show that the $\alpha$ factor is 2. Optimal can never
+be more than the total number of edges. Now
+how much ever we produce in the max cut it will be greater than
+total number of edges divided by 2. This is because at every
+stage we introduce atleast as much edges in the cut as within
+the partition. Hence number of edges in the max cut is atmost
+m/2.\\
+
+Travelling salesman problem :\\
+G(V, E) : Sum of the weight of the routes is minimum.
+In its full generality TSP does not admit any approximation
+algorithm.\\
+Let us prove that $Ham \le TSP$.\\
+G(V, E) to G(V', E') and C.
+Keep vertex set same. Let us give an edge weight of one
+to every edge present in G and a weight of 2 to every edge
+in G'. Now set C = n. If there exists a tour of weight n
+it implies all the edges chosen are of weight 1 and hence there
+exists a Hamiltonian cycle.\\
+
+No $\alpha$ approximation algorithm available :\\
+This is because given any $\alpha$ to the problem, blow up
+the cost of the un present edges to $\alpha$*n + 1. If G
+does not have a hamiltonian cycle then any tour gives
+a cycle of length atleast $\alpha$*n and vice versa. Therefore
+given any such algorithm we can go ahead with the above reduction
+and then apply the polynomial time approximation. Hence we solve
+Hamiltonian cycle is solved in P.\\
+
+Let us assume that sum of two edges is greater than the third
+edge in a triangle. Then finding the MST which can be converted into
+a tour, will give atmost weight of twice the MST which is atmost
+the optimal (minus an edge).\\
+
+Travelling Salesman Problem :\\
+Cost of MST is less than or equal to OPT.\\
+If triangular inequality is satisfied, then do the depth first
+traversal from the root and instead of backtracking to the parent
+go to the next guy in inorder traversal or more like it. This would
+give the upper bound on the algorithm as 2*MST.\\
+
+Christofide's Algorithm :\\
+If we pair up some of the odd degree vertices we will reduce the
+optimal value.
+Pairing of odd vertices cost we would want it to be less than 0.5*Optimal.\\
+We will find an eulerian tour and if we repeatedly short circuit, we will
+end up having a proper TSP tour.\\
+There are 2k vertices which were odd in our chosen MST.
+There is an MST we have. Then we have a valid TSP tour and find all the odd
+degree vertex and connect them all. Now there is a tour passing through
+all these odd degree vertices for which we find a mincost perfect matching.
+The cycle through this perfect matching is less than the optimal.
+The mincost is definitely less than half the optimal value (as
+compliment is also a matching which has atleast as much as the mincost).
+The minimum now is 0.5*Optimum + MST which is less than 0.5*Opt + Opt
+which is 1.5*Opt. Hence the final $\alpha$ we end up with is 3/2.
+
+We can get an euler tour after the above steps and then short cicuit it
+to get a hamiltonian cycle (travelling salesman problem).
+
+Steiner Tree problem is one where given a graph we find the minimum
+spanning tree on a subset of vertices where we may or maynot include
+other vertices.
+
+Possibly there are many steiner vertices. The leaves of any steiner tree
+the leaves have to be required vertices.
+
+Steiner set is compliment of required set.\\
+If R = V and S = $\phi$ then it corresponds to a minimum spanning
+tree problem and if |R| = 2 then it is shortest path between the two vertices.
+
+When R can range from 3 to n-1 we will get that it is NP complete.
+If we have an $\alpha$ approximation for Metric case then we will
+have an $\alpha$ approximation for non-metric case.\\
+
+We will first show a reduction to the metric case. We will find
+all pair shortest paths between all the required vertices.
+Now $C'_{ij}$ = shortest path between i and j.
+$C'_{ij} \le C_{ij}$ where C was the original cost.
+Now we also know that $C'_{xy} + C'_{yz} \le C'_{xz}$
+because each of them are shortest paths. Hence it satisfies the metric
+property. Let optimum Steiner tree in original case be $T^*$ and
+current Steiner be ${T'}^*$. It is trivial that $T^* \ge {T'}^*$.
+Now take any tree in current graph and replace all edges by their
+corresponding paths. Now find minimum spanning tree for that sub graph.
+It will have atmost the value of the tree found in the metric
+case. Hence given any graph convert it into metric case,
+find optimal(havent done yet) and do the back conversion to get an
+approximation solution with the same $\alpha$.
+
+Optimum for Metric case :\\
+Take the subgraph on the required vertices and take
+the minimum spanning tree on the required vertices(subgraph).
+Take the optimal steiner tree. Now do a double tour on it
+(euler as done before). Now weight is twice the optimal.
+Now after this do a short circuiting. Now this will be
+atmost twice the optimal due to metric conditions.
+Therefore optimal for metric condition is atleast
+half of that of the MST of the sub graph on required vertices.\\
+
+$Alg(I) \le 2*(1 - 1/|R|)*Opt$.\\
+This is because we are removing the largest edge
+in the cycle we get from the double tour. Now
+in that cycle we are removing an edge from the cycle.
+The cost of the path is less than (1-1/|R|) times the
+sum of the cost of the edges in the cycle. Hence the bound.\\
+
+\subsection{Set cover}
+There are S sets with total of T elements.
+What is the minimum number of sets you need to choose
+k sets of these S to cover all of these T ?
+Now minimizing k is what is the set cover problem.
+The problem can be a cost problem as well as in we can
+add a cost to each set.\\
+
+Out of the the overall subset of elements(T') in the current stage,
+find the one with the maximum number of elements which are
+subset of T' and choose it and now remove those elements from T'.\\
+
+For every set, have a cost corresponding to it which is the
+total cost divided by the number of elements not yet covered.
+At each stage pick the least such set and proceed.\\
+
+Cost of our algorithm is the total sum of all these costs.
+Let $e_1$ to $e_n$ denote the order in which the elements got
+covered.\\
+
+Price of an element i is the effective cost of the set
+that covers it for the first time. The price we
+pay for each element is this order is non decreasing ($e_i$ to $e_n$).
+The effective cost = cost of the set/number of uncovered elements.\\
+Effective cost at no point can decrease hence e is
+in increasing order.
+Let us prove that $e_i \le Opt/(n-i+1)$.\\
+If $e_1 \ge Opt/n$, then this means every element
+$e_k$ is greater than Opt/n, this because. Give the cost
+to each element in that particular order and arrange
+the optimum in increasing order(a). Hence there
+exists atleast one set with effective cost less than Opt/n
+if this is not the case then, none of the cost of the element
+is more than Opt/n. Hence there is a contradiction, establishing
+price($e_1$) is less than $Opt/n$.\\
+Formally, assume $e_1 \ge Opt/n$.
+Optimum cost = (|$S_1$|/|$S_1$)*cost($S_1$) + ... (|$S_n$|/|$S_n$)*cost($S_n$).
+which is equal to |$S_1$|*effcost($S_1$) + ... |$S_n$|*effcost($S_n$),
+by our assumption this implies atleast one of them
+had effective cost of $Opt/n$ as if all had greater, then this means
+this Opt > Opt which is contradiction. Hence this establishes
+a contradiction as we would have chosen this particular
+set in the original algorithm in the first iteration.\\
+Hence $e_1 \le Opt/n$.
+Let us assume that k-1 elements have already be chosen.
+Now we need to choose from n-k+1 elements. $Opt' \le Opt$
+as covering a subset of elements we would use only lesser cost or
+at most the same cost for covering this subset. We know
+that $e_k \le Opt'/(n-k+1) \implies e_k \le Opt/(n-k+1)$.
+Hence summation would be less than $Opt*(1 + 1/2 + 1/3 + ... 1/n)$
+which implies our cost is less than Opt*ln(n).
+F is the number of times an element occurs.\\
+
+\subsection{Metric K-Center Problem}
+We are given n vertices and distance between any two vertices.
+We have to choose k centers such that maximum distance over the
+minimum distance between a non center and a center is minimized.
+Radius of clustering maximum over all such center non center distances.
+Every point should fall into atleast one of the circles (circles
+are drawn from the chosen set as center and radius as specified above).\\
+\begin{verbatim}
+Set S is empty to begin with
+S = {i} where i is arbitrary
+while(|S| < k) {
+    j is the farthest point from all points in S
+    S = S union j
+}
+\end{verbatim}
+The distance would never increase. We want to argue that this
+is a 2 approximation algorithm.\\
+Let our set be S and optimum be $S^*$. Every vertex is assigned to
+some cluster. Let the partition in the optimum be $V_1, V_2, ... V_k$.
+Suppose our algorithm chooses one center from each of the optimal
+clusters, then we are done because we can have the same partition and
+at ever stage the maximum radius is atmost 2*r.\\
+
+If we end up choosing 2 from the same set then it is trivial
+that the maximum distance is not more than 2*Opt as then
+if there exists another point which is at greater distance than
+2*Opt our algorithm would have chosen it. Hence in either
+case we end up with a 2 approximation algorithm. If we never
+choose 2 vertices which are never off from 2*Opt then
+it they obviously belong to different sets in the
+optimal.\\
+
+\subsection{Dominating Set Problem}
+Dominating set problem(decision problem) : G(V, E) |S| = k.
+For every vertex $v \in V$ either $v \in S$ or $\exists u \in N(v), u \in S$.
+Is there a dominating set of size k. This is NP Complete. This can be solved
+in polynomial time if there exists a $2-\epsilon$ approximation algorithm.
+For every edge give weight of 1 whenever it is present and weight of 2 whenever it is not.
+Now our approximation algorithm will tell us either 1 or 2. 1 means it is
+a dominating set and 2 means not.
+If there exists a $2-\epsilon$ approximation algorithm, then we can solve dominating set problem
+in polynomial time based on its answer.
+
+\subsection{Job scheduling}
+Given n identical processes with different processing time. This
+is called the length of the job ($l_1, l_2, ...l_n$). We are given
+m processors and we have to distribute these m processed among the n
+processors with minimum overall finishing time.\\
+A decent lower bound would be $l_1+l_2...+l_m$/n. This quantity
+is also known as the makespan of the schedule. Another is
+MAX($l_1, l_2, .... l_m$).\\
+
+Every stage allot a process to the least occupied machine.
+$makespan(Alg) \le 2*Opt$.\\
+Look at the last stage where you are about to add the last process.
+Now at this window the processing time of the process which you are assigning
+is less than Opt. By our algorithm, the time at which the last process was
+allocated, is definitely less than the average of all the times. Now the time
+for the last process is also less than Opt. As this is the last finishing job,
+the time at which this finishes is the overall time. Start time
+of this job is less than Opt and the time taken by the last job is less
+than Opt. Hence overall is less than Opt. this can also be shown to be
+($2-1/m$)*Opt.\\
+
+Sort jobs according to processing time in decreasing order.
+Now the factor reduces to 4/3 if we can assume schedule the last job
+less than 1/3. Let the last job scheduled be $l_i$. Now discard the
+other $l_{i+1}$ to $l_n$. Now Opt' for this instance is less than
+original Opt. For this problem, that is the one where the last $n-i$ are
+discarded, the least job which was the last
+job scheduled. This is called LPT rule. Before scheduling last
+the time taken is definitely less than Opt. Hence we try to show
+that $l_i \le Opt/3$. Now the last job finished
+is the makespan(Alg). If the last is less than Opt/3 we are already done.\\
+If the smallest job in your instance has length greater than Opt/3,
+then an Optimal schedule could have atmost 2 jobs on each machine.
+Then we will show that this is $optimal$.\\
+In the optimal, if any of them have more than 2 (ie) 3, then contradiction because
+they have 3 with more than Opt/3. None of the processors
+in which we schedule 1 will violate this. Let us assume that the second
+schedule creates the problem. That is we have to now show that it never
+violates and so on.\\
+
+Let us assume that the $i^{th}$ machine when scheduling the
+$j^{th}$ job exceeded opt. Now this job cannot be shifted to
+any processor above it. It could be scheduled somewhere below
+it. Hence at some point we would have a j' which is strictly
+greater than j and such that it is not scheduled finally.
+Hence we would probably schedule it in a unique processor
+but this again leads to a problem because we need to remove
+a process from a processor which has more length than even j'
+and hence we are done. Hence this produces the best possible
+solution.
+
+\section{Local search}
+\subsection{Max cut algorithm}
+Number of edges which get cut is maximized in a partition.\\
+Number of edges is an upper bound.\\
+Now choose a vertex which when moved to the other set
+introduces more weighted cuts. The algorithm definitely
+terminates after m rounds because at every stage we increase
+the weight by atleast 1 hence
+the total running time is bounded by summation
+over all edges times $n^2$. In unweighted we have $m*n^2$.\\
+When we settle at a particular stage outgoing
+weights is greater than incoming weights.\\
+Sum of degrees within a set is less than the number of edges across.
+Then we get that half approximation done.
+
+\subsection{Better schedule}
+Start with any schedule. Now move last job from this to
+some other processor if it ends faster there. We move it to
+the one with the least starting time. The processor time at which
+a processor finishes the first will definitely not decrease in this way.
+If a job gets moved twice, then when moving the second time,
+the finishing time of this machine has not
+changed to when it was before. This means that the definitely
+not decrease part is violated at some point. Hence we will
+never move a job twice. If it just remains the same till
+this time then it doesnot
+make sense to move this job to the other of same end time.
+Hence a job gets moved only once.\\
+
+\subsection{Edge colouring}
+No two edges incident on the same vertex has the same colour.
+$Opt \ge \Delta(max-degree)$. Given any undirected
+unweighted graph you can colour it using $\Delta + 1$
+colours. So we will see the $\Delta + 1$ approximation
+algorithm for this. Still this is NP complete.\\
+Take any edge and colour it using some correct
+colour. Have a free colour set for every vertex.
+When we colour an edge then the free colour set reduces.
+We always have an invariant that the colouring is proper.
+If we get $f_u \cap f_v$ is null, move to some
+other vertex $v_1$ incident on u and see whether
+there exists $f_u \cap f_v$, then colour it with that
+colour.
+\begin{itemize}
+\item Pick an edge $u-v$. Let f(u) be the number of colours
+unused in u.
+\item If $f(u) \cap f(v) \ne \phi$, colour it
+with some colour in $f(u) \cap f(v)$.\\
+\item But if the same free colour is not available,
+we will grow a fan on the vertex u as follows.
+\item Choose a free colour from f(v) which would definitely be there
+because we have $\Delta + 1$ number of colours(actually 2 free vertices).
+\item If $f(u) \cap f(v_1) \ne phi$ for atleast one vertex neghbouring
+to u, then we are done in the sense we will shift the colours
+so as to accomodate all the edge colours.
+\item if $f(u) \cap f(v_i) = \phi$ for all i.
+There are d coloured edges on u. By php
+we can show that two free colour sets of the neighbours
+of u will intersect and that this is not missing on u
+as if it is missing then we would have already
+seen it in the previous case. See any free colour
+on u ($c_i$). If we see any subgraph on $c_u$(red) and $c_i = c_j$(red)
+(ie) the common colour.
+\item The connected components on only the $red-blue$ edges
+would give us either paths or even length cycles due to proper
+colouring.
+\item The root, i and j cannot sit in the same connected
+component. From i if we have to have j in the connected component
+it cannot be a cycle because both of them donot
+have blue edges. But the root doesnot have a red edge, hence it cannot
+be in that path. Therefore all these three cannot be on the same
+component.
+\item If i and j are on the same component, then flip
+the colouring of this path throughout. That is make
+red blue and blue red on this path. This is still a valid colouring.
+Now we can do the shift colouring on u.
+\item If the maximal path trails off, then recolour all those blue and
+red as above and hence we will again be done.
+\item The running time is O(m*n) to do this.
+\end{itemize}
+
+\subsection{Min degree Spanning tree}
+Max degree of node in spanning tree is to be minimized.\\
+Hamilonian path.\\
+Algo :\\
+\begin{itemize}
+\item Start with some spanning tree.
+\item $(u, v) \not \in T$ and $(u, v) \cup T$ completes
+a cycle in T containing vertex x. Now remove the edge
+incident on x which made the cycle (either of the edges as it is a
+simple cycle). (u, v) path contains x.
+\item $d_{T'}(x) = d_{T'}(x)-1$ and the degree of the other two
+vertices might increase by 1. $d_{T}(u) < d_{T}(x)-1$ and
+$d_{T}(v) < d_{T}(x)-1$.
+\item Donot bother to make x the max degree vertex. Use all x
+which has degree atleast $\Delta(T) - l$ where l = log(n).
+\end{itemize}
+$Alg \le 2*Opt + log(n)$.\\
+$max(d_T(u), d_T(v)) \le d_T(x) - 2$.\\
+Finally we will tell the max degree is atmost $2*Opt + log(n)$.\\
+\subsubsection{Lower bound on Opt}
+Take any spanning tree T and remove k edges from the spanning tree.
+It will disconnect the spanning tree into k+1 components.
+Every other spanning tree(including Opt) will have atleast k edges between
+these different components else they would not be connected. Let these
+edges that cross the cut be E' in the graph G. Consider the minimum
+vertex cover of these k edges.\\
+Any spanning tree requires atleast
+k edges from E'. Now whenever you choose an edge from E'
+you are increasing the degree of the vertex by atleast 1. Therefore
+average degree of a vertex in $S \ge k/|S|$ where S is the minimum
+vertex cover of all the edges of E'.\\
+Any edges in E' not present in T will create a cycle which
+has some vertex in the vertex cover this is because some vertex  in the
+vertex cover will cover the back edge from these two components.\\
+We stop when none of the $\Delta(t)$ to $\Delta(t) - log(n)$
+can be reduced.\\
+Let $S_i$ denote number of vertices with more than i degree in T.
+There exists i such that $S_{i-1} \le 2*|S_i|$.\\
+If we assume the contrary we would get that $S_{\Delta(t) - l}$
+would be $2^l|S_{\Delta(t)}$ where l = log n which implies
+it is greater than l and hence we would be done.\\
+
+Let us consider that i. Sum of degrees belonging to $S_i$
+is $|S_i|*i$. Therefore number of edges where one endpoint
+belongs to $S_i$ and the other outside is atleast $|S_i|*i - (|S_i| - 1) = q$
+which is $(i-1)*|S_i| + 1$. The maximum number of
+edges in the tree where both belong to $S_i$ is $|S_i| - 1$.\\
+Now we remove all these q edges. Now the vertex set $|S_{i-1}|$,
+is definitely a vertex cover for the edges which were removed
+and were one side incident (ie) $(i-1)*|S_i| + 1$,
+because if it is not the case, then our algorithm wouldnot
+have stopped. Sum of degrees of the vertices in that set
+is $(i-1)*|S_i| + 1$. Hence the Opt is bounded
+by $(i-1)*|S_i| + 1$/|$S_{i-1}$ which is atleast i/2.
+Hence $Opt \ge i/2 \ge (Alg - log(n))/2$.\\
+Hence $2*Opt + log(n) \ge Alg$.\\
+We can easily note that this factor can be arbitrarily
+reduced by choosing the required base for log.
+
+\subsubsection{Polynomial Time Bound}
+$\phi(T) = \Sigma(3^{d(v)})$.\\
+$\phi(T) \le \Delta(T)*3^{\Delta(T)}*n$.\\
+At every step, lets say degree of x, y and z change.
+Therefore x reduces by 1 and y and z degree increases by 1.
+Therefore the potential reduces by atleast $2*3^{d(x)-2}$.
+Atmost $\Phi(T)$ could be $3^n*n$ and these give us the
+final bound which gives order of $n^4$.
+
+\subsection{Fully poly time approximation scheme}
+\subsubsection{Knapsack}
+Every bag has a size and a value. There is one bag
+with maximum size into which you need to place
+some of the bags there so as to maximize the value.
+All $s_i \le B$. Sort it in max value/size and go
+on. This can be shown to be arbitrarily large and would
+fail. Assume a DP algo for O(n*min(B, V)) (knapsack).
+We will use the O(n*V) algorithm.
+We will scale down values of the current problem
+into smaller values we are automatically done. But
+we can live with only integral value, hence we
+will round them off to the lower. After scaling down
+we know that the pseudopolynomial is actually polynomial
+and now we choose all the bags which we chose in the reduced
+case.\\
+I is the original problem and I' is the reduced problem.
+I and I' both have same size B and $v_i' = floor(v_i/m)$.\\
+Therefore $v_i'*m \le v_i \le (v_i'+1)*m$.\\
+Alg = $\Sigma v_i$ for $i \in S \le \Sigma m*v_i' = m*(v_i')
+\ge m*\Sigma v_i'$ in $Opt \ge \Sigma (v_i - m) \ge \Sigma v_i
+- nm$.\\
+Hence we finally get that Alg is greater than or equal to
+$(1 - \epsilon)*Opt$.\\
+If we choose m which is atmost $\epsilon*Opt/n$ which will give us
+this bound.\\
+We get the value of m to be $\epsilon M/n$.\\
+$V' = \Sigma v_i' \le n^2/\epsilon$.\\
+Therefore the running time is bound by $n^3/\epsilon$.\\
+The dp way of solving knapsack is already known.\\
+
+\section{LPP}
+Many problems can be modelled as LP.
+Set cover can be modelled as LPP.
+The solution of this LP will give us a lower bound
+on set cover.\\
+
+Let f be the maximum frequency across elements of the set.
+Given a feasible solution, if $x_j \ge 1/f$ we will
+set to 1 and otherwise we will set it to zero. It is
+clear that this doesnot violate the rule because atleast one
+of the $x_j$'s corresponding to that element would be set to
+more than 1/f. We also know that we increment each variable by atmost f.
+Hence in each case if we increment it f times, (the worst case)
+we end with f*Opt. Hence the answer we get is an f approximation.
+This works for weighted set cover as well. This gives us a 2 approximation
+for weighted vertx cover.\\
+
+\subsection{Duality}
+min : $7x_1 + x_2 + 5x_3$.\\
+$x_1 - x_2 + 3x_3 \ge 10$.\\
+$3x_1 + 2x_2 - x_3 \ge 6$.\\
+Let $y_1$ represent first equation and $y_2$ represent
+the second equation.
+Now dual is :\\
+Max : $10y_1 + 6y_2$.\\
+$y_1 + 3y_2 \le 7$.\\
+$-y_1 + 2y_2 \le 1$.\\
+$3y_1 - y_2 \le 5$.\\
+and $y_1, y_2 \ge 0$.\\
+
+Lets say the minimization as primal and
+the other as the dual. This is called the canonical form.
+Weak duality : x = $(x_1, x_2, .... x_n)$, y = $(y_1, y_2, y_3, .... y_n)$.
+The value of min primal will be greater than the value of the max dual.
+This is easy to see from the constraints.\\
+Strong duality : min primal = max dual and is optimal.\\
+Complimentary slackness in optimal :\\
+Either $x_j*$ is zero or the corresponding dual inequality is tight.\\
+If these conditions are obeyed the it is optimum.
+Hence it an if and only if.\\
+
+If x* and y* are optimum then they satisfy complimentary slackness.\\
+In optimal :\\
+$\Sigma c_j*{x_j}^* = \Sigma (b_i*{y_i}^*)$
+which is less than or equal to $\Sigma \Sigma a_{ij}{x_j}^*)*{y_i}^*$
+and hence $\Sigma (c_j - \Sigma a_{ij}*{y_j}^*)*x_j \le 0$.\\
+In similar way we can show that it is greater than or equal to zero and
+hence we end up with exactly zero which ends up in proving one side
+of complimentary slackness.\\
+
+Only the corner points are candidates for optimum.
+
+\subsection{Vertex Cover Again}
+Consider vertex cover :\\
+In VC, all corner points are either integers or 0.5 that is 0, 0.5 or 1.\\
+Let us show that.
+Any extreme point cannot be represented
+as a convex combination of the polytope cannot be expressed as convex
+combination of any two or more feasible points.
+Hence there exists an $x_j$ such that it is not $0 < x_j < 1/2$ or
+$1/2 < x_j < 1$. Let the first set be $V^1$ and the other be $V^2$.\\
+$y_j = x_j - \epsilon$ for y in $V^1$ and $z_j = x_j + \epsilon$
+for z in $V^2$. Similarly $y_j = x_j + \epsilon$ for y in $V^1$ and
+$z_j = x_j - \epsilon$ for z in $V^2$. Hence we are done as
+the average of these two points that is mid point of these two is the
+original point and hence we are done. It is feasible as well
+because of the way we are setting.\\
+
+\subsection{Shortest path}
+Let us find the shortest path between s and t.\\
+minimize over all e in E $c_i$*$e_i$.\\
+We can go over all cuts and make a constraint saying each of the
+cost of the constraints has atleast 1. Any path is easily valid on
+the LP. With any solution to the LP, we can go ahead and choose
+the edges which were set to 1, which would finally give us
+a path.\\
+
+LP with exponentially many constraints can sometimes be solved.\\
+
+\subsection{Prize Collecting Steiner Tree}
+G(V, E) : You are given a graph with n vertices and e edges with a special
+vertex r and cost associated with every edge and $penalty$ cost associated
+with every vertex we leave out. The overall cost is cost of the tree and
+the penalty incurred by leaving out some vertices.\\
+Writing the optimization function is relatively easy and boundary constraints
+are also easy.\\
+Let us write a constraint for every set S which doesnot contain r :\\
+$\Sigma x_i \ge y_i$ for all $y_i$ belonging to S.\\
+This means the sum across these cuts is greater than 1 if
+atleast one vertex is chosen and is greater than or equal to zero if
+none or chosen anyway. This ensures connectedness from the root. Any
+tree containing r is a valid solution and the minimum such tree we want
+would give the solution here.\\
+
+We know the maxflow mincut theorem that mincut = maxflow.\\
+Now given a solution from an oracle with $(x_e 's)$ and $y_i 's$
+all of them are 0 or 1,
+For every $v_i$ do the following :\\
+
+Let r be the s and $v_i$ be the t and start making the connections between s and
+t as the original graph in itself. Now assign $x_e$ to every edge in this graph.
+Now if the maxflow is greater than $y_i$ then we are done for all constraints
+containing $y_i$ because mincut is greater than max flow. Similarly you
+can show that if this is violated for any $y_i$, then there would exist
+a cut which has a lesser value than $y_i$ which would give us a violation.
+Hence this verification scheme goes through.\\
+
+Now we have a fractional solution out of it.\\
+Now choose every vertex with $y_i \ge \alpha$ (fixed later).\\
+Now look at the mincost steiner tree containing these vertices
+which can be computed with 2 approximation.
+
+\section{N.S.Narayanaswamy}
+
+\subsection{Max-Cut, Max-Sat (Vector Program)}
+Sampling a random hyper plane :\\
+Sample unit normals. This can be done by a normal
+dostribution with zero mean.\\
+Once this is done we can easily proceed for rounding approaches.\\
+What problems are bad for this approach is what we will study.
+Ratio between the integral optimum and the fractional optimum is
+called integral gap.\\
+
+Min vertex cover :\\
+In LP formulation all corners are half integral.\\
+Basic feasible solution corresponds to corners. Every coordinate
+for vertex cover is either 0, 1 or half.\\
+
+\subsubsection{Nemhauser Trotter}
+You have $y^*$ which is the optimum for the vertex cover.
+$y^*$ is the LP optimum. Consider $y_i > 1/2, y_i < 1/2, y_i = 1/2$,
+as three different sets.\\
+
+Claim : There is an integer $optimum$ that sets
+less than 1/2 to 0 and greater than 1/2 to 1.
+Now we have moved onto a sub problem which has only those which
+are assigned to 1/2 if the claim is true. This is clearly feasible.\\
+
+Proof :\\
+Let us say some Integer optimum solution which assigns
+$some$ less than 1/2 to 1 and $some$ greater than 1/2 to 0.\\
+Let $D_1$ be those less than 1/2 set to 1 and $D_0$ greater than
+1/2 to 0.\\
+Claim : $|D_1| \ge |D_0|$. If claim is true, then we can simply
+swap $D_1$ and $D_0$ that is take all $D_0$ into account and
+leave out $D_1$. This would get us a better integer optimum.\\
+
+Claim proof :\\
+Assume contrary that is $D_1 < D_0$.\\
+If this is true then do the following :\\
+Increase all $D_1$ to 1/2 and reduce all $D_0$ to 1/2.\\
+This is feasible and will be less than the original fractional
+optimum. But this is not possible hence claim is proved.
+From this we have a two approximation directly by setting all less
+than half to zero and all greater than or equal to half to 1.\\
+
+\subsection{Max cut}
+2 SAT is in P (seen in ATOC).\\
+Max cut is a special instance of max 2 sat. Is there a satisfying assignment that there are
+k clauses ?\\
+
+Look at the $2^n$ ways of partitioning it. Now we can see that
+sum over all cuts of the edges is $M/2*2^{n}$ (because each
+edge occurs either within the partition or across the partition with
+equal probability).\\
+
+Hence the average number of edges crossing the cut is M/2. Then
+by conditional probability argument we can conclude that we can
+choose the better average each time if we make a local move based on
+an edge. Hence we have a half approximation here as then there exists
+some value whose sample is m/2. The above process is called
+derandomization.\\
+
+\subsection{Max SAT}
+Average is 7M/8 and we are similarly done via conditional
+probability for MAX 3 SAT.\\
+Let a clause have A positive literals and b negative literals
+Pr(falsifying the clause) = ${(1-p)}^a*p^b$
+therefore the average satisfaction is greater than (1-$p^2$)*m
+for all clauses with greater than 2 literals.
+If all unit clauses are positive, then we can
+say that the same argument as the above would work.\\
+
+If there are clauses which are negated but not those
+which already appear then using renaming we can still go ahead
+in the similar manner.\\
+M/2 is guaranteed in the above methodology.\\
+\begin{itemize}
+\item
+Max $\Sigma w_j$ which are weights for the clauses satisfied.\\
+$Opt \le \Sigma w_j$\\
+If the same variable occurs twice, then the following is true.\\
+$Opt \le \Sigma w_j - \Sigma v_i$ where $v_i$ denotes min of $w_{x_i}$
+and $w_{\overline(x_i)}$.\\
+Probability that clause $c_i$ is not satisfied  = $(1-p)^{n_p}*p^{n_n}$,
+let $1-p < p$. Therefore Prob that it is satisfied is greater than $1-p^{n_p+n_n}$.\\
+Therefore the expected number of satisfaction is min(p, $1-p^2$)*($\Sigma w_i - \Sigma v_i$.\\
+You can always make weight of positive more thna that of negative literal by renaming.\\
+Therefore average is summation $(1-p^2)*w_j$ + $p*w_j$ - $p*v_j$.\\
+LP for max sat :\\
+Max $\Sigma w_j*z_j$.\\
+$\Sigma y_i + \Sigma(1 - y_j) \ge z_j$.\\
+$ 0 \le y_i \le 1$ and $ 0 \le z_i \le 1$.\\
+$z_j$ is the clause value and $y_i$ are variable values.\\
+The LP optimum gives you an upper bound on the integer optimum.\\
+View $y_i$ as a probability. Now toss a coin with bias $y_i$
+and then assign that value and again compute the LP value after
+substituting this in the formula and rewriting the LP and see the value
+and go recursively down by conditional probability.
+What is the probability C is false ?\\
+Prob = $\Pi(1 - {y_j}^*)*\Pi({y_i}^*)$. $1 - y_j$ corresponds to
+positive literals might be negated and similarly for $y_i$.\\
+
+By AMGM we know that this is less than or equal to ${(1/l)*(\Sigma 1 - {y_i}^* + \Sigma {y_i}^*)}^l$ which is equal to ${1/l*(l - (\Sigma {y_j}^*  + \Sigma (1 - {y_i}^*))}^l$.\\
+From LP condition, we get that this is less than or equal to :\\
+${(1/l)*(l - z_i*)}^l$ from which we can get a $1 - 1/e$ of all satisfied clauses.
+After this we can go to conditional probability to get a good approx algo.\\
+
+LP based $rendering  \ge \Sigma w_c*{z_c}^*(1-{(l_c-1)/(l_c)}^{l_c}$\\
+$P = 1/2 solution \ge \Sigma w_c z_c (1 - 1/2^{l_c}$
+$E[max(r_1, r_2)] \ge 1/2(E(r_1) + E(r_2)) \ge 3/4*\Sigma(w_c*)$.\\
+If $l_c$ = 1, (1,1/2) === 3/4\\
+If $l_c$ = 2, (3/4,3/4) === 3/4\\
+If $l_c \geq 3$, (1-1/e,7/8) === 1/2 - 1/2e + 7/16 > 3/4\\
+\end{itemize}
+\subsection {Prize collecting Steiner Tree}
+min $\Sigma c_e x_e + \Sigma (1-y_u)\Pi_u$\\
+$\Sigma x_e \ge  y_u, S \subseteq V\{u\}, r \in S$
+
+Threshold based rounding Already done before  \\
+Finally we'll have \\
+$c(T) \le 2/t \Sigma c_e x_e$\\
+
+We have something like $IntOPT \le 3*LPOpt$
+We will show something better than this exists and also the algorithm can help us find it.\\
+
+Select t at random from $[\alpha,1]$, $\alpha$ is some parameter.\\
+Probability = $1/(1-\alpha)$\\
+
+$E[penalty] = \Sigma (\Pi_u (1 - y_v^*))/(1-\alpha) integral_{0}^{\alpha} (dt)/(1-t)$
+We do the averaging out from $\gamma$ to 1 for the $2/\gamma$ part from which
+we get (2/1-$\gamma$)*ln(1/$\gamma$)*$\Sigma c_e*x_e*$.\\
+
+$\Sigma \pi_v$ over $V - T $ where T is the steiner $ tree \le \Sigma
+\pi_v$ over all vertices such that ${y_v}^* \le \alpha$ where $\alpha$
+is the random variable chosen from $\gamma$ to 1.\\
+
+Now we will bound the penalty of the solution over the average.\\
+Now we will split the lost vertices (the one we pay penalty for) into
+one interval which is $\alpha \le y_v* \le \gamma$ and $y_v* \le \alpha$.\\
+Now using the inequality in the above paragraph, we would get,
+it to be $(1/1-\gamma)*\Sigma \pi_v*(1 - y_v*)$.\\
+Now with this overall we can say that $\gamma = e^{-1/2}$.\\
+Therefore the expected value is $1/(1-e^{-1/2})* LPOpt$.\\
+Hence we can find a better algorithm.\\
+
+There is an integrality gap of 2. That is there exists a particualar
+graph (descried below) whose LP optimum is atleast twice the ILP
+optimum. Consider the case where all edge weights are one and all
+node penalties are infinity. Hence the LP would definitely choose
+one with no node penalties. Hence if we take any cycle through the vertices
+and give all edge weights as 1/2 then we would get n/2 as the value, but
+integral optimum is $n-1$.\\
+
+\subsection{3 Colorable}
+Input is a graph which is possible to be coloured in three
+colours.\\
+
+If a max degree of a vertex is $\delta$ then the maximum you need
+is $\delta$ + 1 colours. If a vertex has degree greater than or
+equal to $n^{0.5}$, then take the vertex and all their neighbours
+and colour it using three colours. This is possible
+as the neighbours $must$ be a bipartite graph. Hence we are done here.\\
+If the degree of all vertices come with less then we are trivially done.\\
+Hence we have a $O(n^{0.5})$ colouring.
+A different way of derandomizing max cut is to use
+the k-wise independent sample space. It is known
+that there exists a $n^2$ size such sample space.\\
+
+If the graph is dense then it might be easier to 3 colour
+the graph.\\
+
+Colouring via Dominating set can be done as follows :\\
+Take the dominating set on one side S and let the other side have
+the rest of the vertices N(S). Therefore if N(S) is list 2
+colourable then we are done, after dominating set is coloured with 3
+colours. We can solve list 2 colouring via 2 SAT (setup a reduction to it).\\
+How large is the dominating set ?\\
+Let us assume that the minimum degree of a vertex $\delta*n$.\\
+$P = c*ln(n)/(\delta*n)$.\\
+We will pick a vertex with this probability in our dominating set.\\
+E(S) = c*ln(n)/$\delta$.\\
+Therefore we will have a runtime of $3^{c/\delta}*n^2$.\\
+$E(|S \cap (N(v) \cup v)|) = P(N(v) \cup u)$.\\
+$P(S \le (1 - \epsilon)*u) \le {e^{-\epsilon}/{(1-\epsilon)}^{1 - \epsilon}}^u$.\\
+If $E(|S|) = c*ln(n)/\delta$, then with high
+probability, $|S| \le 2*ln(n)/\delta$.\\
+$Pr(|S \cap (N(v) \cup v)| = 0) \le e^{-p*(\delta*n + 1)}$.\\
+The above represents the probability for some vertex.\\
+Probability that atleast one vertex is left out is upper bounded by
+$n*e^{-c*ln(n)}$.\\
+Probability that our set is both small and is a dominating set is
+high. We can prove that this can be done with probability
+greater than or equal to $1 - n^{-2}$.\\
+Using this we can get a $n^{0.5}$ colouring.\\
+3 colouring :\\
+$n^{\delta}$ coloring.\\
+\begin{itemize}
+\item Deviation bounds.
+\item Small dominating sets in demi graph.
+\end{itemize}
+E(S) = c*ln(n)/$\delta$.\\
+Pr($|S| \ge \alpha*E(x)) \le 1/\alpha$.\\
+Pr(S is not a dominating set$) \le n*$Pr($S \cap v \cup N(v) = \phi)$.\\
+By our methodology, we get a set with a small fraction of vertices
+and a dominating set is quite high.\\
+
+Pr(It is dominating and small) = 1 - (Pr(S is not dom) + Pr(S is small)).\\
+We can show that this probability is small enough.\\
+The algorithm runs in $3^{10*ln(n)/\delta}*n^2$.\\
+Hence there is an RP which solves this class of 3 coloring
+problems.\\
+
+\subsection{Vector problem}
+Lets try 3 coloring.\\
+We will have three vetors 120 degrees apart.\\
+min $\Sigma v_i.v_j$ $||v_i|| = 1$.\\
+If the graph is three colourable, then the minimization
+value will be m*cos(2*$\pi$)/3.\\
+The rounding analysis will use the fact that it is 3 colourable.\\
+
+Max Cut now :\\
+Assign -1 to negative literals and 1 to positive literals.
+x is a unit vector (either -1 or 1 considered as ILP).\\
+We need to max $\Sigma (1 - x_i.x_j)/2$.
+This is over all i j such that an edge exists.
+For every vertex we will assign unit vectors. Now
+every part of the sum will give 0 if it is not crossing the cut
+and will give 1 if it is crossing the cut.\\
+
+\subsection{Multicommodity flow}
+G(V, E) is set of all $S_i$, $t_i$ pairs, $1 \le i \le \gamma$.\\
+Quality Minimize : minimize the load of the maximum loaded edge. Here
+there are paths from $s_i$ to $t_i$ called $P_i$. The one
+which is occurring most is the maximum loadded edge.\\
+$\Sigma X_p$ over $p \in P_i$ = 1.\\
+$\Sigma x_p \le L$ where L is the load and $x_p$ indicates
+all the $X_p$ to which any one edge belongs to.\\
+The above has exponential number of constraints.\\
+In P time we can output a feasible solution with polynomial
+number of greater than 0 values even though the number
+of variables are exponential.\\
+
+Assume we have a optimum solution to a LP. Rounding
+is a probability distribution to sample from the integer
+solutions from LP.\\
+Typically you will have a handle on expectation use
+this for approximation bounds.\\
+Let us say we have the fractional solution to the given problem.\\
+Let P be a path sampled from ${x_p}^* = 1$.\\
+E[$D_e$] is the expectation of load through the experiment.\\
+E[$D_e$] = $\Sigma x_p \le L$ (from the constraint specified above).\\
+Pr[$D_e > (1+\delta)*L^*]$.\\
+We can say that this is less than $n^2*e^{-\delta^2/3*L^*}$.
+
+\subsection{LP}
+min CX , $Ax \ge B$, $x \ge 0$.\\
+Describes a closed bounded region polytope.\\
+If all the corner points are $made$ to be integers, then we can see that
+ILP is solvable in P.\\
+We can create such problems though by mentioning the convex hull of
+the n points in the sample space of the given problem (Integer sample space).
+Now go ahead and draw planes corresponding to the faces.\\
+Geometric Algorithms and combinatorial optimization.\\
+
+Designing Separation oracle ($q_1, q_2, .... q_n$), given a query plane, it says
+yes if $Ax \ge b$ or it gives a separate it with a hyperplane such that
+we can say that this plane puts the point to one side and all the valid
+points to the LP on the other side. Given all of the constraints,
+we can make an ellipsoid which contains the whole of the valid region.
+Every time, I query the center of the ellipse, then so(separation oracle)
+will give me a hyperplane separating the two if it is not within.
+Now add this as a constraint to the original set of constraints.
+This will help us reduce the size of the ellipse.
+To be more specific, it will definitely put the
+center to the other side of the plane (the side of the plane which contains
+the valid points). These things are black boxes. This will give us an ellipse
+which is atmost 1/2 the size of the original ellipse. When the
+center is in the valid region we stop, else if the volume of ellipsoid
+becomes less than the error we can tolerate, then we stop.\\
+
+
+\end{document}

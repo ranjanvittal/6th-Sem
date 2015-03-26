@@ -1,0 +1,53 @@
+Script started on Tue Jan 27 21:50:56 2015
+[?1034hbash-3.2$ ./ftpclient 4000 localhost[K[K[K[K[K[K[K[K[K[K[K[K[K[Klocalhost 4002
+
+(ftp) ls
+B
+ftpserver
+ftpserver.c
+typescript
+
+
+(ftp) put q
+q
+
+(ftp) cd ..
+Error
+
+(ftp) cd B
+/B
+
+(ftp) ls C
+q
+
+
+(ftp) cd C
+/B/C
+
+(ftp) lcd D
+/Users/ranjan/Desktop/Networks_Assignment/client/D
+
+(ftp) get q
+File Name Ok
+
+(ftp) pwd
+/B/C
+
+(ftp) cd ~
+/
+
+(ftp) cd A
+Error
+
+(ftp) get w
+Wrong File Name
+
+(ftp) put w
+w
+Wrong File Name
+
+(ftp) quit
+Exiting ...
+bash-3.2$ exit
+
+Script done on Tue Jan 27 21:54:09 2015

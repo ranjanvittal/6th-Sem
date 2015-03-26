@@ -1,0 +1,333 @@
+\documentclass[solution,addpoints,12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb}
+\usepackage[T1]{fontenc}
+\begin{document}
+\hrule
+\vspace{3mm}
+\noindent
+{\sf IITM-CS6840-2015 : Advanced Algorithms  \hfill Given on: Feb 1}
+\vspace{3mm} \\
+\noindent
+{\sf Problem Set \#1 \hfill Due on : Feb 15}
+\vspace{3mm}
+\hrule
+
+\begin{questions}
+\question
+\begin{parts}
+\part
+Given a graph G, do BFS starting from any node. Let the root be coloured
+black and all its children be coloured red. Basically any node in 2*i+1
+level is coloured black and any node in 2*i+2 level is coloured red. Now while
+doing bfs, if we encounter a node which initially occurred at an odd level
+occurring at an even level or vice versa, this implies there exists an odd cycle
+in the graph and the graph cannot be $2-coloured$. Otherwise if we go on
+colouring in this manner we would end up colouring all the vertices either
+red or black and no black and red vertices will have edges between them.
+\part
+The decision version is as follows :\\
+Can you colour the graph using k colours with no two sharing an edge
+having the sme colour ? is the decision version of the same problem.\\
+
+Assuming the Graph colouring problem is polynomial time solvable using
+Algorithm A:\\
+Given any G, k forward G to A. It would gives us a number k' denoting the
+minimum number of colours used to colour the graph. If $k < k'$ then
+definitely G is not $k-colourable$ while if $ k \ge k'$ then the graph
+can be coloured using k colours. Hence decision version is solvable
+if Graph colouring is.\\
+
+Assuming decision version is solvable using algorithm A in polynomial:\\
+The graph can definitely be coloured with n colours
+where n denotes the number of vertices that is every vertex
+having a different colour. Now given graph G, ask decision
+version (G, 0), (G, 1), (G, 2) so on till (G, n). Now till some
+$k-1$ the algorithm A would say no and from k it would start saying yes.
+This means that the graph was not $k-1$ colourable while it is indeed
+$k-colourable$. Hence the minimum number of colours required to colour the
+graph is k. The running time of this machine is polynomial composed
+polynomial which is still polynomial hence the
+Graph colouring problem is solvable in polynomial time if decision version is.\\
+\part
+It is given that $3-colouring$ problem is $NP-Complete$. Consider the
+following reduction from $3-colouring$ to decision version :\\
+Given Input G, give input as (G, 3) to the decision version
+the decision version will say yes iff there exists a $3-colouring$ possible.
+Hence $3-colouring \le_m decision$ version. Hence the decision version is $NP-Complete$.
+\part
+Consider a valid $3-colouring$ c of the graph G.
+Assuming RED is coloured with red, if one of vertices $x_i$ or $\overline{x_i}$
+are coloured red then the colouring rule is not satisfied as RED has an edge to
+all these variables. Hence each other variable is either coloured either
+true or false. Now both $x_i$ and $\overline{x_i}$ cannot be coloured
+the same colour because they share an edge between them. Hence one of them
+will be coloured true and the other false.\\
+
+Given any satisfying assignment to the problem, colour $x_i$ to be false
+if in the satisfying assignment it indeeds turns out to be so and colour
+$\overline{x_i}$ to be true and do similar if $x_i$ is true. Repeat this
+for all the vertices. Hence this will produce a valid 3 colouring
+between containing only the literal edges as 3 colouring condition will
+be satisfied within the literal edges.
+\part
+Let vertex connected to x be $v_1$, connected to y be $v_2$, connected to
+$v_1$ and $v_2$ be $v_3$, connected to $v_3$ be $v_4$ and that connected
+to TRUE and $v_4$ be $v_5$.\\
+Assuming all x, y, z are coloured false, then
+$v_5$ has to be coloured red which implies $v_4$ has to be coloured
+false. Now none of $v_1$ or $v_2$ or $v_3$ can be coloured false because
+one of each's neighbours are coloured false. As these 3 form
+a triangle and one colour is not usable, this widget is not
+3 colourable.\\
+Assuming z is coloured true :\\
+If c(x) != c(y) (c denotes colour), then colour $v_5$ red,
+$v_4$ false and $v_3$ red. Now we know x and y can be either coloured true or false.
+then colour $v_1$ as compliment of
+x (ie) if x is true colour $v_1$ false and so on and colour $v_2$ as
+compliment of y. Now this widget is completely coloured using 3 colours.\\
+If c(x) = c(y), colour $v_2$ to be compliment of c(y), colour $v_1$ red,
+colour $v_3$ same as y and colour $v_4$ red and $v_5$ false.
+Hence in this case it is 3 colourable.
+Assuming exactly one of x or y is coloured true and z is coloured false:\\
+we can easily check that the following strategy works :
+(r denotes red, f denotes false and t denotes true)
+c($v_5$) = r\\
+c($v_4$) = f\\
+c($v_3$) = r\\
+c($v_2$) = $\overline{c(y)}$\\
+c($v_1$) = $\overline{c(x)}$\\
+Assuming both are coloured true,\\
+c($v_5$) = r\\
+c($v_4$) = f\\
+c($v_3$) = t\\
+c($v_2$) = f\\
+c($v_1$) = r\\
+Hence the widget is $3-colorable$ if and only if at least
+one of x,y, or z is coloured c(TRUE).
+\part
+Given that there exists a satisfying assignment accordingly colour
+all the vertices as indicated in part d and use the schema in part e
+to colour all the clause edges. Due to the valid consistency check we
+are guaranteed to have a proper 3 colouring overall.\\
+Given that there exists a valid $3-colouring$, we
+already know that the literals will be coloured either
+true or false and that the compliment colour is
+also appropriate and that a clause widget
+is 3 colourable iff atleast one of the literals in it is
+true. Hence assign the variables as the colour suggests and
+we are assured to end up with a valid satisfying assignment.\\
+Hence by the above proof we have shown that $3-SAT \le_m 3-colouring$
+and $3-SAT$ is $NP-Complete$. Hence $3-colouring$ is $NP-hard$.
+There is a trivial $NP$ machine to do this problem as verifying
+$3-colouring$ is in P. Hence $3-colouring$ is $NP-complete$.
+\end{parts}
+\question
+\begin{parts}
+\part
+Case 1: When zero end points are specified :\\
+First obtain the minimum spanning tree of G(G').
+$MST \le Opt$\\
+There would be even number of odd degree vertices in MST of G.
+Let their number be 2*k. Now consider the optimal hamitonian path
+along these odd degree vertices. It is evident that this cost
+is definitely less than Opt due to the metric property.
+Therefore $Opt_{odd} \le Opt$.\\
+The number of edges in that path will be $2*k-1$.\\
+The path is composed of a $k-1$ matching and a k matching.
+Hence the cost of this path is atleast twice the mincost
+matching with $k-1$ edges. This implies
+($min_{k-1}$ denotes mincost $k-1$ matching)
+$Opt_{odd} \ge 2*min_{k-1} \implies min_{k-1} \le Opt_{odd}/2 \le Opt/2$.\\
+Let us find the mincost matching with $k-1$ edges in the following manner :\\
+\begin{verbatim}
+min = sum over all the edges
+for each subset of 2k-2 of the 2k odd vertices :
+    min = minimum(mincost maximum matching over these 2k-2 vertices, min)
+\end{verbatim}
+The running time of the above algorithm is (2k choose 2)*p(n)
+where p(n) which is the running time of mincost maximum
+matching. It is easy to note that the algorithm correctly
+finds the minimum matching with $k-1$ edges and runs in
+polynomial time. Now add the edges of this matching to G'.
+Now we have a connected graph where each vertex has even
+degree except two vertices. These two vertices are the ones
+which are left over in the matching. Hence there exists an eulerian
+trail covering all these vertices starting from one of the odd
+degree vertices. The cost of this eulerian trail is cost(G') + $min_{k-1}$.
+Now by repeatedly short circuiting in this trail we will be able
+to get a hamiltonian path due to the metric property and we are still
+ensured that the cost doesnt increase. Therefore cost
+of the obtained path $is \le cost(G') + min_{k-1} \le Opt + Opt/2 = 3/2*Opt$.
+Hence we obtained an answer atmost 3/2 times optimum.\\
+
+Case 2 : When one end point is specified :\\
+Let specified vertex be v. Now consider the minimum
+spanning tree of the subgraph containing the other
+$n-1$ vertices. Now add the least edge from v to this
+spanning tree to obtain a tree G'. Consider the optimal
+path which starts from v. The cost of this path is
+definitely is atmost the cost of G'. Hence $Opt \le G'$.\\
+
+Now there will be some even number of odd degree vertices in G'
+which includes v, let them be 2k. Let optimum hamiltonian
+path across these vertices starting from v be $Opt'$.
+Clearly $Opt' \le Opt$.
+The optimal among these vertices consists of a k matching
+which contains v
+and a $k-1$ matching not containing v
+. Now find mincost maximum matching
+of the other $2k-1$ vertices. This will give us $k-1$ edges
+which cover the $2k-2$ vertices. The cost of these edges
+is lesser than both the k matching and the $k-1$ matching
+described above. Therefore $2*min_{k-1} \le Opt' \le Opt$.
+Now add these edges to G' and then we get a graph with all vertices
+having even degree except v and another vertex. Now start from
+v and complete the tour by short circuiting the eulerian trail
+we get. The cost of this $is \le cost(G') + min_{k-1} \le Opt + Opt/2$.
+The cost of this tour is less than $3/2*Opt$. Hence a 3/2 factor is obtained.
+\part
+Let s and t be the terminal vertices given.
+Find the minimum spanning tree of the graph G say G'.
+Clearly $Opt \le c(G')$.\\
+Now consider all the odd degree vertices and even degree end points(either s or t)
+in a set S. Now find the mincost maximum
+matching of S. Let this matching be G''. Now if we add G' and G''
+all vertices will have degree 2 except the two endpoints. Now
+we can have an eulerian trail starting from s and ending at t. If we repeatedly
+short circuit we would end up having a hamiltonian path with atmost
+cost of c(G') + c(G'').\\
+Assume that the optimum path is H.\\
+As we have seen before $c(G'') \le TSP_{opt}/2$.
+Now H and the edge $s-t$ form a cycle with cost atmost $TSP_{opt}$.\\
+Therefore $c(G'') \le (c(H) + c(s-t))/2 \implies 2*c(G'') \le c(H) + c(s-t)$.\\
+
+Property : The mincost maximum matching of $any$ subset of vertices
+of any graph Q will have a cost of atmost half that of the $TSP_{opt}$.
+Now we already know by the double touring mechanism that
+$TSP_{opt} \le 2*c(MST)$. Therefore mincost maximum matching of any subset
+of the graph Q is less than the cost of MST given metric constraints.\\
+
+Consider $G''' = G' - (s-t)path$ in G'. Degree of some vertices
+other than the endpoints have been reduced by 2. This implies
+parity of none of the vertices change except that of the endpoints.
+The parity of both the endpoints change. Hence it is easy to note
+that the odd degree vertices here is exactly same as S.
+Consider any forest T in G'''. The mincost maximum
+matching of odd degree vertices in T is less than the cost of T due
+to the property we see above. Hence consider the union of all mincost
+maximum matchings of all forests in G''' which would be
+less than c(G'''). Clearly
+the sum over all these costs is less than the mincost maximum
+matching of S. Therefore $c(G'') \le c(G''')$.\\
+$c(G''') = c(G') - c(s-t)$ path. But $c(H) \ge c(G')$
+and c($s-t$) path $is \le c(s-t)$ edge because of the metric
+property.\\
+Therefore $c(G''') \le c(H) - c(s-t) \implies c(G'') \le c(H) - c(s-t)$.\\
+
+Therefore $2*c(G'') + c(G') \le c(H) + c(s-t) + c(H) - c(s-t) \implies
+3*c(G'') \le 2*Opt$.\\
+Hence $c(G') + c(G'') \le Opt + 2*Opt/3 = 5/3*Opt$.\\
+Therefore 5/3 factor is proved.
+\end{parts}
+
+\question
+\begin{parts}
+\part
+Assuming that V = {1...n} and V is a DAG,
+construct the graph G' =(V',E'), where
+V' = ${x_0...x_n} \cup {y_0...y_n}$,\\
+E' = $\{(x_0, x_i) : i \in V \} \cup \{(y_i,y_0) : i \in V\} \cup \{
+(x_i, y_j) : (i,j) \in E\}$.\\
+Let all these edges have a weight 1.
+Now let us prove that the max flow from $x_0$ to $y_0$ is k iff the minimum
+path cover is $n-k$.\\
+Consider a valid flow from $x_0$ to $y_0$. Now include
+all the edges chosen in the matching. That is if $x_i$ and $y_j$ are
+connected, choose edge $i-j$. It is given that the given graph is a DAG,
+hence it cannot have any directed cycles. If a directed non
+cycle has to be an undirected cycle then it implies atleast one of the
+vertices should have two edges coming from it. But this is not
+possible in the set of edges which were chosen by us as it is a
+matching. The chosen edges cannot form a tree $non-path$ because
+in a tree, two edges cannot emanate from the same vertex. Hence the
+edges which we choose definitely form a disjoint
+set of paths. Let us assume that t paths are formed
+from the set of k edges. Each path covers one more
+vertex than the number of edges in that path. Therefore
+the number of vertices that are covered by the t vertex disjoined paths are
+$n-k+t$(it is easy to see that this is not
+more than n). Now $t-k$ vertices are uncovered. Cover all of them with path
+length 0 paths. Hence we finally have $n-t+t-k = n-k$ number of paths covering
+all the vertices. Therefore given any flow of k from $x_0$ to $y_0$ then
+there exists a path cover of size $n-k$.\\
+
+Consider the minimum path cover of all the vertices of size k.
+In any of the paths the number of vertices covered is 1 more
+than the number of edges in that path. The total number
+of vertices covered is n then the number of edges chosen are $n-k$.
+Now add all the edges in the cover in the bipartite graph created above.
+As in disjoint path covers, no vertex is a source twice or sink
+twice, the above forms a valid flow with value $n-k$. Therefore
+the minimum path cover has a flow layout corresponding to it and
+every flow corresponds to one path cover. As the flow
+increases the path cover size decreases and hence the max flow
+corresponds to the minimum path cover.\\
+
+\part
+Consider the trivial graph where $0 \leftarrow 1$
+and $1 \leftarrow 0$. Now by the graph we made above, the
+max flow would turn out to be 2 and the answer we get is 0. But the minimum
+path cover is 1. Hence the above algorithm works correctly only for DAGs.
+\end{parts}
+\question
+\begin{parts}
+\part
+Set cover doesnot have c ln n approximation for all constant c
+unless P = NP.\\
+Given any weighted set cover problem in the following
+manner :\\
+S = universal set of all elements to be covered($e_i$).\\
+$S_i$ = some subset of S.\\
+$W_i$ = weight of $S_i$.\\
+Transform it into a $node-weighted$ steiner
+tree problem as follows :
+\begin{itemize}
+\item Let all the $S_i$ denote vertices $V_i$.
+\item Let all the $e_i$ denote vertices $v_i$.
+\item Now $v_i$ is connected to $V_i$ iff $e_i \in S_j$.
+All $V_i$ are connected to each other.
+\item All the edges have weight zero.
+Weights of all the $V_i$ are the weights of the corresponding $S_i$
+and the weights of each of the $v_i$ is set as 0.
+\item $v_i$ denotes the set of required vertices in the steiner
+tree.
+\end{itemize}
+Note : Given any subset of $V_i$ which cover
+all $v_i$, we can easily get a spanning tree out of it.\\
+
+Consider any solution of the above steiner tree problem.\\
+The solution would contain a set of $V_i$ and all $v_i$.
+As all the edges have zero weight the cost
+of the edges contribute zero and hence the cost
+of the steiner tree is exactly the cost of $V_i$ chosen.
+Now choose all the sets $S_i$ which correspond to
+$V_i$ chosen above. Because the tree chosen is a
+valid steiner tree it has to have edges to all the $v_i$
+which implies $S_i$ got covers all $e_i$ and the $S_i$ has the
+same cost.\\
+Similarly we can show that for every solution of
+the Set cover there is an equivalent steiner tree solution
+(Pick all $V_i$ corresponding to $S_i$ chosen). Hence
+the above is a valid reduction from Set cover to $node-weighted$
+steiner tree and preserves the cost. Therefore if
+$node-weighted$ steiner tree has a c ln n approximation
+for all constants c, then Set cover has a c ln n
+approximation for all c which would imply P = NP.\\
+Therefore there exists c such that a $c$ ln n
+approximation doesnt exist for $node-weighted$ steiner
+tree problem unless $P = NP$.
+\part
+\end{parts}
+\end{questions}
+\end{document}

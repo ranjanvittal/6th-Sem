@@ -1,0 +1,39 @@
+2.1)
+
+1. DNS Request and reply packets for www.cse.iitm.ac.in: What transport layer protocol does the DNS request use?
+DNS uses UDP.
+2. ARP Request and response: What is the destination MAC address for ARP requests?
+ARP is address resolution protocol.
+84:a6:c8:0e:e6:ba is the destination MAC address.
+
+3. ICMP Echo and Reply packets: What is the value present in the type field of the ICMP header
+in those packets? What is the size in bytes of the ICMP data field? What is the data being sent?
+Value present in the type field is echo, size is 48 bytes.
+Data : !"#$%&'()*+,-./01234567
+
+4. Open up your browser and visit http://www.google.com/loon/. Find the corresponding HTTP GET requests for images in the webpage in wireshark. What all information does the user-agent field in the HTTP header contain?
+Mozilla /5.0 (X11 Linux x86_64) AppleWebKit/537.6
+(KHTML Like Gecko) Chrome/40.0.2214.90 Safari/537.36
+
+5. Experiment with filters: Filters are extremely powerful and can simplify analysis if used intelli- gently; Here is an example:
+tcp && not ssh && (ip.src == 10.6.16.244 || ip.dst == 74.123.4.23)
+List any two filters your tried along with snapshots of the output.
+
+tcp && not ssh && (ip.src == 10.6.15.92 && ip.dst == 10.22.21.249)
+Anoher packet search filter was used where we matched data strings
+with FF D8 FF E0.
+
+2.2)
+
+1. What are the IP addresses and names of X and Y? What is the first and last message of the chat conversation?
+We first tap the tcp conversation and search for the  FF D8 FF E0 given to us which
+specifies the start of the file and then search for the end of the file with FF D9 40 24.
+Abhik - 10.22.21.249
+Bob   - 10.6.15.92
+First message of the conversation is Hi Abhik! blah blah blah
+Last message Ha Ha Ha Third world problems.
+2. How many packets was the file that was transferred split into? Use the packet trace to reconstruct the entire file. What is the type of the file?
+10 files with the first 9 being 1066 bytes and last one being 837. Type of the file
+is gif.
+3. What is the game that Bob was talking about?
+Watchdogs.

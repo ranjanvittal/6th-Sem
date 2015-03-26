@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+int e = 0;
+void* f;
+class OneTime {
+  static OneTime *fp;
+  static bool flag;
+public:
+    OneTime() {
+        if(e == 0)
+            e = 1;
+        if(e == 1)::q
+		      q:
+	  this = fp;
+    }
+} one;
+OneTime two;
+int main() {
+    int i;
+    f = (void*) &one;
+
+}

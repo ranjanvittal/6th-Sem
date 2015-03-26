@@ -1,0 +1,111 @@
+Script started on Thu Feb 19 17:54:37 2015
+[?1034hbash-3.2$ ./udpclient -s localhost -p 12345 -L 256 -R 20 -N 100 -W 4 -B 100 -n 4
+ -d
+Seq 1:	Time Generated: 50:29	RTT: 0:336	Number of Attempts: 1
+Seq 2:	Time Generated: 100:85	RTT: 0:219	Number of Attempts: 1
+Seq 3:	Time Generated: 150:143	RTT: 0:156	Number of Attempts: 1
+Seq 0:	Time Generated: 0:20	RTT: 300:405	Number of Attempts: 2
+Seq 4:	Time Generated: 200:193	RTT: 0:297	Number of Attempts: 1
+Seq 5:	Time Generated: 250:236	RTT: 0:324	Number of Attempts: 1
+Seq 6:	Time Generated: 300:294	RTT: 0:357	Number of Attempts: 1
+Seq 7:	Time Generated: 350:303	RTT: 0:204	Number of Attempts: 1
+Seq 9:	Time Generated: 450:336	RTT: 0:112	Number of Attempts: 1
+Seq 10:	Time Generated: 500:358	RTT: 0:166	Number of Attempts: 1
+Seq 11:	Time Generated: 550:371	RTT: 0:172	Number of Attempts: 1
+Seq 8:	Time Generated: 400:328	RTT: 360:806	Number of Attempts: 3
+Seq 12:	Time Generated: 600:397	RTT: 0:184	Number of Attempts: 1
+Seq 13:	Time Generated: 650:431	RTT: 0:167	Number of Attempts: 1
+Seq 15:	Time Generated: 750:504	RTT: 0:170	Number of Attempts: 1
+Seq 14:	Time Generated: 700:469	RTT: 60:727	Number of Attempts: 2
+Seq 0:	Time Generated: 800:513	RTT: 0:92	Number of Attempts: 1
+Seq 1:	Time Generated: 850:525	RTT: 0:122	Number of Attempts: 1
+Seq 2:	Time Generated: 900:536	RTT: 0:161	Number of Attempts: 1
+Seq 3:	Time Generated: 950:687	RTT: 0:162	Number of Attempts: 1
+Seq 4:	Time Generated: 1000:698	RTT: 0:194	Number of Attempts: 1
+Seq 5:	Time Generated: 1050:749	RTT: 0:278	Number of Attempts: 1
+Seq 6:	Time Generated: 1100:778	RTT: 0:226	Number of Attempts: 1
+Seq 7:	Time Generated: 1150:836	RTT: 0:196	Number of Attempts: 1
+Seq 8:	Time Generated: 1200:852	RTT: 0:251	Number of Attempts: 1
+Seq 9:	Time Generated: 1250:879	RTT: 0:163	Number of Attempts: 1
+Seq 10:	Time Generated: 1300:907	RTT: 0:211	Number of Attempts: 1
+Seq 11:	Time Generated: 1350:931	RTT: 0:220	Number of Attempts: 1
+Seq 12:	Time Generated: 1400:951	RTT: 0:190	Number of Attempts: 1
+Seq 13:	Time Generated: 1450:976	RTT: 0:198	Number of Attempts: 1
+Seq 14:	Time Generated: 1500:996	RTT: 0:204	Number of Attempts: 1
+Seq 15:	Time Generated: 1551:54	RTT: 0:233	Number of Attempts: 1
+Seq 0:	Time Generated: 1601:83	RTT: 0:156	Number of Attempts: 1
+Seq 1:	Time Generated: 1651:97	RTT: 0:208	Number of Attempts: 1
+Seq 2:	Time Generated: 1701:109	RTT: 0:188	Number of Attempts: 1
+Seq 3:	Time Generated: 1751:139	RTT: 0:298	Number of Attempts: 1
+Seq 4:	Time Generated: 1801:147	RTT: 0:193	Number of Attempts: 1
+Seq 5:	Time Generated: 1851:181	RTT: 0:195	Number of Attempts: 1
+Seq 6:	Time Generated: 1901:224	RTT: 0:195	Number of Attempts: 1
+Seq 7:	Time Generated: 1951:253	RTT: 0:222	Number of Attempts: 1
+Seq 8:	Time Generated: 2001:289	RTT: 0:238	Number of Attempts: 1
+Seq 9:	Time Generated: 2051:310	RTT: 0:168	Number of Attempts: 1
+Seq 10:	Time Generated: 2101:339	RTT: 0:183	Number of Attempts: 1
+Seq 11:	Time Generated: 2151:344	RTT: 0:240	Number of Attempts: 1
+Seq 12:	Time Generated: 2201:381	RTT: 0:260	Number of Attempts: 1
+Seq 13:	Time Generated: 2251:419	RTT: 0:170	Number of Attempts: 1
+Seq 14:	Time Generated: 2301:439	RTT: 0:270	Number of Attempts: 1
+Seq 15:	Time Generated: 2351:492	RTT: 60:832	Number of Attempts: 2
+Seq 0:	Time Generated: 2401:515	RTT: 0:131	Number of Attempts: 1
+Seq 1:	Time Generated: 2451:549	RTT: 0:194	Number of Attempts: 1
+Seq 2:	Time Generated: 2501:555	RTT: 0:171	Number of Attempts: 1
+Seq 3:	Time Generated: 2551:579	RTT: 60:861	Number of Attempts: 2
+Seq 4:	Time Generated: 2601:673	RTT: 0:126	Number of Attempts: 1
+Seq 5:	Time Generated: 2651:698	RTT: 0:213	Number of Attempts: 1
+Seq 6:	Time Generated: 2701:705	RTT: 0:238	Number of Attempts: 1
+Seq 7:	Time Generated: 2751:721	RTT: 60:714	Number of Attempts: 2
+Seq 8:	Time Generated: 2801:737	RTT: 0:118	Number of Attempts: 1
+Seq 9:	Time Generated: 2851:746	RTT: 0:240	Number of Attempts: 1
+Seq 11:	Time Generated: 2951:843	RTT: 0:185	Number of Attempts: 1
+Seq 10:	Time Generated: 2901:811	RTT: 60:683	Number of Attempts: 2
+Seq 13:	Time Generated: 3051:900	RTT: 0:140	Number of Attempts: 1
+Seq 14:	Time Generated: 3101:924	RTT: 0:163	Number of Attempts: 1
+Seq 12:	Time Generated: 3001:886	RTT: 121:426	Number of Attempts: 3
+Seq 15:	Time Generated: 3151:935	RTT: 0:265	Number of Attempts: 1
+Seq 0:	Time Generated: 3201:961	RTT: 0:229	Number of Attempts: 1
+Seq 1:	Time Generated: 3251:983	RTT: 0:244	Number of Attempts: 1
+Seq 3:	Time Generated: 3352:23	RTT: 0:206	Number of Attempts: 1
+Seq 2:	Time Generated: 3301:995	RTT: 60:740	Number of Attempts: 2
+Seq 4:	Time Generated: 3402:63	RTT: 0:218	Number of Attempts: 1
+Seq 5:	Time Generated: 3452:114	RTT: 0:240	Number of Attempts: 1
+Seq 6:	Time Generated: 3502:193	RTT: 0:248	Number of Attempts: 1
+Seq 7:	Time Generated: 3552:203	RTT: 60:872	Number of Attempts: 2
+Seq 8:	Time Generated: 3602:240	RTT: 0:142	Number of Attempts: 1
+Seq 9:	Time Generated: 3652:254	RTT: 0:329	Number of Attempts: 1
+Seq 10:	Time Generated: 3702:277	RTT: 0:191	Number of Attempts: 1
+Seq 11:	Time Generated: 3752:287	RTT: 0:179	Number of Attempts: 1
+Seq 12:	Time Generated: 3802:301	RTT: 0:187	Number of Attempts: 1
+Seq 13:	Time Generated: 3852:342	RTT: 0:211	Number of Attempts: 1
+Seq 14:	Time Generated: 3902:373	RTT: 0:208	Number of Attempts: 1
+Seq 15:	Time Generated: 3952:384	RTT: 0:213	Number of Attempts: 1
+Seq 0:	Time Generated: 4002:424	RTT: 0:267	Number of Attempts: 1
+Seq 1:	Time Generated: 4052:439	RTT: 0:206	Number of Attempts: 1
+Seq 2:	Time Generated: 4102:457	RTT: 0:191	Number of Attempts: 1
+Seq 3:	Time Generated: 4152:479	RTT: 0:229	Number of Attempts: 1
+Seq 4:	Time Generated: 4202:493	RTT: 0:249	Number of Attempts: 1
+Seq 5:	Time Generated: 4252:524	RTT: 0:210	Number of Attempts: 1
+Seq 6:	Time Generated: 4302:542	RTT: 0:172	Number of Attempts: 1
+Seq 7:	Time Generated: 4352:563	RTT: 0:191	Number of Attempts: 1
+Seq 8:	Time Generated: 4402:622	RTT: 0:153	Number of Attempts: 1
+Seq 10:	Time Generated: 4502:666	RTT: 0:87	Number of Attempts: 1
+Seq 9:	Time Generated: 4452:651	RTT: 60:669	Number of Attempts: 2
+Seq 11:	Time Generated: 4552:686	RTT: 0:233	Number of Attempts: 1
+Seq 12:	Time Generated: 4602:699	RTT: 0:170	Number of Attempts: 1
+Seq 13:	Time Generated: 4652:725	RTT: 0:168	Number of Attempts: 1
+Seq 15:	Time Generated: 4752:758	RTT: 0:199	Number of Attempts: 1
+Seq 14:	Time Generated: 4702:749	RTT: 181:861	Number of Attempts: 4
+Seq 0:	Time Generated: 4802:790	RTT: 0:137	Number of Attempts: 1
+Seq 1:	Time Generated: 4852:800	RTT: 0:156	Number of Attempts: 1
+Seq 2:	Time Generated: 4902:841	RTT: 0:262	Number of Attempts: 1
+Seq 3:	Time Generated: 4952:855	RTT: 0:225	Number of Attempts: 1
+All packets transmitted successfully
+Packet gen rate : 20
+Average Packet length : 145
+Retransmission ratio : 1.16
+Average RTT : 14 : 684
+bash-3.2$ exit
+
+Script done on Thu Feb 19 17:55:44 2015

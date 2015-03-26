@@ -1,0 +1,741 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.8.12)  17 MAR 2015 10:51
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**ACT.tex
+(./ACT.tex
+LaTeX2e <2014/05/01>
+Babel <3.9k> and hyphenation patterns for 78 languages loaded.
+(/usr/local/texlive/2014/texmf-dist/tex/latex/exam/exam.cls
+Document Class: exam 2011/05/22 Version 2.4 by Philip Hirschhorn
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+\@extrawidth=\skip43
+\@rightmargin=\skip44
+\@extrahead=\skip45
+\@extrafoot=\skip46
+\run@exhd=\skip47
+\fp@exhd=\skip48
+\run@exft=\skip49
+\fp@exft=\skip50
+\covrun@exhd=\skip51
+\covfp@exhd=\skip52
+\covrun@exft=\skip53
+\covfp@exft=\skip54
+\c@num@coverpages=\count87
+\c@latest@ques=\count88
+\c@ques@end=\count89
+\c@last@object=\count90
+\c@incmp@ques=\count91
+\c@next@ques=\count92
+\c@nextq@page=\count93
+\c@tmp@hlfcntr=\count94
+\c@ifpos@cntr=\count95
+\c@question=\count96
+\c@partno=\count97
+\c@subpart=\count98
+\c@subsubpart=\count99
+\c@choice=\count100
+\c@numpoints=\count101
+\c@numbonuspoints=\count102
+\c@pointsof@thisquestion=\count103
+\c@bonuspointsof@thisquestion=\count104
+\c@numquestions=\count105
+\c@numparts=\count106
+\c@numsubparts=\count107
+\c@numsubsubparts=\count108
+\c@Curr@Page=\count109
+\c@@pagepoints=\count110
+\c@@pagebonuspoints=\count111
+\c@pageof@pagepoints=\count112
+\c@pageof@pagebonuspoints=\count113
+\c@latest@points=\count114
+\c@latest@bonuspoints=\count115
+\pageinfo@commands=\toks14
+\temp@toks=\toks15
+\pagepoint@commands=\toks16
+\point@toks=\toks17
+\c@ques@object=\count116
+\marginpointssep=\skip55
+\rightpointsmargin=\skip56
+\choice@toks=\toks18
+\answerlinelength=\skip57
+\answerskip=\skip58
+\answerclearance=\skip59
+\linefillheight=\skip60
+\linefillthickness=\skip61
+\dottedlinefillheight=\skip62
+\minboxheight=\skip63
+\c@@iterator=\count117
+\@cellwidth=\skip64
+\c@tbl@points=\count118
+\c@tbl@bonuspoints=\count119
+\c@num@cols=\count120
+\saved@totalleftmargin=\dimen103
+\@sollistdepth=\count121
+\FrameRule=\dimen104
+\FrameSep=\dimen105
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2013/01/14 v2.14 AMS math features
+\@mathmargin=\skip65
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks19
+\ex@=\dimen106
+))
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen107
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count122
+LaTeX Info: Redefining \frac on input line 210.
+\uproot@=\count123
+\leftroot@=\count124
+LaTeX Info: Redefining \overline on input line 306.
+\classnum@=\count125
+\DOTSCASE@=\count126
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen108
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
+\macc@depth=\count127
+\c@MaxMatrixCols=\count128
+\dotsspace@=\muskip10
+\c@parentequation=\count129
+\dspbrk@lvl=\count130
+\tag@help=\toks20
+\row@=\count131
+\column@=\count132
+\maxfields@=\count133
+\andhelp@=\toks21
+\eqnshift@=\dimen109
+\alignsep@=\dimen110
+\tagshift@=\dimen111
+\tagwidth@=\dimen112
+\totwidth@=\dimen113
+\lineht@=\dimen114
+\@envbody=\toks22
+\multlinegap=\skip66
+\multlinetaggap=\skip67
+\mathdisplay@stack=\toks23
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+
+LaTeX Warning: Unused global option(s):
+    [solution].
+
+(./ACT.aux
+
+LaTeX Warning: Label `part@0@1' multiply defined.
+
+
+LaTeX Warning: Label `part@0@2' multiply defined.
+
+
+LaTeX Warning: Label `part@0@3' multiply defined.
+
+)
+\openout1 = `ACT.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 7.
+ (/usr/local/texlive/2014/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 7.
+LaTeX Font Info:    Try loading font information for U+msa on input line 8.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 8.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Underfull \hbox (badness 10000) in paragraph at lines 18--59
+
+ []
+
+[1
+
+{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \hbox (badness 10000) in paragraph at lines 100--112
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 113--119
+
+ []
+
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 120--125
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 137--154
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--157
+
+ []
+
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 157.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+Overfull \hbox (61.16534pt too wide) in paragraph at lines 166--166
+[]\T1/cmtt/m/n/12 There is a connection between A and B, A and G, E and F and J
+ and F and the directions[] 
+ []
+
+
+Overfull \hbox (5.60391pt too wide) in paragraph at lines 166--166
+[]\T1/cmtt/m/n/12 there is an external edge (actually a path) which goes throug
+h other gadgets.[] 
+ []
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 181--182
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 183--188
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--201
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 212--214
+
+ []
+
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 241--246
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 268--274
+
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 290--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 302--329
+
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 339--341
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 342--354
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 355--371
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 379--412
+
+ []
+
+[7]
+Underfull \hbox (badness 10000) in paragraph at lines 414--416
+
+ []
+
+
+Overfull \hbox (8.1645pt too wide) in paragraph at lines 424--424
+[]\T1/cmr/bx/n/17.28 Interactive Proofs with Pu-bic Ran-dom-ness(Arthur Mer-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--439
+
+ []
+
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 440--446
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 447--452
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 454--457
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 461--466
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 467--515
+
+ []
+
+[9] [10]
+Underfull \hbox (badness 10000) in paragraph at lines 532--539
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 542--545
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 555--557
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 558--567
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 568--582
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 583--585
+
+ []
+
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 587--599
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 623--635
+
+ []
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 640--647
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 648--670
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 675--689
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 690--698
+
+ []
+
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 700--707
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 709--727
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 728--734
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 735--742
+
+ []
+
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 755--777
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 778--794
+
+ []
+
+[15]
+Underfull \hbox (badness 10000) in paragraph at lines 810--815
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 823--837
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 838--844
+
+ []
+
+[16]
+Underfull \hbox (badness 10000) in paragraph at lines 864--876
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 877--878
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 882--883
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 885--891
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 892--895
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 896--906
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 907--916
+
+ []
+
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 917--931
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 932--939
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 940--954
+
+ []
+
+[18]
+Underfull \hbox (badness 10000) in paragraph at lines 960--967
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 969--972
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 973--992
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 995--1002
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1003--1007
+
+ []
+
+[19]
+Overfull \hbox (11.33347pt too wide) in paragraph at lines 1010--1032
+\T1/cmr/m/n/12 Have m vari-ables $\OML/cmm/m/it/12 y[]; y[]; :::y[]$ \T1/cmr/m/
+n/12 one for each clause and the ini-tial vari-ables be $\OML/cmm/m/it/12 x[]; 
+x[]; :::x[]$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1010--1032
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1033--1061
+
+ []
+
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 1062--1067
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1068--1072
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1073--1094
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1095--1100
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1101--1104
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1106--1108
+
+ []
+
+[21]
+Underfull \hbox (badness 10000) in paragraph at lines 1116--1118
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1120--1122
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1123--1126
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1133--1138
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1147--1148
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1149--1156
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1158--1159
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1160--1166
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1167--1175
+
+ []
+
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 1179--1182
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1187--1188
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1189--1194
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1195--1199
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1200--1203
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1211--1219
+
+ []
+
+[23]
+Underfull \hbox (badness 10000) in paragraph at lines 1222--1232
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1243--1244
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1245--1249
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1250--1274
+
+ []
+
+[24]
+Underfull \hbox (badness 10000) in paragraph at lines 1275--1277
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1278--1280
+
+ []
+
+[25]
+This exam contains 0 questions with 11 parts, 0 subparts, and 0 subsubparts.
+This exam has a total of 0 points.
+This exam has a total of 0 bonus points.
+
+Class exam Warning: Point totals have changed. Rerun to get point totals right.
+
+
+(./ACT.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 2351 strings out of 493117
+ 28112 string characters out of 6135433
+ 98411 words of memory out of 5000000
+ 5830 multiletter control sequences out of 15000+600000
+ 17371 words of font info for 56 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 28i,9n,26p,223b,383s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
+</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
+usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></us
+r/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/
+local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
+cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loca
+l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/
+texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/tex
+live/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texliv
+e/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
+/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2
+014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/201
+4/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2014/
+texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2014/te
+xmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2014/texm
+f-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2014/texmf-
+dist/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on ACT.pdf (25 pages, 277338 bytes).
+PDF statistics:
+ 155 PDF objects out of 1000 (max. 8388607)
+ 109 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -1,0 +1,19 @@
+1) Java code - deadlock / race conditions.
+2) c/c++ memory leak.
+3) Fragile base class problem ? c++. Development time is high.
+Because recompilation is required for every classes.
+4) Compile time vs Link time vs runtime dependency.
+A cannot be compiled without B. Seperate compilation is when
+they can be compiled separately but object files should be linked.
+Compile time dependencies should be avoided. If A derives from B then
+they are run time dependent not compile time dependent
+5) Coupling or cohesion.
+Functional -> Sequential -> Communicational -> temporal (desirable).
+logical -> procedural -> coincidental (undesirable).
+content -> common -> control -> stamp (desirable).
+data (undesirable).
+set jump long jump are pathological couplings.
+Intersection of the slice of all the output variables should be 30%
+generally. If it is zero it is a bad design.
+Code surfer.
+Style sheet. Cohesion / coupling. Objdump. Deadlock java. Many threads.

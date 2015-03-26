@@ -1,0 +1,231 @@
+\documentclass[12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb,complexity}
+\begin{document}
+
+\hrule
+\vspace{3mm}
+\noindent
+{\sf IITM-CS6840-2015 : Advanced Complexity Theory  \hfill Given on: Jan 27, 07:30am}
+\vspace{3mm} \\
+\noindent
+{\sf Problem Set \#1 \hfill Due on : Feb 04, 07:00am}
+\vspace{3mm}
+\hrule
+
+\begin{questions}
+
+%\question[5]
+%Show that computing the permanent of matrices with integer entries is in %$\FP^{\#\SAT}$.
+
+%\begin{solution}
+%Write Solutions like this.
+%\end{solution}
+
+\question[10]
+Show that $\#\SAT$ remains $\#\P$-complete even if we restrict the input formulas to be of the form 2-CNF.
+
+\question[10]
+Show that is there is a polynomial time algorithm that approximates the number of
+simple cycles in a given graph within a factor of $\frac{1}{2}$, then $\P = \NP$.
+\begin{solution}
+Consider Hamiltonian cycle problem.\\
+Input is G a directed graph. Now introduce $2*n^2+2$ vertices for every vertex in G
+such that there are $2^{n^2}$ paths between a first vertex and the last vertex.
+The first vertex is the sink that is all the in edges to a vertex v comes into
+the first vertex and the last vertex in the source where the edge starts from
+this vertex. The $2^{n^2}$ construction is similar to the one we saw in class.
+Now if there is a Hamiltonian cycle in this graph then this graph has atleast
+$2^{n^2*n}$ that is atleast $2^{n^3}$ cycles in this graph.\\
+
+$n_{p_k} \le n_{c_k}*(n!)$ which implies $\Sigma n_{p_k} \le 2^n*(n!)$.\\
+Typically every permutation in a graph can correspond to a cycle.
+Therefore total number of cycles in a graph is bounded by $2^n*(n!)$.
+Now if there doesnot exist a single Hamiltonian cycle in the original graph, then
+each of the above cycle can contribute to atmost $2^{n^2*(n-1)}$ number of cycles
+which is equal to $2^{n^3 - n^2}$ number of cycles. Therefore total number of cycles
+would atmost be $2^{n^3 - n^2 + n + nlog n}$ (n log n comes in because $n! \le n^n$).
+Asymptotically $c*2^{n^3 - n^2 + n + nlog n} < 2^{n^3}/c$ for any constant c.
+Hence if there exists any
+constant approximation solution for number of simple cycles in a graph, then given
+any graph G we can apply the above transformation to get G' and feed it to this
+simple cycle approximation machine. If it says that there are more than $2^{n^3}/c$
+cycles then this immplies there definitely exists a Hamiltonian cycle by the above proof.
+And if it doesnt reach this much then it definitely means that there doesnt exist
+as many cycles in the original graph meaning there doesnot exist a hamiltonian cycle.
+Hence using the approximation algorithm we can deterministically tell whether
+any input graph has a hamiltonian cycle or not. Hence $P = NP$ if there
+exists such a polynomial time approximation algorithm.
+\end{solution}
+\question[10]
+Define $Gap\P$ to be the set of functions $f : \{0,1\}^* \to \mathbb{Z}$ such that there is a choice Turing machine for which :
+\[ \forall x, f(x) = \#\textrm{{\sc accept}$_M(x)$} - \#\textrm{{\sc reject}$_M(x)$} \]
+Show that :
+\begin{parts}
+\part Argue that $\#\P$ is contained in $Gap\P$.
+\part Show that $Gap\P = \#\P - \#\P = \#\P - \FP = \FP - \#\P$, where minus signs refer to difference of functions belonging to the corresponding classes.
+\end{parts}
+\begin{solution}
+\begin{parts}
+\part Consider the machine M which recognizes a function $f \in \#\P$.
+Let M have a accepting paths and r rejecting paths.
+Now consider another machine M' which has the exact same description as M
+but whenever it reaches a reject it introduces 1 accept and 1 reject. So this
+new machine will have a+r accepting paths and r rejecting paths.
+The number of accept - number of reject in this machine is equal to
+the number of accept in the previous machine.
+Hence the $Gap\P$ function which is recognized by this machine
+is equal to f. Hence \#P is contained in $Gap\P$.
+\part
+Let us prove first that any function of the form $\#\P - \#\P$
+is recognizable by a $Gap\P$ machine. Consider $f_1$ recognized by $M_1$ and
+and $f_2$ recognized by $M_2$ (both \#P functions). Let us make
+a $Gap\P$ machine M recognizing $f_1 - f_2$. Let on input
+x $M_1$ has $a_1$ accepting paths and $r_1$ reject paths and
+and $M_2$ has $a_2$ accepting paths and $r_2$ reject paths.
+M makes an intial branch into two nodes. From the
+first node we start simulating $M_1$ and from the second we start
+simulating $M_2$ except that in $M_2$ we make all accept go to reject
+and all reject go to accept. The number of accepts from the first node
+is $a_1$ and from the second node is $r_2$ and number of rejects
+from the first node is $r_1$ and from the second node is $a_2$. Therefore
+$Gap\P$ function for this input will be $a_1 - r_1 - (a_2 - r_2)$ = $f_1 - f_2$.
+Hence any $\#\P - \#\P$ can be represented by a $Gap\P$ function.
+Hence $\#\P - \#\P \subseteq Gap\P$.\\
+$FP - \#P \subseteq \#P - \#P$ because $FP \subseteq \#P$.\\
+
+Lets prove that any $Gap\P$ function h recognized by some
+machine M can be recognized by $f-g$ where $f \in FP$ and $g \in \#\P$.\\
+The machine M is bounded by some polynomial time $p(n)$.
+Let on some input x it has a accept states and r reject states.
+Now consider the current modification to M. Whenever it reaches accept
+at level l from root, we introduce $p(n)-l+1$ new levels
+and accept the first $2^{p(n)-l}+1$ and reject the rest of the nodes
+that is the rest of the $2^{p(n)-l}-1$ nodes and similarly for
+a reject node l level deep introduce $2^{p(n)-l}+1$ reject nodes
+and $2^{p(n)-l}-1$ accept nodes (introducing so many accept nodes
+can be thought of as simulating $2^{p(n)-l}+1$ which is in FP and FP is a
+subset of \#P and hence simulate it using a corresponding \#P machine right
+at that node). Let this machine be M'
+Now every accept in the original machine introduces
+$+2$ to $Gap\P$ count and every reject node gives
+a $-2$ to $Gap\P$. Hence total = 2*h(x).\\
+We can note that accept + reject = $2^{p(n)+1}$
+because all of them reach the same level finally.
+Therefore 2*h(x) = $acc - rej$ of curent machine = $total - 2*rej$
+of current machine where total = $acc + rej$ of current machine.
+Therefore h(x) = $total/2 - rej$ = $2^{p(n)} - rej$. Now consider
+machine $M''$ which accepts whenever $M'$ rejects and rejects
+whenever $M'$ accepts. Therefore the \#P function(g) recoognized
+by $M''$ is the number of rejects in $M'$. Therefore
+h(x) = $2^{p(n)} - g(x)$. Let $ f = 2^{p(n)}$. We know that
+f is polynomially computable and g belongs to \#P.
+Therefore $h = f - g$. Hence $Gap\P \subseteq FP - \#\P$.
+Hence $Gap\P = \#\P - \#\P = FP - \#\P$. As $Gap\P = \#\P - \#\P$,
+it is trivial that it is closed under negation which implies
+$FP - \#P$ is closed under negation. Given $h \in Gap\P$,
+$-h \in Gap\P$ which implies $\exists f \in FP$ and $g \in \#\P$
+such that $f-g = -h$ which implies $g-f = h$. Hence for any $h \in Gap\P$,
+$\exists$ $g \in \#\P$ and $f \in FP$ such that $g-f = h$ which implies
+$Gap\P \subseteq \#\P-FP$. But as $Gap\P = \#\P - \#\P$, and trivially
+$\#\P - FP \subseteq \#\P - \#\P$ because $FP \subseteq \#\P$,
+$Gap\P = \#P - FP$.\\
+Therefore, $Gap\P = \#\P - \#\P = \#\P - \FP = \FP - \#\P$.
+
+\end{parts}
+\end{solution}
+\question[20]
+A language $L$ is in $MP$ if there exists a function $f$ in $\#\P$ and a function
+$g \in \FP$ (called a bit selection function) such that for all $x$, $x$ is in $L$ if and only if there is
+a $1$ at position $g(x)$ in the binary representation of $f(x)$. Show that
+\begin{parts}
+\part $\PP^{\parity\P} \subseteq MP$.
+\part $MP$ is closed under complementation.
+\part $\P^{\PP} = \P^{\#\P} = \P^{MP}$.
+\part For every $L \in MP$ there is a $\#\P$ function $f$ such that for all $x$, $|f(x)|$ is odd, and $x \in L$ if and only if the middle bit of $f(x)$ is 1.
+\end{parts}
+Thus conclude that access to the middle bit of a $\#\P$ function is more powerful than the MSBs and the LSBs.
+\begin{solution}
+\begin{parts}
+\part
+\part
+Given any $f \in \#P$, we can make $f+1$ in the following manner:\\
+From the root simply branch out to left and right where in the left
+you run NP machine corresponding to f and on the right you simply accept.\\
+
+Given any $f \in \#P$, we can make $2^{p(n)+g(x)+2}-f$ where p(n) is
+the running time of the NP machine corresponding to f in the following manner:\\
+Whenever it accepts branch out till you reach level p(n)+2 and reject only in
+the left most path and if it rejects, branch out p(n)+2 and accept all paths.
+Here it is trivial to see that number of accepts of the original machine
+is equal to the number of rejects of this machine. Hence number
+of accepts of this machine = $total - \#rejects = 2^{p(n)+g(x)+2}-f$.\\
+
+Given any f make f' = f+1 and then make $f'' = 2^{p(n)+g(x)+2}-f' =  2^{p(n)+g(x)+2}-1 -f$.
+Hence for any f, f''(x) will give the 1's compliment of f(x) with p(n)+2
+bits. Now given any $L(f, g) \in MP$, L(f'', g) represents
+the compliment of L(f, g) because all the bits are flipped in the above
+translation and hence if L(f, g) gives 1, L(f'', g) will give
+0 and when L(f, g) gives 0, L(f'', g) gives 1. Hence MP is closed
+under complimentation.
+\part
+$P^{PP} \subseteq P^{\#P}$.\\
+This is trivial because we can simply ask for the MSB of the
+answer(\#P) got from the Non deterministic underlying machine used
+for PP.\\
+$P^{\#P} \subseteq P^{PP}$.\\
+Using PP we can first find out the first bit of \#P.
+Now for finding the second bit :\\
+Let first bit be x. Let original NDTM be M.
+For a new M', have a root whose left child runs M and
+right child runs a trivial machine which simply
+accepts $2^{p(n)}-x10000...$ 0's occurring p(n)-1 times.
+Basically if PP returns 1 it means the second bit is 1 and if PP returns
+0 then the second bit is 1. In a similar fashion ($2^{p(n)} - xy10000....$)
+we can find the third bit and in general any kth bit of \#P and hence
+finally arrive at the whole of \#P. Hence instead of querying \#P
+we can find out all the bits by querying PP machine
+polynomial number of times.\\
+$P^{MP} \subseteq P^{\#P}$, this is trivial because we can query the
+g(x) th bit after finding the \#P of the f of MP.\\
+$P^{\#P} \subseteq P^{MP}$. We can encode g(x) = 1 and query it
+to \#P to get the first bit and similarly do it till g(x) = MSB for the same f
+to get all the bits of the \#P function f.\\
+
+Hence $\P^{\PP} = \P^{\#\P} = \P^{MP}$.
+\part
+Given any NDTM M with \#P function f and running time p(n) and a polynomially
+bounded g(x),  consider M' such that it branches to two children where on the
+left it simply runs M and on the right it runs a trivial machine which reaches
+level p(n)+g(x) and accepts
+all paths in this right node branch. Now it is easy to see that this machine
+accepts $2^{2*(p(n)+g(x))} + f$. Hence given any NDTM M with \#P function f
+then we have another NDTM M' such that its \#P function(f') is
+$2^{2*(p(n)+g(x))} + f$. The number of bits in f' is odd because leading bit
+is at position 2*(p(n)+g(x)).\\
+
+Given any function f in \#P recognized by M and a polynomially bounded
+function h consider M', which branches till the h levels and runs M
+on each of the $2^h$ paths created. It is easy to see that the function
+accepted here is $f(x)*2^{h(x)}$.\\
+
+Let the \#P function of the MP be f with running time p(n)
+and bit selecting function be g. Let \#P function recognizing f be M.
+Now first transform the machine M to M' which accepts a total of
+$2^{2*(p(n)+g(x))} + f$ paths(f'). Number of bits in f'
+for any given x is 2*(p(n)+g(x))+1. Now if we multiply this f' by $2^{2*p(n)+2}$
+to get f'' which as already seen can be simulated by a \#P function
+as already seen above, then it is easy to see that the middle bit
+of this f'' and the ${g(x)}^{th}$ bit of f are the same.\\
+
+Therefore given any $L \in MP$, there exists a machine which accepts or reject
+based on the middle bit of the number of accepting paths which accepts
+L.\\
+
+Hence it is easy to see that middle bit is more powerful than the MSB and
+LSB as both are subsets of MP and all of MP is simulatable by the middle bit
+guesser.
+\end{parts}
+\end{solution}
+\end{questions}
+\end{document}

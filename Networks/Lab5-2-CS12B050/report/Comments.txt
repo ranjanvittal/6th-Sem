@@ -1,0 +1,9 @@
+This Assignment made me learn TCP versions better and
+I had reasonable amount of fun implementing my own version.
+
+The marking of points (like Slow start etc) could have been restricted
+to only one image file instead of marking for every file which makes this
+assignment tedious.
+
+The amount of time spent on rerunning the code is quite high.
+If there is a smarter way of doing it it could be mentioned.

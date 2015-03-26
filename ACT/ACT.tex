@@ -1,0 +1,1585 @@
+\documentclass[solution,addpoints,12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb}
+\usepackage[T1]{fontenc}
+\begin{document}
+\begin{itemize}
+\item Countng Complexity
+\item Proof systems and interactive proofs $\rightarrow$ Inapproximation
+\item Circuit Complexity
+\item Derandomization
+\item Arithmetic circuits
+\end{itemize}
+Grading might be absolute. Will have problem sets(4 to 5). Course Project(report,
+presentation, interim).
+Exam + Viva(Right at the end of the course).
+
+\section{Counting Problems}
+Function f from $\Sigma^*$ to $N$.(N is written in binary).
+Input is in the input tape and there is a work tape and there is an output tape.
+Time is always preferred to be polynomial.
+FP = f | f can be computed by a polynomial time machine given $x \in \Sigma^*$.
+Observation \#clique is in FP implies P = NP. Any counting solution(FP) for NP-COMPLETE
+problems will tell us that P = NP.
+Decision is easy but counting is hard.
+Cycle problem can be solved using dfs. But number of cycles in the graph might not be
+solvable
+using FP. This implies hamiltonian cycle problem is in P. Hence P becomes NP if it is
+so.\\
+Lets show it.
+Let us use the following reduction. Take each edge in a graph and replace it by a
+clique .
+One cycle(hamiltonian) gives a large amount of cycles. Replace an edge from u to v as :
+some l = 2n log n vertices inbetween such that number of paths from u to v as $2^l$ as
+$n^{n^2}$.
+Therefore if it has a hamiltonian cycle there would be an exponential blow up in the
+number of cycles
+that is there would atleast be $n^{n^2}$ otherwise not.\\
+FPSPACE contains \#SAT, \#CLIQUE, \#CYCLE. All these have non-deterministic algorithms.
+Number of accepting paths represents the solutions to \#SAT = \#$acc_M(x)$.\\
+\#P = Set of all functions such that there is a non deterministic TM running in
+time p(n) such that number of accepting paths of the TM is equal to f(x).\\
+$\#P \subseteq FPSPACE$ just run the NP machine as PSPACE machine and use a counter.
+$FP \subseteq \#P$.
+$f \in FP$ there is a DTM A, running in polynomial time such that forall x computes f(
+x)
+in binary. Guess k nondeterministically (k is the number of bits), check
+whether the bit patter is less than k if so accept. Hence you will accept from 0 to k-1
+all paths.\\
+If \#P is equal to FP then P = NP this is trivial because we can just check whether
+it is just more than 0.\\
+\#P=FP = P=PP.\\
+Assume P = PP. Given any turing machine in NDTM to solve \#P compute number of
+accepting paths in FP.
+Have a machine such that you accept N paths in one sub-tree and the current \#P is run
+to accept f(x).
+Binary search for N such that f(x) + N is equal to $2^m$ where m is the number of
+accepting paths.
+Find highest N for which it rejects.\\
+
+Let us represent the number of accepting paths in binary. The value of the number
+of accepting paths ranges between $0 \le acc(x) \le 2^m - 1$. Checking if Most
+Significant B of \#acc
+can tell us whether it belongs to PP.
+
+Reductions in counting complexity :\\
+If f reduces to g if there is a h such that f(x) = g(h(x)) and h is computable in
+polynomial time.\\
+If the above  is true see this :\\
+f(x) > 0 iff g(h(x)) > 0 this implies that if \#CYCLE is \#P Hard then it means \#
+Clique reduces to \#Cycle. Hence checking whether a cycle exists is as hard as
+checking whether a clique is present.
+Therefore Clique is solvable in P with the current conditions for \#P Hard. Hence lets
+move on to another
+definition of \#P Hard to actually capture the hardness of \#Cycle.
+
+$ f \le g $ if $\exists$ h such that $f \in {FP}^g$.\\
+A function is said to be \#P Hard if for all g in \#P, $g \le f$ that is $g \in {FP}^f$
+.\\
+If f belongs to \#P.
+
+\#SAT is \#P complete :\\
+Proof : \#SAT is in \#P, $g \le \#SAT$.
+There exists an M such that number of accepting paths is equal to the value of g.\\
+Cook Levin theorem preserves the number of accepting path as well. Hence \#SAT of the
+reduced form is equal to the number of accepting paths in g. Hence $g \le \#SAT$.\\
+We only use machine access here. The oracle access is not exactly utilised.\\
+Parsimonious reductions for NP completeness.\\
+$A, B \in NP$, $ A \le_{m}^{p} B$ | $\exists$ h such that :\\
+h is computable in polynomial time and $x \in A$ iff h(x) in B and number of
+certificates are equal.\\
+For SAT to Vertex cover reduction we donot have the parsimonious reduction(the one we
+studied).\\
+Clique to independant set is parsimonious reduction.\\
+Parsimonious reductions are transitive.\\
+The \#P reductions are also transitive that is $f \in {FP}^g$ and $g \in {FP}^h$
+implies $f \in {FP}^h$.
+Basically when running $M_f$ that is machine which is in g that is $M_f$ is $f \in {FP}
+^g$ and we can similarly go about querying until to ${FP}^h$.
+
+\#P = FP iff PP = P.\\
+Determinant function f from $\Sigma^* to N$.\\
+There are $S_n$ = n! permutations which are possible from 1 to n.
+det(M) = sum over all functions $\sigma$ belonging to $S_n$(different permutations and
+functions corresponding to it) such that.
+The sign of each term is equal to the number of transpositions
+that are required to transform $\sigma$ to id permutation.\\
+Determinant is solvable in FP because we can use gaussian transformation
+and finally get an upper triangular matrix which can be solved easily.
+Permanent is where you multiply all and forget the sign.
+Let us show that permanent is \#P complete.
+you multiply all $M_{i, \sigma(i)}$.\\
+
+Combinatorial interpretation of 0-1 permanent. $M \in {0, 1}^{n X n}$.
+View M as the adjacency matrix of a bipartite graph(trivial).\\
+Each term in the permanent corresponding to a perfect matching in the graph.
+So number of perfect matching is equal to the permanent. Can we compute this
+in FP is a fair question because the output is atmost n factorial which
+is polynomial in size. The decision version is maximum matching which is in P.\\
+
+Lets show that number of perfect matching is \#P complete.\\
+Computing permanent of 0-1 matrices is \#P complete.\\
+\#P algorithm for permanent is simply enumerating all the n! non deterministically
+and check whether each of them evaluate to 1 and hence the number of accepting paths
+correspond to the permanent of the matrix.\\
+
+Collapse the bipartite to a single matrix and introduce self loops.
+Now this problem changes to a cycle cover where you count the number of disjoint
+cycles which cover all the vertices. these two have an exact correspondance.
+
+Consider cycle cover of a graph G which is Vertex disjoint
+cycles coverng every vertex. Consider a matrix M in $Z^{nXn}$. Interpret
+M as the weighted adjacent matrix of a graph G.
+Now there is a sign attached to every perm. Therefore what we do is
+the positive terms of the permutations should be found out and the negative
+seperately and find positive minus negative.
+
+Lets show that it is \#P hard.
+$\#3SAT \le Per_Z(M)$.\\
+$\#\phi$ can be computed using perm(M).\\
+$\phi$ is a 3SAT problem with n variables and m clauses.
+We wil define a graph G and analyze summation over all products of weights
+of perfect matchings = $4^{3m}(\phi)$.\\
+weights of edges are {-1, 0, 1, 2 ,3}.
+Trick 1 :\\
+Ensuring some cycle covers cancel each other.
+Gadget utilised is like :\\
+A graph with 3 vertices will be introduced (with A, B, C s vertices).
+$A \rightarrow B \rightarrow C \rightarrow A$.\\
+$B \rightarrow C \rightarrow A \rightarrow B$.\\
+The above two if let alone cancel each other.
+Now any other cycle cover for remaining vertices will be forced to be
+cancelled out because of this gadget because product of these edges is -1
+and 1.\\
+
+gadgets for variables:\\
+For every variable introduce 10 vertices like :\\
+\begin{verbatim}
+    B(self-loop)   C(self-loop)    D(self-loop)     E(self-loop)
+A                                                                   F
+    G(self-loop)   H(self-loop)    I(self-loop)     J(self-loop)
+
+There is a connection between A and B, A and G, E and F and J and F and the directions
+are in that order and all the weights are +1. Between B and C and such
+there is an external edge (actually a path) which goes through other gadgets.
+
+\end{verbatim}
+gadgets for clauses :\\
+There are three vertices corresponding to the three literals
+in the clause and one vertex at the center (the connections to the center
+are bidirectional) and all the vertices are connected biderectionally.
+There is a directed external edge cycle between the three vertices.
+When we skip an external edge then we take that it is assigned true.
+When we skip 2 we have only one possibility which is to cover the internal
+vertex which is a cycle over the 4 vertices which contributes 1.
+We can similarly check that the other ways also we would end up with
+this clause contributing 1. We will make sure that the proper
+cycle covers would contribute 4 in the xor gadgets (connector gadgets).
+There are 3m such gadgets hence it will contribute $4^{3m}$ to
+every satisfying assignment.
+
+Approximating permanent is project.\\
+
+$P^{PP} \subseteq P^{\#P}$.(pretty trivial)\\
+Claim : $P^{\#P} \subseteq P^{PP}$ which tells us that
+$P^{PP} = P^{\#P}$.\\
+In 1990 Toda gave proof to Polynomial hierarchy is a subset
+$P^{\#P}$.\\
+
+Parity P is the set of all languages for which there
+is a polytime non deterministic turing machine such
+that $x \in L iff$ number of accepting paths on x is odd.
+Equivalent to saying least significant bit was 1.
+Number of satisfying assignments is odd is the hard
+problem for Parity p(denoted by Q).\\
+Q SAT is Q complete.\\
+A weaker form of reduction is what we will choose :\\
+$SAT \le_{M}^r Q$ SAT which means that there exists a randomized
+algorithm. We are designing a one sided error algorithm
+such that $\phi in$ SAT implies Probability of
+$\sigma(\phi) \in Q$ SAT is greater than 0.5.\\
+
+\section{$P^{\#P} = P^{PP}$}
+
+\subsection{$SAT \le_m^r Q$ SAT}
+USAT is a variant of SAT where there exists a unique satisfying assignment.
+Valiant Vazirani :\\
+There is a polytime randomized reduction($\sigma$) such that :\\
+$\phi \in SAT$ implies probability of $\sigma$($\phi$) is in USAT
+is greater than 1/8*n which implies Probability of $\sigma(\phi) \in Q$ SAT is greater
+than 1/8*n. Amplification is not trivially possible.
+
+For $\phi(x)$ make it $\phi(x) \& \psi(x)$ and $\psi$
+acts as the filter. That is $\sigma(\phi) = \phi(x) \& \psi(x)$.\\
+
+\subsection{SAT to +SAT}
+Hash functions from ${0, 1}^n to {0, 1}^m$.
+Now they are pairwise independant if :\\
+P[h(x) = a\^h(y) = b)] = $1/(2^m)*1/(2^m)$.\\
+We are going to define a family of hash functions as follows :\\
+$S \subseteq {0, 1}^n$ and $2^m \le |S| \le 2^{m + 1}$.\\
+P[ there doesnot exist h(x) = $0^{m+2}$ $] \ge 1/8$.\\
+for h belonging to H defined above.\\
+Assuming the lemma : Choose m at random from [0, 1, 2, ... n-1]
+choose h belonging to H.\\
+Write down the formula $\psi(x)$ corresponding to h(x) = $0^{m+2}$ ( Cook levin
+like).
+Set S is the set of satisfying assignments.
+N is the number of $x \in S$ such that h(x) is $0^{m + 2}$.\\
+$2^m \le |S| \le 2^{m+1}$.
+P[N = 1] = P[ $N \ge 1$] - P[$N \ge 2$]
+P[$ N \ge 2$] = sum over all x, y such that P[h(x) = 0 \^ h(y) = 0]
+is less than or equal to S choose 2 times $p^2$.\\
+where p is the uniform probability.\\
+$P[N \ge 1] \ge P[h(x) = 0^{m+2}] - P[h(x) = 0 and h(y) = 0]$
+by principle of inclusion and exclusion.
+which in turn is greater than |S|*p - |S| choose 2 times $p^2$.\\
+And finally we get that the probability that $\psi$ is done with is
+1/8. Hence overall probability is 1/8 times 1/n
+where 1/n is the probability of choosing the correct m.
+
+$Z_p$ such that H = \{a, b in $Z_p$ | ax + b mod p\}
+${0, 1}^n$ corresponds to one integer which is p in this case.
+The number of hash functions which we get from here is $1/p^2$
+and every has function has the property that the probability
+of ax + b = c and ay + b = d is 1/$p^2$ which is essentially 1/$2^m*2^m$.\\
+
+There is a randomized algorithm $\sigma$ with input $\phi$.
+$\phi \in SAT \implies P[\sigma(\phi) \in +SAT] \ge 1/8n$.\\
+$\phi \not \in SAT \implies P[\sigma(\phi) \in +SAT] = 0$.\\
+Repeatedly apply the algorithm some l times.
+I want atleast one of $\gamma_1$ to $\gamma_l$ to accept which would mean that
+the formula is accepted.
+
+Given $\phi_1 \& \phi_2$ we can make a new $\phi$ with exactly
+same number of solutions as sum of those two and product of those two.
+
+$\phi \in SAT \implies P[\sigma(\phi) \in +SAT] \ge 1/3$ if accepted 0
+otherwise.\\
+$\gamma = 1 + (1 + \gamma_1)(1 + \gamma_2) ... (1 + \gamma_l)$
+Now 1 + $\alpha$ = adding two formulas (sort of) to get that many
+solutions as that of 1(simple formula with exactly one solution) and
+$\alpha$ which is another formula which will give you $\alpha + 1$ number
+of solutions.
+$\psi = (z + \phi_1)*(\overline{z} + \phi_2)$ is used for
+adding number of satisfying assignments.\\
+$NP \le_r +P$ and $CoNP \le_r +P$.
+
+$L \in \Sigma_2 iff \exists B \in P, x \in L \leftrightarrow
+\exists y_1 \forall y_2 (x, y_1, y_2) \in B$.
+$\exists y \phi(y)$ is true $\implies$
+p[$\sigma(\phi) \in +SAT] \ge 1 - 1/2^n$
+.\\ and the other part is 0.
+$x \in L \leftrightarrow \exists y_1 \forall y_2 \phi(y_1, y_2)$.\\
+
+$\phi_y$ to $\phi_y(x)\&(h(x) = 0^{k+2})$. There is a
+y such that $\phi_y(x)$ is satisfiable if and only if
+$\Sigma(\psi_y(x))$ is in +SAT .
+\subsection{$PH \subseteq +SAT$}
+Proof : We need to show that only for $\psi$ of form $\exists$
+for all the number of altercations is k.
+k = 0, by VV lemma + Amplification ,\\
+$\psi$ is true  implies P[$\sigma(\psi) \in +SAT$] is greater that
+1 - 1/$|2^m|$.
+Adapt induction to suit free variables as well.
+$\psi$ is true implies $\exists$ x such that $\psi_{x'}$ implies
+$\exists$ x such that $(\phi(x') \in +SAT)^\beta(x)$ = 1 mod 2.
+(1 mod 2 is high probability not exactly).\\
+and otherway round too.
+\subsection{$BPP^{Q} \subseteq P^{\#P}$}
+The randomized reduction that reduced can be derandomized with oracle access
+to \#P oracle. There is $\sigma$ which is a randomized reduction.
+$\psi$ is true implies P[$\sigma(\psi) \in +SAT] \ge 1-1/(2^m)$.
+$\psi$ is false implies P[$\sigma(\psi) \in +SAT] \le 1/(2^m)$.
+$\phi \in +SAT$ implies $\# \phi = -1 mod 2$ and $\# \phi = 0 mod 2$.\\
+Modulus Amplification Lemma :\\
+For any $t \le poly(n)$, $\exists$ algorithm T such that
+$\#\phi = -1 mod 2 \implies \#\phi' = -1 mod 2^t$.\\
+$\#\phi = 0 mod 2 \implies \#\phi' = 0 mod 2^t$.\\
+Proof :\\
+
+
+Consider the algorithm applied to $\sigma(\psi)$.\\
+t is the number of random bits used by sigma.
+$T(\sigma(\psi))$. $\Gamma$ = \{(y, x) | x is a satisfying assignment
+for $\phi = T(\sigma_y(\psi))$\}.\\
+t is the number of random bits chosen by y = |y|.\\
+Aim is to estimate size of $\Gamma$ modulo $2^{t+1}$.\\
+Case 1 : when $\psi$ is true. There are $2^t$ possible y's for every
+x. For atlast 3/4 fraction of y's
+then $\#\phi' = -1 modulo 2^{t+1}$.\\
+The range in which the estimation lies is $- 2^t, ... (3/4)*-2^t$.\\
+When $\psi$ is false then this lies in $(-1/4)*2^t, ... 0$.\\
+\#P machine is guess y, x and then run T($\sigma_y(\psi)$) = $\phi$.\\
+Check if $\phi'$ is satisfied by x, if so accept else reject.\\
+This produces x which is exactly $\Gamma modulo 2^t$.\\
+Hence using the distinction we are done as we can distinguih using the
+\#P oracle.\\
+Toda's construction :\\
+$\phi$ to $\phi'$.\\
+$\phi$ = 4*$\phi^3$ + 3*4$\phi^4$.(Possible easily).\\
+If $\phi$ is -1 mod 2. Then $\phi'$ is -1 mod 4 and if $\phi$
+is 0 then $\phi'$ is 0 mod 4.\\
+Repeatedly apply this until it reaches t.\\
+If d is an odd number.\\
+k = 0 mod m implies $Q_d(k)$ = 1 mod $m^d$.\\
+k = -1 mod m implies $Q_d(k)$ = 0 mod $m^d$.\\
+$Q_d(k) = (k^d + 1)^d$.\\
+It is easy to note this.\\
+
+\section{Interactive proofs}
+$L \in NP$ iff there exists a polynomial verifer.\\
+DIP is such that $x \in L$ iff there exists prover which makes verifier accept.
+DIP = L such that L is accepted by a deterministic verifier V
+allowing multiple rounds with a prover.\\
+NP is contained in DIP.\\
+V(x, $a_1$, $a_2$, .... $a_k$) = Accept or reject.\\
+Verifier is a deterministic time machine.
+
+Prover is like a cheating oracle. It can tell either the correct
+or the wrong answer to V.\\
+
+$NP \subseteq DIP$.\\
+This is because the prover can give the path to the verifier
+and the verifier will run the path and verify. Hence done.\\
+But the other way is also true. That is $DIP \subseteq NP$.\\
+$x \in L$ iff P-V accepts.\\
+We need to design an NDTM M for L,
+Input x, Run V on x, whenever V wants an answer from
+P, V guesses the proof (for understanding assume one bit)
+and then proceeds on both the paths. Now whatever
+answer was given is going to be given would be got by an NDTM decided
+designed above. If V accepts accept in NDTM. If V doesnt in
+any path then NDTM wouldnt in any path.\\
+
+Prover knows what the verifier do.
+Consider the case where prover verifer setup is modified in a manner
+where verifier is restricted to look at only certain number of
+bits of the prover. Prover can provide the wrong proof
+when there exists a correct proof.
+We give the randomization to V. So some power
+is given and some power is taken off. Now the prover can
+give more than polynomial bits to V while V will look
+at only polynomially many bits from the prover.\\
+Allowing verifier to be randomized is the next step and hence more powerful.\\
+$x \in L \implies \exists P$ (Pr[P-$V_y$ accepts$] \ge 2/3$.\\
+$x \not \in L \implies \forall P$ Pr[P-$V-y$ accepts$] \le 1/3$.\\
+IP : L | L is accepted by a randomized verifier V allowing
+multiple rounds with a prover.\\
+$NP \subseteq IP$ trivially because $NP \subseteq DIP$.\\
+Consider $\overline{GI}$.\\
+\begin{itemize}
+\item They have same number of vertices otherwise we trivially accept.
+\item Choose i at random from \{1, 2\}.
+\item Choose $\sigma \in S_n$. $\sigma$ is the permutation.
+\item Obtain H = $\sigma(G_i)$ send to the prover.
+\item Ask him which $G_i$ did it produce from and accept
+if i matches with the one chosen.
+\end{itemize}
+If $G_1 \ne G_2$, hence prover can i = i' always.
+Probability that the verifier accepts is 1 because prover can easily
+check whether the transformation is correct.\\
+If $G_1 = G_2$, then strategy for the prover is hard and hence not
+possible to distinguish because of which Probability becomes half.\\
+Hence as it is a one sided we can amplify that probability.
+$\overline{GI} \in IP$.\\
+The prover doesnot know what the verifier has chosen.
+We know that $NP \in IP$. For $BPP$ we donot
+need any interaction with the prover. We just run the randomized
+algorithm in the verifier itself.\\
+Theorem : $BPP \in IP$ one sided error.
+$x \in L \implies \exists P Pr(P-V accepts) = 1$.\\
+$x \not \in L \implies \forall P Pr(P-V accepts) \le 1/2$.\\
+That is for all provers we have to make this claim.
+$L \in BPP$\\
+$x \in L \implies Pr[M(x, y) accepts] \ge 1 - 1/4l$.\\
+$x \not \in L \implies Pr[M(x, y) accepts] \le 1/4l$.\\
+No
+Imagine ${0, 1}^l$. Collect the strings which
+leads the string to accept as S. If $x \in L \implies S$
+is very large. Size of S is atleast $1 - 1/4)*2^l$ and similarly
+otherwise if it rejects. S is a set of all strings in ${0, 1}^l$
+such that M(x, y) accepts. Whenever $x \in L$ the prover should convince
+the verifier beyond doubt. Translate for a set S is
+such that $S + z = y + z \forall y \in S$. If S is very small
+the number of S we require would be very large and if S is very
+large then number of S required is very less.\\
+Claim : If $|S| \ge (1-1/4l)*2^l$ then there exists
+$z_1, z_2,...$ such that Union over all parities
+if $|S| \le 2^l/4l*(parity size) \le 2^l/4$. That is
+using l translates you cant cover.\\
+Protocol :\\
+\begin{itemize}
+\item Prover should send $z_1$ to $z_n$.
+\item Verifier chooses $r \in {0, 1}^l$ in random.
+(Aim to check whether r belongs to $S+z_i$ for some i.\\
+\item Send r to the prover.
+\item Prover sends the i.
+\item Run M on x on path r+$z_i$. Accept if accepts (Randomized).
+\end{itemize}
+For all Provers the probability that the verifier accepts
+when it must actually rejects is atmost 1/4 because size
+of translates can reach atmost $2^l/4$ in this case.\\
+Obviously there does exist a pspace prover which can do this.
+\section{Interactive Proofs with Pubic Randomness(Arthur Merlin Games)}
+Search for Email and the unexpected power of interaction.\\
+M is the prover. A is the verifier. \\
+AM = \{L | $\exists$ an Arthur Merlin proof system for L. Arthur speaks first.\}\\
+MA = \{L | $\exists$ an Arthur Merlin proof system for L. Merlin speaks first.\}\\
+Both of the above have two rounds.\\
+In the first case the randomness is public.
+$L \in AM$ then $x \in L \implies$ probability over random strings
+from ${0, 1}^l$ $\implies \exists \pi \in {0, 1}^n or (x, \pi, r) = 1 \ge 2/3$.\\
+and $\implies x \not \in L \implies$ probability over random strings
+from ${0, 1}^l$ $\implies \exists \pi \in {0, 1}^n or (x, \pi, r) = 1 \le 1/3$.\\
+$L \in MA$ then $x \in L \implies \exists \pi$ probability over random strings
+from ${0, 1}^l$ $\implies \in {0, 1}^n v(x, \pi, r) = 1 \ge 2/3$.\\
+and $\implies x \not \in L \implies \forall \pi$ probability over random strings
+from ${0, 1}^l$ $\implies \in {0, 1}^n v(x, \pi, r) = 1 \le 1/3$.\\
+
+$MA \subseteq AM.$\\
+$BPP \subseteq MA.$ Same as yesterday.\\
+$MA \subseteq \Sigma_2.$ Same as $BPP \subseteq \Sigma_2.$\\
+$MA_\epsilon = MA$ where $MA_\epsilon$ referes to one sided error.\\
+The second, third and fourth are similar to what we had already done to
+similar for proving 1 sided error for BPP in IP.\\
+
+$AM_\epsilon = AM.$
+$S_x$ is the set of all random strings such that there
+exists a proof v(x, r, $\pi$) accepts.\\
+When x is in L $\implies S_x$ is large and
+$x \not \in L$ then $S_x$ is small.\\
+\begin{itemize}
+\item Merlin sends a $z_1, z_2, ... z_l$.
+\item Choose $r' \in {0, 1}^l$. Task is to check
+r' is covered by some i that is $S_x + z_i$ for some i.\\
+Send r' to merlin.\\
+\item Merlin sends i, $\pi$. i is the index of z
+and $\pi$ is the proof.
+\item Check if $\pi$ is a valid proof that is run V(x, r'+$z_i$, $\pi$).
+\end{itemize}
+The above makes it one sided error. This is an MAM protocol.
+Completeness probability is when $x \in L$, soundness probability
+is when $x \not \in L$. In the above case the completeness
+is 1. When this is the case it is called perfect completeness.
+Ideally we want completeness to be 1 and soundness to be 0.\\
+
+$L \in MA$ with perfect completetion and soundness is atmost
+half. Let length the length of the proof be p(n) and soundness
+is less than or equal to 1/$2^{p+1}$.\\
+$x \in L \implies \exists \pi^* (\forall V(x, r, \pi) = 1).$\\
+$x \not \in L \implies \forall \pi P(\exists V(x, r, \pi) = 1) \le 1/(2^{p+1}.$\\
+$R_\pi = \{r | \forall V(x, r, \pi) = 1\}.$\\
+Now we can actually send the random bit before hand even because the
+number of wrong answers(total) would be $R*2^p/2^{p+1}$ which is R/2.\\
+This is like even given r before hand there are half fraction
+of random strings which none of the provers can catch at any point.\\
+Hence we get $MA-one-sided \subseteq AM-one-sided$.\\
+Hence the first two steps can be switched due to the above way.\\
+When x is not in the language probability that there did
+actually existed such a proof which makes the random string
+bad. Basically the random string would be good in identifying
+even proofs in most cases. Therefore any MA can be replaced with
+AM in any part of the proof. Hence MAM protocol is replaced
+by AMM which is essentially AM.
+We repeat the random string process in the second step of AM epsilon
+to MAM proof.\\
+We can reduce only constant number of swaps into two rounds. But
+if there are arbitrarily many rounds (polynomially) then it becomes
+polynomial times polynomial polynomial number of times which
+becomes exponential.\\
+We already know that $\overline{GI} \in IP$.\\
+Let us prove that $\overline{GI} \in AM$.\\
+Define S = \{H|$G_1 = H$ or $G_2 = H$.\}
+$G_1 \rightarrow \{\sigma(G_1)|\sigma \in S_n\}$.\\
+$G_1 \ne G_2 \implies H = G_1 \leftrightarrow H \ne G_2$.\\
+This implies |S| = 2*n!.\\
+If $G_1 = G_2 \implies |S| = n!$.\\
+We want to increase the gap. Consider $S^l = SXSXS...$ polynomial times.\\
+Now we would have more gap. And then we can do it similarly how we designed
+an MAM protocol which we had before.\\
+Hence this would prove that $AM \in \Pi_2$ which would in turn
+prove that $\Sigma_2 = \Pi_2$ and hence polynomial hierarchy
+collapses to the second level.\\
+$IP[k] \subseteq AM[k+2]$, then IP = AM. AM is arbitrary here
+that is it can go to polynomial rounds.\\
+Read about Goldwasser and Sipser(google search).\\
+AM[f(n)] = AM[f(n)/2+1] constant number of times.\\
+The 2*n! is not an exact bound because H's could repeat.\\
+Let all(G) = $\{\sigma_1(G), \sigma_2(G), \sigma_n(G)\}$.\\
+aut(G) = $\{\sigma \in S_n | \sigma(G) = G\}$
+iso(G) = $G'| G' = \sigma(G)$ for some $\sigma \in S_n$.\\
+Hence |iso(G)|*|aut(G)| = n!.\\
+S = \{(H, $\pi$) | ($H = G_1$ or $H = G_2$ and $\pi \in aut(H)$)\}
+Now size is guarnateed to be 2*n!.\\
+
+\section{IP}
+\subsection{$P^{\#P} \subseteq IP$}
+Can permanent be computed with prover?
+If this is done then $P^{\#P} \subseteq IP$.
+Per(M) = $m_{11}*Per(M_{11}) + m_{12}*Per(M_{13})...+m_{1n}*Per(M_{1n})$.
+\begin{itemize}
+\item The prover will give k and $P_{11} = Per(M_{11})$ and so on.
+\item
+Task is to combine these n tuples $M_{11}, P_{11}$ and so on
+to one tuple (N, p) such that $\exists i$ such that\\
+$per(M_{ii}) \ne P_{1i} \implies Pr[per(N)] \ne p \ge some$ large
+number close to 1. then we recurse to get 1. Note that size of N is $n-1$.\\
+If the guy cheated in the original permanent, then he
+must have cheated in one of the $sub-permanents$.
+\begin{itemize}
+\item
+Simpler version : (A, a), (B, b) are two nXn matrices.\\
+When this is done we repeat this $n-1$ times to get one final matrix.
+Task to get (C, c).\\
+Idea D(x) = $(1-x)*A + x*B$.
+$Degree(D(x)) \le n$
+$per(D(0)) = per(A) = a$ and $per(D(1)) = per(B) = b$.\\
+\item
+Now ask for the coefficients of per(D(x)) = p(x), a polynomial.
+The prover sends these coefficients.
+\item
+Now we first do the sanity check
+$p(0) = per(A) = a$ and $p(1) = per(B) = b$.\\
+\item
+Randomly choose r. We need to verify p(r) = per(D(r)).
+Compute p(r) and send D(r) to the prover to get c which is
+determinant of p(r).
+\item
+Now C = D(r) and the value we get back from
+the prover has to be p(r) = c.
+\item
+Check whether p(r) = c and now begin to
+check (C, c) and recursively move down.
+\end{itemize}
+The prover will get away only if at the last step
+is consistent while one of the permanents are wrong.\\
+
+Let original correct polynomial be p and wrong polynomial be p'.
+When $p(x) \ne per(D(x))$,\\
+Prover will get away iff $p' \ne p$ but
+$p'(0) = p(0)$ and $p'(1) = p(1)$.\\
+Pr[p'(r) = p(r)], then r is a root of $p'-p$.
+Therefore this polynomial has atmost n number of roots
+if unequal. Hence choosing r from a set of 2*n points we can bound the
+probability by n/N.\\
+Task : Verify whether per(C) = C.\\
+
+Now as we saw earlier we can simply run this $n-1$ times to get a
+$n-1$ matrix. Therefore like these there are n rounds of permutation.
+If prover gets away with any one step, then prover can succed in
+cheating us. If prover doesnt get away with any pair then he will
+definitely get caught.\\
+The probability that in the first set of rounds we are
+cheated is n*n/N where N deonotes the cardinality of the
+set from which r is chosen from.\\
+So as we just go down (ie) after n many such $n$ rounds,
+Probability that permanent of the trivial matrix
+is correct while the permanent of the origina is wrong
+would be n*n*n/N. If we choose N large enough, we can get away.\\
+It is public randomness.\\
+Hence $P^{\#P} \subseteq IP$.\\
+\end{itemize}
+By Toda's theorem $PH \subseteq IP$.\\
+We also get it as $PH \subseteq AM[poly]$.\\
+
+\subsection{$P^{\#SAT} \subseteq IP$}
+Uses arithmetization. Given $\phi$.
+Verifier verifies whether $\#\phi = k$.\\
+Imagine formula has not, and, or.\\
+Replace :\\
+$\overline{x_i} \leftarrow 1 - x_i$.\\
+$(x_i)*(x_j) \leftarrow (x_i)*(x_j)$.\\
+As not, and are done or can also be done.\\
+There are two properties of arithmetization :\\
+$\phi(a_1, a_2, .... a_n) = 0 \rightarrow
+\phi^*(a_1, a_2, .... a_n) = 0.$\\
+$\phi(a_1, a_2, .... a_n) = 1 \rightarrow
+\phi^*(a_1, a_2, .... a_n) = 1.$\\
+
+Protocol for SAT :\\
+Let $f_i(x_1, x_2,...x_i) = $ sum over rest of the variables
+$\phi^*(x_{i+1}, .... x_n)$.\\
+$f_i(x_1, ... x_i) = f_{i+1}(x_1, .... ,0) + f_{i+1}(x_1, .... , 1)$.\\
+Its easy to see that $f_0$ is \#SAT answer.\\
+$f_0 = f_1(0) + f_1(1)$.\\
+$f_1$ is a single variable polynomial(think and you will get).\\
+First ask for $f_0$. Then ask for
+\begin{itemize}
+\item Prover sends k or $f_0$.
+\item Verifier asks for $f_1$($x_1$) of degree less than 3*m.
+\item Verify $f_1 '(0) + f_1 '(1) = f_0$.
+\item Choose r at random and ask for $f_1(r)$.
+\item Recursively verify $f_1(r) = f_1 '(r)$ as follows :
+$f_1(r_1) = f_2(r_1, 0) + f_2(r_1, 1)$.\\
+Here in $f_2, r_1$ is already substituted. Hence $f_2$
+is a single variable polynomial.\\
+Prover should send univariant polynomial :\\
+$f_{i+1}'(x_1, x_2, ... x_{i+1}$ which is a polynomial
+in $x_{i+1}$ and go on recursively verifiying.
+\end{itemize}
+This is called the sum check protocol.
+\subsection{$PSPACE \subseteq IP$}
+Shamir :\\
+For any $x_1, ... x_n$ booleans,\\
+$\phi(x_1, ... x_n) = \phi'(x_1, x_2, ... x_n)$.
+Where the rhs is a polynomial.\\
+TQBF = \{ $\psi | \psi = \exists \forall .... Q_x.\phi(x_1, x_2, ....)\}$
+Q is either $\exists$ or $\forall$.\\
+We know that TQBF is PSPACE complete under polynomial many one
+reduction. Given $\psi$, replace $\exists$ with
+$\Sigma$ over \{0 ,1\} and the $\forall$ with $\Pi$ over \{0, 1\}.
+Now it reduces as if the summation and the product is greater than 0
+implies $\psi$ is true and 0 otherwise.\\
+Run the same protocol as before just that there are two problems : \\
+\begin{itemize}
+\item degree bound is $2^n$. We cant have so many coefficients.
+\item intermediate values are of the order $2^{2^n}$.
+\end{itemize}
+
+Now whenever there comes a $\forall$, introduce
+a $\exists$ as well with a renaming of the same variable
+and adding the clause that the renamed variable is equal to
+the original variable. At every level do it repeatedly
+if one is renamed already then rename it again. Now they might
+blow up the number of variables by a quadratic factor but still
+we are good. Hence we get that the degree bound is 2.\\
+
+Chinese remaindering :\\
+If $m_1$ to $m_k$ are relatively prime, then
+$x = a_1$ mod $m_1$ ... $x = a_n$ mod $m_n$,
+has a unique solution under mod $m_1*m_2...m_n$ let this be called M.\\
+$M_i$ = M/$m_i$.\\
+$y_i$ = ${M_i}^{-1}$ mod $m_i$.\\
+x = $a_1*M_1*y_1$ + $a_2*M_2*y_2$ ..... + $a_n*M_n*y_n$.\\
+Now x satisfies that property.\\
+We just need to show that summation is $non-zero$. The value
+of the sum is bounded by $2^{2^n}$. Consider $m_1$, $m_2$,...
+$m_k$ prime numbers, and take the product of $m_i$ is greater than
+$2^{2^n}$. Now this product is zero iff the actual value is 0
+because the value is less than $2^{2^n}$. Iff v mod $M$ is
+not zero then there exists $m_i$ such that v mod $m_i$ is not
+zero.\\
+k could be exponential. Prime number theorem states
+that number of primes less than or equal to k
+is approximately k/log(k). So pick
+all the primes less than $2^{n*log(n)}$ we are done as then the
+product will exceed $2^{2^n}$.\\
+Agree on an $m_i$ and prove that the value is not 0 mod $m_i$.
+Similar probability arguments.\\
+
+Hence we can easily that TQBF is realizable by IP and
+hence $PSPACE \subseteq IP$.
+
+\subsection{$IP = PSPACE$}
+Let us prove that $IP \subseteq NEXP$.\\
+The communication between the prover and verifier
+is over polynomial number of bits each time.
+The prover is communicating with the verifier. Guess
+the prover which is essentially a function f
+like f : ${\{0, 1\}}^{n^c} to {\{0, 1\}}^{n^c}$ which
+is possible via NEXP machine. Run over all the
+paths and running over all the
+possible(choices of) randomness. Use $f_p$ as the prover
+If fraction of accepts is greater than 2/3 (check this in
+each branch) then we are done.\\
+Basically :\\
+Given $x \in L$, Guess f : ${\{0, 1\}}^{n^c}$ to ${\{0, 1\}}^{n^c}$.\\
+Run the verifier on all the paths and check if it accepts on most paths.\\
+
+PSPACE Bound :\\
+Now do dfs and compute the tree in this manner :\\
+Prover will always choose the maximum number among its
+children so that it can make the verifier accept. Hence
+for computing prover, we just take the maximum of all the
+cost of the nodes and similarly for verifier we take the weighted
+average. Hence we finally just get a number between 0 and 1.
+If it is more that 3/4 we accept else we reject.\\
+
+\subsection{$MIP = NEXP$}
+Multi prover interactive proofs.
+Goldweisser: $P_1, P_2, .... P_k$ provers :\\
+These provers cannot interact before.
+$x \in L \implies \exists P_1, P_2, .... P_k Pr[P_1, P_2...-V] = 1$.\\
+$x \not \in L \implies \forall P_1, P_2, .... P_k Pr[P_1, P_2...-V] \le 1/3$.\\
+Its easily proved that $MIP \subseteq NEXP$.\\
+It was also proved that $NEXP \subseteq MIP$.\\
+
+\subsection{PCP}
+Multiple provers commit to a prover strategy and commit to a proof.
+$L \in PCP(r(n), q(n))$ if there is a PPTM non adaptive verifier such that :\\
+$x \in L \implies \exists \Pi Pr(V_{r}^{\Pi}-accepts) = 1$.
+$x \not \in L \implies \forall \Pi Pr(V_{r}^{\Pi}-accepts) \le 1/3$.
+r(n) is the randomness.\\
+A proof is written : q(n) bits are chosen from the proof each time.
+non adaptive is like one's answer cannot be used for another.\\
+It was shown that NEXP = PCP(poly, poly).\\
+NP = PCP(0, poly).\\
+CoRP = PCP(poly, 0).\\
+Arora Safra 1993 :\\
+NP = PCP(log, log) which simplifies to PCP(log, constant).\\
+Inapproximatabilty :\\
+Check maximum size of the independant size in the graph.
+Given G output the maximum size independent set. We
+will give an output I' which is reasonable close to I.
+$I' \le f*I$ where f is less than 1. How close
+f goes to 1 is what we are concerned about.\\
+
+Gap independent set is a decision problem. The input is
+graph G, $c \ge s > 0$. Ouput is Yes if G has independant
+set of size c*n and no if it doesnot have of s*n. This
+is a promise problem in the sense all inputs donot have fixed
+outputs. $s/c \le \epsilon$ is in P if\ $epsilon$
+algorihtm exists.\\
+
+$\epsilon-GAP-SAT$. Input is formula, output is yes
+if there is a satisfying assignment and no if all assignments satisfy
+atmost $(1 - \epsilon)$ fraction of clauses.\\
+If $\epsilon$ is 1/m then it is equivalent to SAT.
+Decreasing $\epsilon$ is a hard task.\\
+Theorem by Hastad : 1/8 Gap Sat is NP Hard.\\
+$1/8 + \delta$ Gap Sat is in P.\\
+
+q GAP CSP :\\
+Input is set of constraints where each constraint is a function
+which is $\phi_i(x_{i_1}, ... x_{i_q}) = 1$ or zero.
+n constraints are there. Output yes if there exists
+$a_1, a_2, ... a_n \forall i \phi_i(a_{i_1}, a_{i_2}, ...) = 1$.
+No if any assignment satisfies atmost 1/2 fraction of $\phi_i$.\\
+Theorem : $L \in PCP(O(log(n), q))$ iff $L \le_m q-GapCSP$.\\
+PCP theorem :\\
+NP = PCP(log(n), q).\\
+Theorem proof :
+\begin{parts}
+\part
+Given L in PCP(O(log n), q),
+$x \in L \implies \sigma(x)$ is yes.
+Given x, run over all choices of random strings y of size log(n),
+in $\{0, 1\}^{O(log(n))}$.\\
+Let $i_1, i_2, ... i_q$ be the locations
+that the verifer $V_y$ will query and write down the constraint
+$\psi_y$ which is a function from $\{0, 1\}^q \rightarrow \{0, 1\}$
+with input locations $\Pi_{i_1}, ... \Pi_{i_q}$.\\
+Now you accept if $V_y(a_1, ... a_q)$ accepts else rejects.\\
+Basically it writes down the truth table, based on all
+the $a_1, a_2, ...$.
+It is clear that it runs in polynomial time.\\
+$x \in L \exists \Pi Pr[V_y$ accepts] = 1,\\
+which $ \implies \exists \pi \forall y \psi_y(\pi_{i_1},
+\pi_{i_2}, ....)$ = 1,
+which implies $ \exists \pi(assignment)$ where all constraints
+are satisfied.\\
+$\implies \psi \in qGapCSP$.\\
+$ x \not \in \implies \forall \pi Pr[V_y $ accepts$] \le 1/2$.\\
+$\implies \forall \pi fraction$ $\psi_y$ such that
+$\psi_y(\pi) = 1$ is atmost 1/2.\\
+$\implies \psi \not \in qGapCSP$.\\
+
+If $L \le_{m}^{p} qGapCSP$.\\
+In q gapCSP we know that number of variables in a clause
+is q.
+We want to design a verifier,\\
+$\sigma : \Sigma* \rightarrow \Sigma*$.\\
+$x \in L : \implies \psi = \sigma(x) \in qGapCSP$.
+$x \not \in L \implies \psi = \sigma(x) \not \in qGapCSP \le 1/2$.\\
+You simply choose one at random and ask the proof and accepts
+if the constraint accepts else reject. As if it is in L,
+then all constraints are satisfied and if it is not so,
+then half of the constraints are not satisfied and we are still safe.\\
+Theorem : PCP(O(log(n), O(1)) = NP.\\
+$L \in NP \implies L \le_{m}^{p} qGapCSP$.\\
+If MAXIS has $\epsilon$ approximation, then when
+$s < \epsilon*c$, $(s, c)GapIS \in P$. We will prove
+this over time.\\
+
+
+\part
+$qGapCSP \rightarrow \epsilon Gap 3 SAT$.\\
+$\epsilon = 1/(64*2^q)$.\\
+Suppose there is an assignment on the RHS that
+satisfies more than (1 - 1/$64*2^q$) fraction of clauses,
+then there is an assignment that satisfies more than half fractions on LHS.\\
+(Similar to what is written above) :\\
+Any assignment violates atmost $1/(2^q*64)$ fraction
+of clauses. Number of clauses violated is atmost m/2 on RHS.
+This can affect atmost m/2 on the LHS. Hence if our assignment
+violates atmost $\epsilon$ then LHS violates atmost m/2 and we
+can safely say yes.\\
+Similarly starting at LHS we can go to RHS and we are done.
+\part
+For every $e > 0, \exists c > 0$, such that
+GapIS(c, e*c) is NP hard.
+Proof :\\
+q GapCSP can be reduced to GapIS(c, ec).
+Construct G as follows :\\
+\begin{itemize}
+\item A cluster of vertices for each constraint ($2^q$ vertices).
+Put only vertices which satisfies the assignment $\psi_i$.
+The other vertices connect it to $every$ other vertex in the graph.
+\item Each proper vertex can be interpreted as a partial assignment
+(Some may be left out that is why partial).
+\item $(u, v) \in E$ if $\exists i$ such that $u_i \ne v_i$.
+\end{itemize}
+Every cluster is a clique as each of them contribute to a different setting.
+Across clusters there can be edges which correspond to whether
+the variable used in one is negated in the other.
+Claim :\\
+If $\psi \in qGapCSP$ then G has an independant set
+of $size = m$. This is trivial. Take the cluster assign
+that vertex which was chosen in every set. This would give us an
+independant set of size m.\\
+Suppose the size of the independant set is atmost m/2,
+then we know that qGapCSP couldnt have had better. hence the reduction
+is proper and we have an e of 1/2. The c here is $1/2^q$.\\
+GapIS(c, ec) where $e > 1/2$ is harder than GapIS(c, (1/2)*c).
+Hence we are done for e greater than 1/2.
+Using PCP we can show that for $e < 1/2$.\\
+\part
+$NP \subseteq PCP(n^{O(1)}, O(1))$.\\
+We will show that $Quad$ Equation solution is NP complete.
+$x_i*x_j = b_k$ and so on.
+Lin is set of all A, b such that all additions and multiplications
+are over modulo 2 and Ax = b where x is the solution vector.\\
+Both prover and verifier have access to both prover and verifier.\\
+\begin{itemize}
+\item Trivial takes n queries : which asks for each variable.
+\item Choose r at random from ${F_2}^n$.
+Check $r^{T}Ax = r^{T}b$.\\
+If Ax = b, then for all r this will hold true.
+Pr[$r^{T}(Ax-b) = 0$] = 1/2.
+Think about $Ax-b$ which is non zero. Let $Ax-b$ at i th index be non zero.\\
+Let r' be such that $r^T(Ax-b) = 0$ then see r'' such that only
+the i th index is flipped this will now be 1. Hence we are done.
+Hence the probability is exactly half.
+\item Compute $r^{T}A = c$. Query x to compute cx and if $cx = r^{T}b$
+and accept.
+\item Insist that the proof contains not only $x_1, x_2, .... x_n$,
+but all cx for all c in ${F_2}^n$ and hence this is exponential.\\
+Let i th bit be cx which is summation $x_i$ such that $c_i$ is 1 mod 2.
+Essentially this cx can be thought of as a truth table.\\
+If the prover is honest we can be at peace. But if it is not the case
+then we cannot catch him because when the prover knows what
+c is asked, he will find the r based on the c given, and write
+out $r^{T}b$ throughout and hence cheat peacefully.
+\item Hence before he does all this, the verifier checks if the
+proof is of the form dx for some x. Querying and analysis is done below :\\
+This function is linear that is f(x+y) = f(x) + f(y) for all x and y.\\
+Iff it is a linear function then there exists z such that f is the
+inner product function for that particular z.
+This can be proved based on the fact that basis alone is
+necessary and sufficient to control the function and hence
+there are $2^n$ such functions which exactly match number of
+inner products which is also $2^n$.\\
+We will perform linearity check on f which is the proof. Its
+clear that once this is done we can proceed to check sanity
+based on cx like already mentioned.\\
+
+BLR test :\\
+\begin{itemize}
+\item
+Choose x , y uniformly at random from ${F_2}^n$.
+\item
+Query f at x, y and x+y and accept if f(x+y) = f(x) + f(y).\\
+\end{itemize}
+
+for $\delta < 1/12$.\\
+If a proof is very close to linear or linear. If f and g are
+$\delta-far$ if $Pr[f(y) \ne g(y)] \ge \delta$.\\
+If f is linear then there is no error.\\
+If f is $\delta$ far from any linear function the algorithm
+rejects with probability greater than equal to $\delta/2$.\\
+
+If $\delta < 1/12$ say it is 1/2, we will in anycase end up with atleast
+1/24 error as $\delta = 1/12$ it still works, but showing 1/4 will
+become hard.\\
+
+One side is easy. That is no error is easy.
+Let us prove the second part :\\
+Let us assume that T rejects with probability less than $\delta/2$.
+there exists a function f such that $Pr[l(x) \ne f(x)] < \delta$
+We will prove the above statement\\
+Let l(x) = 1 if $Pr[f(x+y) + f(y) = 1] \ge 1/2$ and
+0 otherwise which is equivalent to saying
+$Pr[f(x+y) + f(y) = l(x)] \ge 1/2$.\\
+We need to prove that l is linear and fraction of x
+such that l(x) not equal to f(x) is less than $\delta$.\\
+\begin{itemize}
+\item l is linear.
+Define $S \subseteq {\{0, 1\}}^n$ the set of x such that
+$Pr_x[Pr_y[f(x+y) \ne f(x) + f(y)] < 1/4] < 2*\delta$.\\
+Claim :\\
+When $x, y \in S$, then l(x+y) = l(x) + l(y).\\
+Observation :\\
+$Pr_y[f(x+y) = f(x) + f(y)] \ge 3/4$\\
+and $Pr_y[f(x) = f(x+y) + f(y) \ge 3/4]$ both refer
+to the same set of x and hence l(x) = f(x).\\
+
+Now onwards replacing y with u.
+$Pr_u[l(x) \ne f(x+u) + f(u)] < 1/4$.\\
+$Pr_u[l(y) \ne f(y+u) + f(u)] < 1/4$.\\
+Claim 2 : $Pr_u[l(x+y) \ne f(x+u) + f(y+u)] < 1/2$.\\
+If we prove the third statement then we get that
+l(x+y) = l(x) + l(y) because there exists atleast
+one u which goes doesnot satisfy any of the three inequations.\\
+Hence $x, y \in S \implies l(x+y) = l(x) + l(y)$.\\
+If we prove Claim 2 then Claim 1 is proved.
+$l(x+y) = l(x + u + y + u)$.\\
+let x' = x + y and y' = y + u.\\
+Hence $x \in S$ and $y \in S$ then
+Hence we get the probability same as
+$Pr[l(x') = f(x+y) + f(y)]$ which $is \ge 1/2$. This follows from $Pr_y[f(x+y)+f(y) = l(x)] \ge frac{1,2}$ \\
+
+\item $Pr[l(x) \ne f(x)] < \delta$.\\
+From assumption :\\
+Probability that $f(x+y) \ne f(x) + f(y)$ is less
+than $\delta/2$.\\
+$Pr_x[ Pr_y [f(x+y) \ne f(x) + f(y)] \ge 1/2]] < \delta$.\\
+which gives $Pr_x[ Pr_y [f(x+y) + f(y) \ne f(x)] \ge 1/2] < \delta$.
+$Pr[l(x) \ne f(x)] < \delta$.\\
+
+Size of S can be shown to be atleast $(1 - 2*\delta)*2^n$.\\
+For all x, y in S, l(x+y) = l(x) + l(y).\\
+If we show that $Pr[l(x+y) \ne l(x) + l(y)] = 0$, then we essentially
+show that it is linear.\\
+$Pr_u[l(x+u) + l(u) \ne l(x)] < Pr_u[ x + u \in S] < 2*\delta + 2*\delta$.\\
+This is because the possibility that one holds is less. Hence we have
+chosen additive and hence we are good.\\
+$Pr_u[l(x+u) + l(u) \ne l(x)] < 4*\delta$.\\
+$Pr_u[l(y+u) \ne l(y) + l(u)] < 4*\delta$.\\
+$Pr_u[l(x+y) \ne l(x+u) + l(y+u)] < 4*\delta$.\\
+These three implies :\\
+let x now denote x+u and y denote y+u,\\
+$Pr_u[l(x+y) \ne l(x+u) + l(y+u)] < 12*\delta <  1 $(as it is less than 1/12).\\
+Hence it has to be zero because the event is independent of u.\\
+\end{itemize}
+
+In this test we may accept or reject. The probability
+which we fix is 9/10. Hence it is 1/10 close to linear.
+Based on whether the answer is yes or now continue or reject.\\
+There is a possibility of an error.
+\item If cx = $r^{T}b$ for some x then accept. If this queries
+the shaded area meaning faulty places then it would pain us.
+Hence what we do is, we would go ahead and query c + u
+and u. Now these are uniformly chosen at random, the worst case
+in which these dont agree is $2*\delta$ (the point where atleast one
+is not linear). Hence with probability 4/5 we get away well for $any$ proof.\\
+This comes to the end of solving solving linear equations using PCP.\\
+\end{itemize}
+\part
+QuadEq :\\
+First seperate all quadratic terms as :\\
+That is $y_{ij} = {x_i}*{x_j}$.\\
+
+Do Linear PCP solver.\\
+The prover wil give me whether it is solvable with reasonable probability.\\
+Let $P(b_1, b_2, .... b_n) = b_1*x_1 + b_2*x_2 + .... b_n*x_n$.
+Choose $b_1$ to $b_n$ and $c_1$ to $c_n$ uniformly at random
+and check $P(b_1, b_2, ... b_n)*P(c_1, c_2, .... c_n) = \Pi(b_1*c_1, b_1*c_2 ... + b_n*c_n)$.
+where $\Pi(a_{11}, a_{12}, ....) = \Sigma a_{ij}*y_{ij}$. If the proof
+is correct then this valid.\\
+Suppose there exists an i,j such that $x_i*x_j \ne y_{ij}$.\\
+LHS = $\Sigma b_i*c_j*(x_i*x_j)$.\\
+RHS = $\Sigma b_i*c_j*(y_{ij})$.\\
+Write the above as $LHS - RHS$ which we know is not a zero polynomial.\\
+We have a polynomial q($b_1, b_2, ... c_1, c_2, ... c_n$) = $\Sigma b_i*c_j*w_{ij}$.\\
+Here $w_{ij}$ denotes the difference between $y_{ij}$ and $x_{ij}$.
+Hence we have a polynomial which is non zero. We can write the above as :\\
+$\Sigma b_i*(\Sigma c_j*{w_{ij}})$. Now apply the inner product
+thing which we did before for the inner summation (with probability 1/2)
+and which can be zero and the outer summation could also be zero with
+probability 1/2 and hence the prover can escape with probability 1/4 overall.
+Hence PCP[O(n), O(1)] contains NP.\\
+
+
+\part
+$NP \subseteq PCP(O(log(n)), O(1))$.\\
+Now onwards $PCP = PCP(O(log(n)), O(1))$.\\
+Irit Dinur 2005 for proving this combinatorially :\\
+$L \in PCP$ iff $L \le qGapCSP$ with soundness = 1/2.\\
+Aim : 3SAT should reduce to qGapCSP.\\
+There is definitely 1/m soundness gap in this because when it is not
+satisfied then atleast one clause is not satisfied.\\
+
+Given $\Psi(qCSP)$ (that is 3 SAT) with number of constraints
+equal to m, completeness 1 and soundness $1 - \delta$, we convert it
+into one with number of constraints equal to Cm where C is a constant,
+completeness 1 and soundness $1 - 2*\delta$.\\
+
+\begin{parts}
+\part
+2GapCSP is one where every every clause contains 2 variables
+but need not be boolean.\\
+queries meaning variables in a clause.\\
+Consider reduction from CSP with q queries with alphabet $\Sigma$ to CSP
+with 2 queries with alphabet size $\Sigma^q$ as follows :\\
+Have m variables $y_1, y_2, ... y_m$ one for each clause and the initial
+variables be $x_1, x_2, ... x_n$ be taken as such.\\
+For every $y_i$ connect them to all the $x_j$ which it depends on in a graph.\\
+The completeness is peaceful.\\
+For soundness we will prove the following :\\
+Claim :\\
+$1 - \delta \leftarrow 1 - \delta/q+1$.\\
+If any assingment violates atleast $\delta$ fraction of clauses in $\psi$,
+this implies any assignment violates atleast $\delta/q+1$ fraction in $\psi'$.\\
+Proof :\\
+Suppose there is an assignment for $\psi'$ that violates less than
+$\delta/q+1$ fraction of constraints. Now there are qm + m constraints
+in total. That is one constraint for each edge of $y_i$ to $x_j$
+and one for each $y_i$. The total number of violations
+is less than (q+1)*m*$\delta$/(q+1) = $\delta$*m.
+Hence this implies that it violates atmost $\delta$ fraction of constraints
+in $\psi$.\\
+\part
+Now step zero is done. Lets move to step 1.
+Here we are going to reduce degree of $y_i$ 's from q to a constant
+and the $x_i$ 's degree. Soundness in here is $\delta/(q+1)*c$.
+$0 \le \alpha \le 1$.\\
+G(V, E) is a (d, $\alpha$) expander if forall
+S subset of V, $|S| \le |V|/2$ and
+$E(S, \overline(S)) \ge \alpha|S|$.\\
+Given n the map n to $G_n$ is computable polynomial in n where
+$G_n$ is a (d, $\alpha$) graph with n vertices.\\
+Lets consider our graph from step 1.\\
+Let a vertex have $n_i$ degree. Replace this with a
+cluster(with $n_i$ vertices) and let one vertex's edge going
+to another in original graph be translated as one of the vertices
+from the cluster going to another vertex from another cluster.
+Remember that each constraint looks at two variables and a
+truth table corresponding to it. There will
+be d/2 outgoing edges(multi edges) for every connection outside.
+Within the cluster there is a d/2 degree expander and hence we end up
+with total degree d. Any constraint across cloud is retained as before.
+All constraints within the cluster will be equality constraints.\\
+We assume $n_i > d/2$ is decent, even otherwise we can just add some
+more trivial constraints.\\
+Number of variables is equal to the sum of the degrees in the
+original graph. Number of constraints is also polynomially
+many.\\
+If the completeness of the original instance is one, then here again
+it is 1 because we can validly translate the true instance.
+Hence completeness is satisfied.\\
+
+Soundness claim :\\
+If $x'$ is an assignment which violates atmost $\epsilon$
+fraction of constraints of $\psi'$, then there is an assignment
+x that violates atmost $18*\epsilon$ fraction of constants in $\psi$
+(Contra positive statement).\\
+
+Number of constraints within the cloud (cluster) = $d/2*\Sigma(n_i)/2$.\\
+Number of constraints across cloud = $d/2*m$ where m is the
+number of constraints which is essentially $\Sigma n_i/2$.\\
+Hence total number of constraints is dm.\\
+
+Proof :\\
+Let x' be the assignment that violates atmost $\epsilon$
+fraction in $\psi'$. Define x as the plurality assignment
+that is the one with the maximum frequency or the mode
+(not exactly majority because the values need not be zero or 1).\\
+Let $\epsilon_i$ be the fraction of violations with cloud
+i.\\
+$\Sigma(\epsilon_i*(d*n_i)/4) \le \epsilon*dm$.\\
+Set of vertices within the cloud that agreed with the plurality
+is $S_i$. Aim is to upperbound $S_i$.\\
+Claim :\\
+$|\overline{S_i} \le 4*\epsilon_i*n_i$.\\
+$S_i$ is the set of vertices in cloud i agreeing with the plurality
+assignment.
+For proving the above we will use the expander argument.
+The maximum number of violations with respect to changing everything
+to the plurality assignment is
+$\epsilon*d*m$ + $\Sigma |\overline{S_i}|*(d/2)$ which is essentially
+$5*\epsilon*dm$ = $18*\epsilon*m*d/2$.\\
+Now anyway we have the soundness claim lets move to proving the expander
+claim.\\
+
+Case 1 :\\
+$|S_i| \ge n/2$, then $\overline{S_i} \le n/2$.\\
+$|E(\overline{S_i}, S_i)| \ge d*(|\overline{S_i}|)/4$ (expanderization)\\
+Therefore the violated edges are $\epsilon_i*d*n_i/4$.\\
+Therefore $d*|\overline{S_i}| \le \epsilon_i*n_i*d \le 4*\epsilon_i*n_i*d$.\\
+
+Otherwise the number of violations
+within the cloud is too much such that we end up with
+$\epsilon_i \ge 1/4$ and we would end up with the clim we got.\\
+
+\part
+This part is expanderization. Here we are going to expanderize
+the graph and soundness $\delta/(q+1)*2c$ and degree will be 2*c.\\
+
+We want the spectral gap to be atleast one fourth. Take H an
+algebraic expander such that $\lambda_2(H) \le 1/2$ on n vertices.
+Now take $G \cup H$. This will have spectral gap of atleast 1/4.\\
+Hence the above conditions (above para) are satisfied.\\
+All the new constraints are trivially true this is why the soundness
+goes up.
+
+If we walk logarithmically many steps, the probability
+of reaching any vertex is 1/n (uniformly at random).\\
+
+\part
+This part is Gap Amplification.\\
+Here the soundness is amplified.\\
+
+For every vertex, make it a tuple of $all$ the vertices
+which are at t distance from it. Therefore one vertex would
+potentially be included in many such circles.\\
+
+Distribution of constraints :
+\begin{itemize}
+\item Let $v_0$ be the starting vertex.
+\item Repeat the following $5t*log(\Sigma)$ times :\\
+From $v_i$ choose a random neighbor to reach $v_{i+1}$.
+\end{itemize}
+Running through all of them
+Constraints are as follows :\\
+$\psi'$ for every path starting vertex u and ending vertex v
+with path length $5*t*log(\Sigma)$.\\
+Now $\psi'(u, v)$ is 1 iff :\\
+\begin{itemize}
+\item Consistency check within ${x'}_u$ that is the translation of
+original $\psi$ for all those atmost t from it.
+\item Consistency check within ${x'}_v$ similar to above from
+all those atmost t from it.
+\item The intersecting vertices should be the same. That is
+there might be some vertices which are within t from either of them
+(not necessarily in the path).
+\end{itemize}
+This is going to give us a soundness of $1 - t*\delta/{|\Sigma|}^4$.\\
+
+If there exists an assignment that violates atmost $t*\delta/{|\Sigma|}^4$
+fraction in $\psi'$ then there is an assignment that violates atmost $\delta$
+fraction in $\psi$.\\
+The contrapositive of which is :\\
+If there exists an assignment that satisfies atmost $1-\delta$
+fraction in $\psi$ then there is an assignment that satisfies atmost $1-t*\delta/{|\Sigma|}^
+4$ fraction in $\psi'$.\\
+
+
+We are going to construct an x from the x'.\\
+
+For every vertex u :\\
+Define the distribution $D_u$ as follows :\\
+Set $u'=u$, repeat the walk at random for t steps.
+Maximal path of length less than t and all of length t.\\
+Set $x_u$ as the plurality value of $x_{v'}(u)$ where v' is chosen
+according to $D_u$.\\
+
+Now we will prove the contrapositive.\\
+Let $\psi' \in \Psi'$ be a randomly chosen constraint.\\
+$\psi'$ is a path as well if we see the construction. Hence
+Let F be the set of edges or constraints violated by x in $\psi$.
+Pr[x' violates $\psi'$] is greater than or equal Pr[$\psi'$ intersects F]*Pr[x' violates $\psi'$ |
+$\psi'$ intersects F]. Basically this is Bayes theorem applied
+and that $\psi'$ doesnot intersect F is ignored.\\
+Pr[$\psi'$ intersects F] will come out to be more than $t*\delta$.\\
+
+
+
+\part
+This part is Alphabet reduction. We finally get back to number
+of alphabets equal to 2.\\
+$\psi$ of ${0, 1}^\sigma$ goes to $\psi'$ of ${0, 1}$.\\
+\end{parts}
+\end{parts}
+
+
+\section{Boolean Circuit Model}
+Parallel algorithms.\\
+
+Let us say we are given $x_1, x_2, ... x_n$
+and asked to compute xor of all these, then we can compute them
+within log(n) time if computed parallelly if we pair up and go on.
+We can reuse the processors in the first level and so on which
+gives us n/2 processors.\\
+
+One computation setup for each input length.\\
+Given gates (and/or/not) with arbitrary input length, we
+can use the truth table and make it an and and or tree of depth 2.\\
+But now the number of gates could potentially be exponential.\\
+
+$L \subseteq \Sigma*$.\\
+Now $\cup L \cap {\{ 0, 1\}}^n$ for all $n \ge 0$.\\
+$X_L(n)$ is the characteristic collection for the particular n.\\
+
+A boolean circuit C is a DAG with :
+\begin{itemize}
+\item Each vertex labelled with \{and, or, not, $x_1, ... x_n$\}.
+\item a special vertex is called the root which has out degree 0.
+\item All in degree 0 vertices are labelled $x_1, ... x_n$.
+\item in degree of each vertex = fan in of the gate label.
+\end{itemize}
+Basis :\\
+Input is $\omega \subseteq set $ of all $f | f \in {\{0, 1\}}^n \rightarrow
+\{0, 1\}$.\\
+Any function is computable using $\omega$.
+How do we decide if $\omega$ is universal ?\\
+Emil Post (1944) :\\
+Theorem :\\
+$\omega$ basis is a complete basis iff :\\
+\begin{itemize}
+\item $\exists f \in \omega$ f(0, 0, 0,... 0) = 1. (Think about necessity)
+\item $\exists f \in \omega$ f(1, 1, 1, ... 1) = 0. (Think about necessity)
+\item There exists a non monotone function (ie) monotonicity
+based on $x \le y$ iff $x_i \le y_i$. If $x \le y$ then $f(x) \le f(y)$.
+Note that this is not a total order. Boolean hyper cube is
+one where each coordinate is either 0 or 1 and dimension is
+some n (it consists of all such points). Now any path from
+$0^n$ to $1^n$ there is a transition from 0 to 1. Or, and, majority
+are all such monotones.\\
+Consider Clique as a boolean function as follows : Let an input
+represent the adjacency matrix. Then it is easy to note that
+it is monotone.\\
+
+If there are no non monotone function then we can never realize
+a non monotone function. Hence necessity is proved.
+\item $\exists f \in \omega$ f is self dual implying :\\
+$f (\overline{x_1}, \overline{x_2}, .... \overline{x_n}) =
+\overline {f(\overline{x_1}, ... \overline{x_n})}$.\\
+Not is a self dual which can be easily seen.
+\item f is affine if $f(x_1, ... x_n)$ = parity of all $x_i$ for
+some $x_i$.\\
+There exists a non affine function.
+\end{itemize}
+Note that each of these are easy to check.\\
+
+If the fanin is bounded then the choice of the complete basis
+doesnot increase the size or depth of the circuit beyond a constant
+factor. If the fanin is not bounded then it could possibly
+blow up the size of the circuit.\\
+
+Family of Boolean Circuits :\\
+The family of circuits compute a language L if $\forall x \in \Sigma^*$,
+|x| = n. $x \in L \leftrightarrow c_n(x) = 1$.\\
+Assume gates have bounded fanin.\\
+Size of the gates in $C_n$ as a function of n.\\
+Depth is the length of the longest path from the root to any input.
+This is also bounded by some function of n.\\
+PSIZE : A set of all languages such that $\exists C_n$ computing L
+such that size of cn is poly(n).\\
+It is easy to see that $PSIZE \subseteq P/poly$ as we can
+just give the circuit as advice and let the machine use
+it as a circuit and compute values on the go.\\
+Claim :\\
+$P \subseteq PSIZE$.\\
+$L \in P$ via M running in time p(n). Remember cook levin
+reduction. This can be done now in linear time as well which
+ensures correct movement of the turing machine through every step.
+The final cell in the final column should be verified to 1.
+We even know how to specify this family.\\
+To show that $NP \ne P$, it suffices to show that $NP \not \subseteq PSIZE$.\\
+$P/poly \subseteq PSIZE$.\\
+Now make all the queries to the poly certificate based on a circuit
+as the certificate can be assumed to be known to some PSIZE machine.
+We can do so because we can freeze the circuit for size n.\\
+
+If $NP \subseteq PSIZE \implies PH = \Sigma_2$.\\
+If $EXP \subseteq PSIZE \implies EXP = \Sigma_2$.\\
+
+Is there any function family for which $f_n$ maps n bits to 1 bit and
+a polynomial size circuit doesnot recognize it ?\\
+
+Are there boolean functions f which cannot be computed by circuits
+of size poly(n) ?\\
+Shannon(1942) :\\
+For most of the functions f the smallest circuit is of size
+atleast $2^n/n$. Gates have fanin 2.\\
+Total number of functions f = $2^{2^n}$.\\
+Claim : No of circuits with size less than or equal to $2^n/n$
+is less than or equal to $2^{2^n}/(2^{2^n*log(n)/n})$.\\
+Let total number of gates be s.\\
+H(n, s) = number of circuits with n inputs
+and less than or equal to 16.
+How do we go about describing a circuit of size less than s.\\
+\begin{itemize}
+\item One of the s gates are called root.
+\item Each internal gate g
+\begin{itemize}
+\item The inputs to g can be filled in (n+s) ways
+each amounting to a total of ${(n+s)}^2$.
+\item any 16 boolean function could be there at g.
+\end{itemize}
+\end{itemize}
+Therefore number of possible circuits is bounded by
+$s*{({(n+s)}^2*16)}^s/s!$. The overall number is
+divided by s! because all the gates could be relabelled (This
+analysis doesnot eliminate duplicates via renaming).\\
+Therefore $log(H(n, s)) \le log(s) + 2*s*(log(n+s)) + 4*s
+- log(s!)$.\\
+$s! \ge {(s/e)}^s$.\\
+Hence we get :\\
+$log(H(n, s)) \le log(s) 2*s*log(n+s) + 4*s - s*(log(s) - log(e))$.\\
+wlog $n \le s$ and $n+s \le 2*s$.\\
+Substituting $s = 2^n/n$.\\
+From which we can get $log(H(n, s)) \le 2^n - (2^n/n)*log(n)(1 - o(1))$.\\
+From which we get that with such an s, we can realize only
+$2^{2^n}/(2^{2^n*log(n)/n})$ number of circuits and hence we are done.\\
+
+Consider a boolean function written in POS. Now replace the
+$2^n$ input or gate with a depth of n and $2^n-1$ binary ors
+and similarly the n input and gates must be replaced. Therefore
+maximum number of gates required is less than or equal to $(n+1)*(2^n)$.\\
+
+Lupanov(1958) :\\
+Any boolean function can be computed using and, or and not
+by a circuit of size (1 + o(1))*$2^n/n$ where
+o(1) is bounded by log(n)/n.\\
+Let f be our required function.\\
+f($x_1$, $x_2$, .... $x_n$) = ($x_1 & f(1, x_1, x_2, .... x_n)$) or
+$\overline{x_1} & f(0, x_1, x_2, ... x_n)$. (Trivial)\\
+We are going to bound the depth of the recursion to some k
+and fill it in with all the $2^{2^k}$ functions in some manner.\\
+There is a function(known) that requires 5*n - O(1) number of gates.\\
+We will show a function which requires 2*n - 4 gates.\\
+Threshold function : $f(x_1, x_2, x_3, .... x_n)$ = 1 if $\Sigma x_i \ge k$.\\
+and 0 otherwise.\\
+Parity(xor) gives us a $3*n-3$ upper bound and the lower bound
+which is essentially tight.\\
+Gate elimination Argument :\\
+If and, or, not are allowed then the threshold-2
+function requires 2n-4 gates.\\
+Induction on n :\\
+Consider a circuit C which is optimal in size (gates and wires).
+Optimal in gates with minimum wires.\\
+Corresponding to these input variables we can show that certain
+gates must be set.\\
+Let g be the first gate in C. First gate is any gate which takes
+its inputs from the variables. Let g take input from $x_i$ and $x_j$.\\
+
+Let us prove the following :\\
+Ateast one of $x_i$ or $x_j$ must feed into another gate.\\
+$x_i$ and $x_j$ pair have four possible settings.\\
+$Th_{n-2}^{0}$ in which it will go to if both are 1.\\
+$Th_{n-2}^{1}$ in which it will go if one of them are 1.\\
+$Th_{n-2}^{0}$ in which it will go if both of them are zero.\\
+
+Assume $x_i$ and $x_j$ go $only$ to g, then it should
+potentially compute three different functions for different a
+and b, but g can take only two values. Hence contradiction established.\\
+
+Hence set $x_i$ = 0, then the circuit computes,
+Now if this forces another gate to compliment, then modify
+all the gtes for this this gate is an input and modify its
+truth table so as to accomodate this.\\
+$Th_{n-1}^{2}$ by induction the below
+requires atleast 2*n-6 and hence we are done here. (Basic Induction)\\
+
+Theorem : XOR and NOT(XOR) requires 3*(n-1) gates while using and, or, not.\\
+Induction on n :\\
+In a similar manner to before we can argue that there
+exists a variable which has to be input to two gates. Let
+those two gates be g and g'.\\
+Let h be the successor of g.\\
+Case 1:\\
+There exists no other successor other than g'.\\
+Now consider the successor of g' which maybe h.
+Now set $x_i$ to 1 if g' is or and it to 0 when g' is and.
+In this case we can remove h a well.
+Case 2:\\
+There exists another successor h.\\
+In this case if we can set
+$x_i$ such that we can eliminate all the three gates.
+$x_i$ = 1 for or, $x_i$ = 0 for and.\\
+
+Aim : Clique is not in PSIZE. (Very Hard).\\
+We will work with circuits which donot use negation gates.
+Composition of monotone functions give us a monotone function.\\
+All monotone function can be computed with only or, and gates.
+Clique is a monotone function, though SAT is a non monotone function.\\
+But someone has shown that Clique is not in monotone PSIZE.\\
+\begin{itemize}
+\item We can force it to not use 'not' gate at all.(Functionality)
+\item We will restrict the circuit parameters like depth, etc.
+\item We can restrict the fanout.
+\end{itemize}
+Even if $NP \subseteq PSIZE$ but still $P \neq NP$.\\
+
+Uniformity of the circuit family :\\
+It is the complexity of obtaining $C_n$ given n in unary.\\
+Now it is clear that $NP \subseteq P-uniform$ PSIZE then it implies
+$P = NP$. L-uniform PSIZE also has similar notions.\\
+
+We know that $P \in PSIZE$. It is easy to see that $P \in P-uniform$ PSIZE
+because we can hardwire the configuration of the turing machine at
+each transformation. We can also see that this computation is in
+L-uniform PSIZE. $P \in P-uniform$ PSIZE and $P \in L-uniform$ PSIZE.\\
+But we know that $P-uniform$ $PSIZE \in P$ trivially as we can just
+simulate the P-uniform PSIZE in P !!!!!\\
+Therefore P = P-uniform PSIZE = L-uniform PSIZE.\\
+Hence iff $NP \in P-uniform$ PSIZE $P = NP$.\\
+
+$A \le_{M}^{P} B$. Then B is in PSIZE implies A is in PSIZE.(easy to show)\\
+
+Parity : Is very sensitive on the input. It can be done
+with O(n) gates, depth O(log(n)), fan-in 2, and fan-out 1.
+Adding two n bit numbers (looking at the first bit):\\
+This can be done in a normal fashion or in a carry lookahead adder fashion.\\
+Using gates we can encode how to make a carry look ahead adder.\\
+$C_i = 1$ there exists a k less than i such that $a_k$ and $b_k$ both are
+1 and for all j between k and i atleast one of the bits must be 1.
+We get all the carry bits at depth 2 (input layer is excluded). $C_n$
+can be figured out within constant depth. This is an unbounded
+fanin circuit. We also have polysize circuit with depth log(n), polysize
+circuit and fanin 2.\\
+
+This gives us a difference between XOR and ADD that ADD requires constant
+depth with polynomial number of gates and polynomial fan in.\\
+
+Parallelability :\\
+We call a family called Poly log depth this is called the NC. Normal
+sequential time would take poly time, but these take poly log time
+given parallelability.
+
+The constant depth class is known as ${AC}^0$.
+Set of all functions that can be computed with logarithmic depth,
+fanin 2, polysize is called ${NC}^1$.\\
+It is easy to see that ${AC}^0 \subseteq {NC}^1$.\\
+Let us think about uniformity in these classes.\\
+Theorem : Log uniform ${NC}^1 \in L$.\\
+Proof :\\
+Our aim is to design a log space membership test. Input is
+x, we first ask the uniformity machine to get the circuit out of it.\\
+That is whenever we require the circuit, we will just compute it
+on the fly (log space reduction transitivity).\\
+
+Now we need to compute this in O(log(n)) space. Layer by layer
+evaluation will require polynomial number of gates (one layer might
+have polynomially many gates). But we can compute this in a
+depth first manner. In this way for each path we might require
+log(n). But as the fan in is 2 we can easily see that just remembering
+whether we went left or right at each node would
+be sufficient for computation. Hence we require only log space
+for the whole algorithm. Hence log space uniform ${NC}^1 \in L$.\\
+
+Log space uniformity ${AC}^0 \subseteq Lsu {NC}^1 \subseteq L$.\\
+
+Efficiency Depth :\\
+NC = \{L | $\exists \{C_n\} \forall n \ge 0$ computing
+L such that size of $C_n$ is poly(n) and depth is poly(log(n)) and fan in is 2.
+\}
+${NC}^1 \subseteq NC$.\\
+Easy to see that $NC \subseteq P$, this is because circuit
+value problem is in P.\\
+Where ${NC}^i$ is slice of $NC$ where depth is ${log(n)}^i$.\\
+${NC}^0$ is evidently a very small class.\\
+
+
+${AC}^i$ is where size is poly(n), depth is ${log(n)}^i$
+and fanin = unbounded.\\
+$AC = \cup {AC}^i \forall i \ge 0$.\\
+It is easy to see that ${AC}^{i} \subseteq {NC}^{i+1}$.\\
+Trivially ${NC}^i \subseteq {AC}^i$.\\
+Hence we get $AC = NC$ and both are contained in P.\\
+Savitch Theorem : $NL \subseteq {L}^2$.\\
+From this we will prove that $NL \subseteq {AC}^1$.\\
+Given graph G, s and t we will check whether there
+exists a path from s to t in a DAG(this statement is complete
+for NL).\\
+Look at s and t with path length less than $2^k$,
+reach($\alpha, \beta, k$) = 1  if $\alpha to \beta in 2^k$
+otherwise. We can say that there exists $\gamma$ such that
+it is inbetween and has length atmost k-1 from each.
+Here we can reuse space that is first test for $\alpha to \gamma$
+completely and then move on to $\gamma to \beta$.\\
+It can be easily seen that this is in ${AC}^1$ via the
+following :\\
+Have an or gate(simulating exists) and wire it to
+n and gates which correspond to the 'and' condition
+specified in the savitch theorem. Now note that we need
+to reuse the gates as one for each
+reach($\alpha, \beta, k$). Hence we can also see that size is
+polynomial(To be precise $n^2*log(n)$. It is easy to see that
+it is log space uniform.\\
+We can seperate P from NL if we show P is not in ${AC}^1$.\\
+It also suffices to argue that CVP cannot be computed by
+nondeterministic log space machines or ${AC}^1$ circuits.\\
+This is a very strong statement. Even if we say it is not
+computable by log space uniform we can still seperate.\\
+We required only 'or' to be unbounded which is called semi
+bounded circuits.\\
+
+Adding two n bit numbers is in ${AC}^0$, xor two n bit numbers
+is in ${NC}^1$.\\
+Adding k n bit numbers(${ADD}_{k}^{n}$) is harder than multiplying two numbers,
+adding two n bit numbers.\\
+Offman's Technique :\\
+Group n into groups of 3 and make two n bit numbers out of it.\\
+That is you simply put the sum of each three bits forgetting the carry
+and put the carry of each bit in a separate carry (n+1) bit number. If
+we add these two we are done.\\
+
+Now we have reduced the size to 2/3 of the original size. We can
+continue this for O(log(n)) many steps we will reach a trivial stage where we
+need to add two (n+log(n)) bit numbers which we will achieve by the
+${AC}^0$ circuit. The output is the most significant bit. Now it
+is clear that the above can be recognized by ${NC}^1$.\\
+
+Hence multiplying two n bit numbers can also be easily done by ${NC}^1$.\\
+Threshold ${Th}_{k}^{n}$ = 1 where summation $x_i$ is greater than k and
+0 otherwise. If we can add these 1 bit numbers then this is easy.
+Hence this is in ${NC}^1$. This is less harder than ${ADD}_{n}^{1}$.\\
+
+BITCOUNT where output is log(n) bit number representing summation $x_i$ is
+also trivially in ${NC}^1$.\\
+
+Constant depth $f \le_{cd}^{p} g$ if there is a constant
+depth circuit computing f using g (as gates in the circuit).
+These are counted as gates in the circuit. These
+classes are closed under turing reductions. Hence we study only
+turing reductions.\\
+
+$Mul \le ADD$.\\
+$Th \le BITCOUNT$.\\
+$BITCOUNT \le PARITY$.\\
+$Th \le Majority$ (Shifting the middle bit by adding zeroes, or adding ones
+after comparing input with n/2. Note that this requires two gates of
+majority in it).\\
+$Majority \le Th$.\\
+${ADD}_{log(n)}^{n}$ which is adding log(n) n bit numbers is in ${AC}^0$.\\
+Now we can add all the bits in every column independantly (this can
+be done in ${AC}_0$ as size is O(log(n))) as we can write down the truth table
+for it. Now we can write down n log(log(n)) bit numbers (with offsets). That
+is we have to add n n + log(log(n)) bit numbers. Now we can take
+every cross column and assign them as numbers(think). We can easily note that
+the sum is still the same.\\
+
+Now we have the problem of solving log(log n) n bit numbers. Now
+split n into log(n)/log(log(n)) bits. We can observe easily that
+the first block's carry would not go into the third block.\\
+We can add each block using a trivial circuit as we have to add only
+log(log(n)) log(n) bit numbers. We can now append the
+first block and the third block and so on and similarly for the
+even blocks. Now we have 2 2*n bit numbers which can be done
+easily using ${AC}^0$.\\
+
+Therefore adding n log(n) bit numbers is within ${AC}^0$.\\
+Similarly ${ADD}_{poly(log(n))}^{n}$ is also in ${AC}^0$.\\
+
+$ADD_{n}^{n} \le BITCOUNT$.\\
+We ca use BITCOUNT to count the bits in each column. Now we can
+again do the transpose which we talked about before to get a
+${ADD}_{log(n)}^{n}$ which is in ${AC}^0$ as we have seen before.
+Hence we are done.\\
+
+$BITCOUNT \le Th$.\\
+Input is $x_1$, ... $x_n$. We need to give the sum of the
+n bits.\\
+We can use $Th_{r}^{n}$ and not $Th_{r+1}^{n}$ to verify
+whether r is the BITCOUNT. For whichever r we get we will encode the
+$j^{th}$ bit of r as the output. Now we 'or' all these bits to get the
+$j^{th}$ bit of the output. Hence we just run through all numbers
+from 0 to log(n) bit numbers as r. Hence we are done here as well.\\
+
+$BITCOUNT \le MUL_{2}^{poly(n)}$ (to be specific $MUL_{2}^{n*log(n)}$.\\
+Multiply two numbers A and B as follows :\\
+A = $x_{n-1}$ 0000000... $x_{n-2}$ .... $x_0$.
+B = $x_{n-1}$ 000000.... $x_{n-2}$ ..... $x_0$ 0000... 1.\\
+Now the middle log(n) bits of the above number will give the bitcount.
+The number of zeroes are so much so as to hold the maximum carry which
+is the BITCOUNT size which is log(n) size. Hence we will put log(n)
+zeroes in between. Hence we are done.\\
+
+${ACC}^0$ is the class where parity is given as a gate and an ${AC}^0$ circuit.\\
+${TC}^0$ is the class where threshold is given as a gate and an ${AC}^0$ circuit.\\
+
+
+\end{document}

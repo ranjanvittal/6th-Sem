@@ -1,0 +1,88 @@
+import java.util.concurrent.locks.*;
+import java.util.*;
+class Main2 {
+    public static void main(String args[])
+    {
+        // ReentrantLock m1 = new ReentrantLock();
+        // ReentrantLock m2 = new ReentrantLock();
+        Main2 ma=new Main2();
+        Vector<Integer> a = new Vector<Integer>();
+        Thread1 t1 = ma.new Theard1(1, a);
+        Thread1 t2 = ma.new Thread1(2, a);
+        Thread1 t3 = ma.new Thread1(3,a);
+        t1.start();
+        t2.start();
+        t3.start();
+        System.out.println(a.elementAt(1));
+    }
+}
+
+
+
+
+
+     Lock m1 = new ReentrantLock();
+     Lock m2 = new ReentrantLock();
+     Lock m3 = new ReentrantLock();
+
+    class Thread1 extends Thread{
+
+        int thread_no;
+
+        Vector<Integer> a;
+
+        public Thread1(int num, Vector<Integer> a)
+                    thread_no = num;
+            this.a = a;
+        }
+
+        public void run()
+
+        {
+            if(thread_no == 1)
+            {
+                m1.lock();
+                flag1=1;
+                while(!(flag1==1 && flag2==1 && flag3==1));
+                m2.lock();
+
+                m3.lock();
+
+                l1.unlock();
+                l2.unlock();
+                l3.unlock();
+
+            }
+            if(thread_no == 2)
+            {
+                m2.lock();
+                flag2=1;
+                while(!(flag1==1 && flag2==1 && flag3==1));
+                m3.lock();
+
+                m1.lock();
+
+                l2.unlock();
+                l3.unlock();
+                l1.unlock();
+
+            }
+
+            if(thread_no == 3)
+            {
+                m3.lock();
+                flag3=1;
+                while(!(flag1==1 && flag2==1 && flag3==1));
+                m1.lock();
+
+                m2.lock();
+
+                l3.unlock();
+                l1.unlock();
+                l2.unlock();
+
+            }
+        }
+    }
+// }
+

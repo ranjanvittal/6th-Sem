@@ -1,0 +1,24 @@
+Flow 1 (10.1.1.1 -> 10.1.4.1)
+  Tx Bytes:   1779348
+  Rx Bytes:   1755036
+  Throughput: 0.135254 Mbps
+Flow 2 (10.1.4.1 -> 10.1.1.1)
+  Tx Bytes:   84400
+  Rx Bytes:   84400
+  Throughput: 0.00651997 Mbps
+Flow 3 (10.1.2.1 -> 10.1.5.1)
+  Tx Bytes:   1728828
+  Rx Bytes:   1695900
+  Throughput: 0.152275 Mbps
+Flow 4 (10.1.2.1 -> 10.1.4.1)
+  Tx Bytes:   2363280
+  Rx Bytes:   2322708
+  Throughput: 0.20851 Mbps
+Flow 5 (10.1.5.1 -> 10.1.2.1)
+  Tx Bytes:   79512
+  Rx Bytes:   79512
+  Throughput: 0.00713978 Mbps
+Flow 6 (10.1.4.1 -> 10.1.2.1)
+  Tx Bytes:   108528
+  Rx Bytes:   108528
+  Throughput: 0.00974517 Mbps

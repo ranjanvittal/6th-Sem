@@ -1,0 +1,25 @@
+Script started on Tue Jan 27 21:50:52 2015
+[?1034hbash-3.2$ .//[Kftpserver 4002
+
+TCPServer Waiting for client on port 4002
+
+ I got a connection from (127.0.0.1 , 60775)
+NLST 
+STOR  q
+CWD  ..
+E2
+CWD  B
+NLST  C
+CWD  C
+RETR  q
+PWD
+CWD  ~
+CWD  A
+E1
+RETR  w
+STOR  w
+QUIT
+Exiting ...
+bash-3.2$ exit
+
+Script done on Tue Jan 27 21:54:11 2015

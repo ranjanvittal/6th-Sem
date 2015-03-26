@@ -1,0 +1,21 @@
+
+◃ NLST <dirname>
+<dirname> is optional
+Directory listing of files in specified directory, or current directory; Send listing to client
+◃ CWD <dirname>
+<dirname> is optional
+Semantics: If current directory is not “root” , then Change Working Directory, and send the new
+2
+directory name to the client
+else Send “Illegal CWD Operation” Message to client.
+◃ RETR <filename>
+Semantics: Send Contents of Specified File to client, if it exists. First, Send a “File Name OK.” message to client.
+Then, Send Contents of Specified File to client.
+If file doesn’t exist, send Error Message.
+◃ STOR <filename>
+Semantics: First, Send a “OK to SEND File” message to client.
+Then, Receive Contents of Specified File from client and store it locally. After complete file is received, send a “File Received” message to client.
+◃ PWD
+Semantics: Print working directory – send the directory name to the client
+◃ QUIT
+Semantics: Logout

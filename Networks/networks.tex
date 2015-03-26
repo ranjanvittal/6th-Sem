@@ -1,0 +1,1032 @@
+\documentclass[solution,addpoints,12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb}
+\usepackage[T1]{fontenc}
+\begin{document}
+Different layers are physical layer, link layer, network layer, transport layer,
+session layer, presentation layer and application layer(Bottom to top).(OSI
+layers)\\
+TCP/IP stack was what which was implemented which has five layers. They donot
+contain
+presentation and session layer are not there. physical is L1, link is L2 and so
+on.
+We can have intermediate layers like L2.5 .\\
+TCP is connection oriented and reliable and UDP is Connection less and
+unreliable.
+Native IP layer of TCP is connection less. But these days some connection
+oriented to the
+network layer are supported.\\
+
+At application level we open a file read or write. A file is treated as a
+sequence of
+byte streams. A socket is a virtual interface which is a pipeline available to
+communicate as read and
+write. Assume there are 5 to 6 application write issued. In the network layer
+we can send packets via
+different paths (individual messages are sent). No notion of the order. TCP
+maintains a buffer.
+TCP has a sequence number for every message that is sent. So when it reaches a
+stack of messages.
+it orders it based on the sequence number. Hence connection orientedness is
+maintained.
+Hence application sees it in the correct order. UDP doesnot have the sequence
+numbers and it
+will just send them in the order it received which need not be the proper
+order. Therefore
+application layer has to sort it. TCP will request retransmission if a message
+is not found. UDP wont request for retransmission.\\
+
+There is some part of the kernel which runs the TCP process or IP process. IP
+in routers
+is quite complicated. FTP is a process. Some memory sharing system is required.
+From application buffer
+to kernel buffer it goes to the device buffer from which it is transmitted.
+Packets, segments and frames are different names for messages.\\
+
+Original packet is expanded. TCP has its own header(port number is added) and
+many control checks are added to the messages.
+UDP has only 8 bytes while TCP header can be 20 to 60 bytes. Client and server
+talking to each other is called a session. IP level will have its own header (
+source and destination IP address is added).\\
+IPv4 header has 20 to 60 bytes and IPv6 header has 40 bytes is added to TCP.
+Ethernet is limited to 1500 bytes. Hence we will use approximately 500 bytes.
+Most of the control and fragmentation occurs at the IP layer. TCP or IP can
+give 65536 - 60 - 60 bytes (removing headers) to the below layers.
+The information above is not touched that is IP doesnot touch the packets sent
+by TCP. IP only checks its
+header alone and similarly every layer checks its header up.\\
+
+Things present in the MAC layer are MAC address of source and destination. For
+ethernet traditionally
+mac header is 18 bytes. Mac address of source and destination is 12 bytes.
+Anything with a connection(wifi cards etc) has a unique MAC address. We donot
+require the MAC address for translation. For global
+tranmission IP address is used and local MAC address is used to transmit within
+a LAN. Destination MAC
+address is that of the next hop of the packet (like 10.6.0.254). MAC address is
+required only within the
+local network. Adddress resolution protocol makes sure that the first
+transmission of the MAC address.This is generally done on mass transmission.\\
+
+If there are 5 routers inbetween source and destination. By the time a 4 byte
+packet is sent
+it will atleast be bloated to 64 bytes as it is the minimum requirement for
+ethernet. If MAC address and destination field are properly filled it is sent
+down to Link layer. Before this it also does error control and ensures
+reliability. The link layer doesnot know where to send it next. In case the
+packet is corrupted then there is a request to resend the message. Link layer
+forwards it to the
+physical layer which first checks all the addresses.\\
+
+Ethernet comes into a router and gets routed to whichever IP it needs to be
+forwarded next (can be another router). OSPF, RFP and all such protocols make
+the forwarding table that is the one
+which establishes connections between the input and the output of the router.
+Network
+layer should know the MAC address of the next hub. Generally all hubs have only
+network, link
+and physical layer. The original MAC address is now changes as the packet moves
+on to the second router.
+The header leaving from the original machine is ripped off and it is modified
+to change the next MAC address. Based on the forwarding table the next target
+router(IP) can be found out but the destination(final) MAC address is
+maintained. Unique IP Addresses are assumed as input.\\
+
+Network Address translation decides which all packets are to be sent through a
+local area network.
+The NAT has source IP, Destination IP, Source Port and Destination Port. IP
+is not generally checked and it is also possible to push in any IP address you
+want.\\
+
+Finally it gets to the destination's transport layer. It will do all the checks
+though before moving onto
+the transport layer. Client has ftp, ssh and http servers and the server too.
+At these places
+we have multiplexers. We have ports as virtual transport level interfaces
+sharing a given IP address.\\
+
+TCP or UDP have 16 bit port numbers and and hence it can have 65536 different
+port numbers. Every process
+on a machine has port numbers associated with it. System processes run on port
+numbers 0 to 1023. 1024 onwards user processes can use. 21 is ftp server, 22 is
+ssh server, 80 is http
+and 443 is https. If we try to talk to a non existent server we would get a
+reply saying port not available. Destination port is also mentioned in the
+client machine.\\
+
+A transport level session is defined by source IP, destination IP, source port
+and destination Portand the protocol, that is, TCP or UDP. Transport layer is
+an end to end protocol because it is not changed from source to destination.
+
+A socket is a (virtual interface) comunication endpoint.
+\section{Different Terms}
+\begin{itemize}
+\item
+Bits per second or hertz
+is the frequency measured.
+\item
+How long does it take to reach from one end to the other
+for a packet
+is called $Packet$ $delay$ or latency.\\
+\item
+There is a round trip time which is the time taken to reach a destination
+and return to the source for a packet(like a ping).
+\item
+Bandwidth Delay Product(BDP) : It is the product of bandwidth and the round
+trip time.
+This is measured in bits. A simple protocol for ensuring that all packets are
+sent
+is to resend all the packets from the dropped packet after waiting for the
+particular packet for a certain amount of time. This is not efficient because
+if after the dropped packet many packets are sent all these will be dropped
+and present.
+\item
+Delay components is the time taken between the number of different routers and
+such in betweeen.\\
+\end{itemize}
+
+No of routers in between = 4.\\
+physical length : 100 bytes.\\
+Link bandwidth : 10 Mbps.\\
+Link length : 10 Km and optical links are used.\\
+Speed of light in fiber : 2*$10^8$ m/s.\\
+1 km takes 5 micro seconds.
+
+Propogation delay is the time taken for one bit from source to destination.
+Therefore time taken in this case is 4*10*5 = 200 micro seconds. On
+one single link is 50 micro seconds.\\
+
+Transmission time = Packet length/ Link bandwidth = 100*8/10*$10^6$ = 80 micro
+seconds
+per link. Therefore total of 320 micro seconds.\\
+Basically the first bit will reach at 200 micro seconds wile the last one will
+reach at
+520 if only these are there as these are streamed not sent one by one.\\
+
+Processing time (just assume it to be 50 micro seconds for now):\\
+Verify error checksum.\\
+Extract IP destination adder.\\
+Lookup in the routing table.\\
+Update header and recheck.\\
+
+Generally it is 32 ns to process a packet.\\
+If a link is busy recieving a packet, the other packets are buffered.
+This gives an extra delay. We need to take into account
+average queueing delay.
+\section{Physical layer}
+\subsection{Circuit Switching}
+Every voice call requires 64 kbps and we multiplex different voice packets.
+The different inputs to a multiplexer work at 64 kbps and the output is at 1.5
+Mbps.
+TDM is like round robin. We have a frame with 24 slots and every frame is for
+125 micro seconds. The number of slots in the frame is fixed. It doesnt look
+at the number of active members. That is even if there is a free slot it wont
+remove it from the queue.\\
+Constant bit rate traffic is where we sample a certain fixed amount every second
+(here 8000 frames per second.)\\
+T3 has 28 such multiplexer lines coming in which corresponds to
+28*24*8/(125*$10^{-6}$) (8 is for byte to bit conversion).
+I am given 1 byte every 125 micro seconds.
+28 T1 lines come into one T3 link. Each T1 link is for 1.5 Mbps as seen earlier
+and hence it becomes 45 Mbps.\\
+A circuit is an end to end path with dedicated resources allocated
+on each link of the path. A switch can have several input links.
+All switches have a forwarding or switching tables.\\
+The table consists of Input interface, input slot, output interface and
+output slot. Input interface corresponds to which link is coming in and
+input slot corresponds to which input of the multiplexer comes here.
+This table might keep changing.\\
+Connections can get modified hence connections can be lost etc.
+\begin{itemize}
+\item User makes a circuit request.
+\item
+Cicuit establishment phase
+\begin{itemize}
+\item Find a path to use from S to D.
+\item Find out if free slots are available (in every link along the path) to
+transmit via it and reserve it till you do so.(check whether reverse is also
+available)
+\item Complete bidirectional circuit setup.
+\end{itemize}
+\item
+Start voice or data communication.
+\item
+Cicuit tear down phase where we need to clear all the slots that are reserved.
+\end{itemize}
+If any of the links goes down then all the data goes down as they cannot be sent
+from them hence the whole process has to be repeated.
+Adding customers becomes very hard because then we need to add switches each
+time when number of slots are exceeded.\\
+
+I might not want 64 kbps on one slot rather I might want more
+slots but would want to restrict within 64 Kbps.
+
+Circuit  switching is a layer 3 protocol.
+
+\subsection{Packet Switching}
+\begin{itemize}
+\item There is no circuit setup.
+\item Every packet has a source and a destination address
+\item Packet is forwarded on hop by hop basis
+based on the destination address.
+When it reaches the first switch there would be no address information.
+So for all these we add an address over this.
+\item Design goals :
+\begin{itemize}
+\item Support for bursting.(cycle of activity and silence)
+Variable bit rate support is not easy though.
+\item Resilient to failures. Because now if there is a link cut somewhere
+then this packet will be set via another path. On the fly we can
+find the path instead of fixing it before hand. Basically the forwarding
+table is modified when a link goes bad. Loops can occur.
+\end{itemize}
+\end{itemize}
+Features of Packet switching :\\
+\begin{itemize}
+\item Every packet has a source and destination address.
+\item Each packet of a flow is routed independant of  other packets
+from the same flow.
+\item Different routes can intoduce different delays making
+in order delivery hard.
+\item Buffers are present in a packet router.
+\begin{itemize}
+\item Store and forward routing.
+\end{itemize}
+\item Supports variable length packets(minimum 40 bytes and maximum
+of 64 KB headers minimum is 40 therefore for a packet it is 40 + 1 = 41 bytes)
+\end{itemize}
+
+Based on the time stamp from the transport layer to the application layer
+if underlying is TCP or RTP then it will convert it into in order by
+time stamps.
+There is one component which is queueing due to which there is
+latency introduced. In circuit switching there is no buffering.
+The latency components are :\\
+End to End latency is made of these components\\
+Propogation delay\\
+Transmission delay\\
+Processing delay\\
+queueing delay is also there in packing switching\\
+Router is a software based switch where it $\lq routes \rq$ the packet
+(determines which router it goes to next etc) it recieves.
+
+\subsection{Compare circuit and packet switching}
+\begin{itemize}
+\item A circuit from source to desination while the other is a
+link to the next router.\\
+In cicuit first packet has to wait for circuit setup.\\
+\item In order in circuit switching while not in the other.\\
+\item Packet doesnot contain source and destination address in circuit
+switching while it does contain in the other.
+\item Circuit doesnot support buffers while the other does.
+\item Fixed length in cicuit and variable length in the other.
+\item Circuit switching doesnot support efficient burst style of traffic while
+packet switching does.
+\item Buffer overflow can result in dropping packets
+in packet switching while not in the circuit switching. However
+packet switching and circuit switching are prone to bit errors in
+transmissions as there is no correction mechanism.
+\item Looping can result in dropping packets
+in packet switching while not in the circuit switching.
+\item Link/Node failures have large over head in cicuit switching while
+the other has resistance to link/node failure.
+\item Guaranteed bitrate in circuit switching and no such guarantees or
+dedicated allocation in the other.
+\item Rigid and inefficient use of resources while more flexible
+and more efficient resource allocation or utilis
+\end{itemize}
+Circuit switching was used long back for telephone network.
+Both circuit and packet combined to give virtual circuit
+switching. ATM is one of it which means Asynchronous transfer mode.
+Another one is Network Protocol Label switching. The aforementioned two are
+virtual circuit switching methods.\\
+
+LAN to Access Network. Access network is the last mile for the
+network layer. Access networks are of two types.
+wired and unwired or wireless.\\
+
+Modem started at 300 bits/second and ended at 56kbps.
+DSL which supports 2Mbps. There are cable modems and then
+optical fibers.\\
+
+Wireless are wifi and cellular. LTE, EDGE/GPRS, HSDPA and CDMA are
+types of wireless networks.
+\section{Link layer}
+Transmissing bits over a physical medium. We characterize it
+over max bit rate, bit error rate, cost, power consumed and
+maximum distance possible.\\
+Green ICT which refer to Information and communication towers
+which tries to reduce power in wired networks.
+Generally the layout of telephone network is by copper lines.\\
+
+On a copper link for 1 or 2 kms we can go at 100 Mbps,
+1 GBps (10's of metres) and 10 GBps(few metres) is even possible which
+is inversely proportional to the distance.\\
+If we want to build a long travel then we need to re amplify etc.
+Bit error rates vary from $10^{-6}$ to $10^{-9}$ bit error rates.\\
+
+Fibre optical cable is very thin strand of glass. It can send
+upto 25 to 75 Tbps. Today we can support only like 10 to 40 Gbps
+due to electronic limitations. Fibre can go to more than
+100s to 1000s of km without regeneration of signal.
+Bit error rate is $10^{-12}$ to $10^{-15}$ (extremely less).\\
+Wireless supports a maximum of 100 Mbps to 1 Gbps.\\
+1 Gbps is possible in 11ac. Bit error rate is approximately from
+$10^{-3}$ to $10^{-6}$ is the bit error rate and cost is also high.
+Power is more than copper which is about 100 milli watts to about
+(1 watt for cellulars). Bluetooth is about 1 to 10 milli watts. NFC is
+about 1 milli watt.\\
+
+Distance is about a few kms. There is some health issues regarding
+maximum power to be transmitted.\\
+b is the Bit error rate.
+Let a packet length be l bits. Packet error rate = $1 - {(1 - b)}^l$
+Probability of succesful transmission is ${(1 - b)}^l$.
+
+L = 12000 bytes = 1024 bits. b = 0.0001 : error is 0.69
+which means it is bad enough.\\
+\subsection{different TCP protocols}
+\subsubsection{Stop and Wait}
+If we have 100Km and 10 Gbps then efficiency turns out
+to be less than 1\%.\\
+Maximum through put is the sending bit rate which is simply
+product of the efficiency times the link bit rate.\\
+Max throughput = No.of bits/packet/$t_total$.\\
+= 0.0119 Gbps in the above case.\\
+Stop and wait will not work if the bitrates or the propogation
+delay is huge.\\
+Let bit error rate be b, for 1km/10 Mbps.\\
+Let b = $10^{-5}$.\\
+Case 1 :\\
+Whenever we start sending a packet we started a timer and it is
+closed when the ack is recieved or whether it receives an upper
+limit. The packet will be re-sent when it doesnt receive any
+ack packet.\\
+Case 2 :\\
+The ack is corrupted or not received then again
+the packet is resent.\\
+Case 3:\\
+Timer times out but acknowledgement is sent from the receiver.
+In this case we would have a duplicate packet. For every time
+we properly receive a packet we would keep a counter on the receiver
+which we would increment whenever it sends an ack. So when
+we receive the something before this count then we drop
+this packet.\\
+If size is small then efficiency goes bad becuase of ack packets and such.
+When huge packets are sent then it could be dropped because of bit error rate,
+then again it is bad.\\
+Geometric random variable :\\
+p is the probability of success.
+P(x = i) is success probability in the $i^{th}$ run.
+P(x = i) = $(1-p)^{i-1}$*p.\\
+expectation is 1/p.\\
+packet error rate = $(1-b)**{size}$ where b is the bit error rate.\\
+Probability of success for a packet is 88.40\%.\\
+Average number of attempts = 1/88.4 = 1.131.\\
+Avg time taken for succesful transmission = $t_total$*1/p.\\
+Therefore Efficiency = Efficiency*p.\\
+If bandwidth delay product(ratio of Packet size to speed of link) is
+small then it is ok to use stop and wait.\\
+Efficiency is approximately  $t_trans$/($t_trans$ + 2*$t_prop$).\\
+Efficiency is approximately = 1/(1+2*proc/trans).
+Let a = proc/trans. Efficiency is 1/(1+2*a).\\
+Efficiency also depends on error probability which gives a trade off.\\
+Try graph for BER = $10^{-4}$ for 10 Km and 10 Mbps\{1500 bytes, 40 bytes\}.
+\subsubsection{The Sliding Window Protocol(Pipeline) - Go Back N}
+The operation of the protocol is quite simple. We simply send all the packets
+sequentially and dont wait for the ack packets. When all are sent we start
+receiving. Transmission window is set of bits sent and not yet acknowledged.\\
+I should keep sending until my first ack is received.\\
+Efficiency = SWS*trans/total. For stop and wait SWS = 1.
+If SWS is larger than one then it is pipelined.\\
+Larger the window better the efficiency.\\
+Ideal SWS = total/trans (greater than or equal to).\\
+100 Km, 10 Gbps, 1500 bytes, 40 bytes, proc = 0.\\
+trans = 1200 ns.\\
+ack = 32 ns.\\
+prop = 5*100 = 500 micro seconds.\\
+total = 1001.232.\\
+Ideal SWS = 1001.232/1.2 = 835 packets to be sent within this window.
+Number of bits in sequence field will be 10 bits.\\
+For this system if people offered only 8 bits then efficiency is 0.31.
+TCP generally operates at 32 bit sequence numbers.\\
+In a typical session there will be a wait time for packets to arrive
+at the sender stage.
+LFS is last frame sent and LAR is the last ack received.\\
+LFS - LAR must be less than or equal to SWS.\\
+Generally $SWS = RWS$ and rarely $SWS > RWS$.
+
+Receiver window side = 1 implies we accept only that particular
+sequence number we have been waiting for. In this case it is called Go back N.
+LAF is the last acceptable frame and LFR is the last frame received.
+initial is LAF = 0. In the next frame we make it 1. Every time
+I get a sequence number we update it to the next sequence number
+which is what is sent. In Go back N I will discard
+every packet which comes after a packet which is dropped.
+After that we repeatedly sent ack 2(which is called a duplicate) telling
+that we expect 2. Sender will retransmit from where it left off.
+If there is a duplicate ack the sender resends.\\
+
+Sender retransmits from the first corrupted/lost packet that
+is for which timeout occurs. Receiver doesnot buffer any out of
+order packets. The sender buffer size is greater than 1 else
+it becomes stop and wait.\\
+Cumulative ack and selective ack are two types of acks.
+When the number of bits in the sequence number is small,
+we would generally reuse sequence numbers.\\
+Cumulative acks acknowledges all packets upto and including
+$x-1$. Adequate for Go back N. Even if acks are dropped
+but a future ack is received we can continue in Go back N.
+So receiver can with-hold acks and send one for a bunch.\\
+
+Number of bits required in Ack is
+the same number as the sequence number. Whenever we get a
+packet we have an ack timer. Before the ack timer ends
+if we send ack with the data packet then it is called
+piggy backed Ack. If there is a data packet to be
+sent then it is better to club ack with data in case of Go back N.
+In piggybacked it is two way communication.\\
+
+Window size and sequence number field size :\\
+In Stop and Wait :\\
+For stop and wait 1 bit sequence number is enough.
+I send 0 the receiver is supposed to ack 1. To differentiate
+between sending an already sent packet we use the extra bit in
+sequence. Whenever we see a data packet we send an ack.\\
+
+In Go back N :\\
+Max SWS = $2^n - 1$ given an n bit sequence number.
+Let n = 2, then we have 4 number of possible sequence numbers.
+My SWS is set to 3 though so I wont sent 3 until I receive
+ack for 0. After this I send 3rd.\\
+SWS = $2^n$ is not a good thing because :\\
+If SWS = 4, all 0, 1, 2 and 3 will be there.
+Now if the ack sent back is dropped
+then sender will retransmit all 0, 1, 2, 3 and this will
+lead to a problem as receiver doesnot know whether it is
+new or is it the old thing.
+\subsubsection{Selective Repeat}
+\begin{itemize}
+\item Selective repeat has buffers and it can store out of order
+packets.
+\item Sender only retransmits droppped packets.
+\item Cumulative ack should be replaced by selective ack/selective nack.
+Only out of order packets expected in the current window.
+\item Sender window and receiver window are in sync.
+\item Receiver window size is greater than 1.
+\end{itemize}
+These are the main three protocols. There are many variants to this.
+Max sender window size for an n bit sequence = $2^{n-1}$.\\
+We will split the data packets into two windows for $2^n$. That is for 3
+bit sequence, we have 0, 1, 2, 3 in the first window and 4, 5, 6, 7 in
+second window. Basically between two consecutive windows there shuld be no
+overlap of sequence numbers. Only when all the
+packets in one window is sent, we move to the next window.
+Reason why the windows should be non overlapping. Receiver
+might not know which of the overlapped packets did it receive if its
+ack was dropped in between.\\
+
+\subsubsection{Efficiency}
+Max efficiency = min(sws*$t_{trans}$/$t_{total}$, 1).\\
+Efficiency for SAW that is Stop and Wait = P*$t_trans$/$t_total$.
+Efficiency for SR that is selective repeat = P*SWS*$t_trans$/$t_total$.
+Efficiency for GBM that is Go Back N it is somewhere inbetween.
+\begin{itemize}
+\item Under ideal conditions Go Back N is better because max SWS is higher in
+it.
+\item Under error prone situations there is no reordering
+in GBN while reordering is required in SR but in SR only certain
+dropped packets are $re-sent$ while in GBN we might have to $re-send$ the
+whole window. So in such conditions SR is expected be better.
+\end{itemize}
+
+\subsection{Framing}
+For every data sent there is a start of frame and there is an end of frame.
+\begin{itemize}
+\item Packet length info in the header. If length field is
+corrupted then it becomes hard.
+\item Byte stuffing. Put some flags. If flag appears
+in a data, byte stuff adding extra data(escape sequence).
+If escape also appears replace it by escape escape.\\
+How long before error is discovered ? Find the frequency
+of how much the escape sequence and then find the
+average of how many times it appears in the data.
+Length of flag / Length of data is the over head.
+\item Bit stuffing is predominantly the same.\\
+Flag is 01111110. Look at your data on a bit by bit basis.
+This flag is used in the start and the end as seen before.
+Inside the data part it will never have 6 consecutive 1's
+appearing. Algorithm to make consistency is
+replace 11111 with 111110.\\
+Data : 01101011110011111011.\\
+Transmitted data : flag 011010111100111110011.\\
+This works because whenever we see five 1's we definitely
+know that we should have a zero after it. Asynchronous
+sent. There are synchronous things where we need to ensure
+that there is periodic communication between sender and receiver.
+\end{itemize}
+Typical framing schemes which use both length field and
+bit (or byte) stuffing.\\
+Synchronous links : Send frames continuosly whether they contain
+data or not. TDM is an example of a synchronous link.\\
+SONET $Oc-1$ which is organized a matrix format which is 9x90
+that is 9 rows and 90 columns. This would be one frame and hence
+the value turns out to be 51.84 Mbps ($Oc-1$ would send one frame
+every 125 micro seconds). $Oc-3$ would be 155.52 Mbps(3 times $Oc-1$)
+and so on till $Oc-768$ which sends about 40 Gbps.
+\subsection{Error Control Protocol}
+Error control protocol is error detection and error correction which we do.
+Given a data of size m bits add r bits, based on some
+error protection function, that represent the error code and
+send it to the receiver. Hence communication of $m+r$ bits.\\
+Single bit parity :\\
+Even parity scheme : In the transmitted bit stream,
+the number of 1's is even. If it is odd add a one, if it is
+even add a zero.\\
+\begin{itemize}
+\item This can detect when there are odd number of bit flips.
+\item Probability of detection of errors is more or less 1/2.\\
+\end{itemize}
+
+$2-D$ parity is one where you take parity for every p bits
+in the frame, add a (p+1)th bit which is parity bit. Now
+for 1, p+1, 2p+1 ... add a parity bit and so on. Like row
+and columns. Now for 1 bit errors,
+we can locate the error and attempt correct correction as well.
+If there is a 2 bit error we can detect where it is and sometimes
+attempt correction but not always. If there is a 3 bit error,
+(like 1 data bit and 2 parity bits) we might not even be
+able to detect. Make the last bit available in (N+1)x(P+1)
+as the parity of the number of 1's in parity column alone,
+we can probability detect 3 bit errors. Four bit errors
+are even harder to be detected. No of parity bits
+is (m/p+p+1) which is O(sqrt(m)).\\
+
+m bit message, r bit parity.
+n = m+r. There are $2^{m}$ which are legal codewords
+and others are illegal. Given $2^m$ set of strings, Hamming distance
+of a code is the minimum number of bit flips across any two
+valid codes. So for 2D this was 4. If the number
+of bit flips is more than the hamming distance, then detection becomes
+harder.\\
+
+\begin{itemize}
+\item If my code should detect all errors till d bits, I need
+the hamming distance of two codes to be d+1.
+\item To correct d bit errors, we need hamming distance to be 2d+1 bits.
+That is if the code is closer to one change it to that.
+\end{itemize}
+
+New Protocol :\\
+All error detection bits are generally placed in powers of 2 positions.
+Bits in positions multiple of 1's will contribute to parity at 1.\\
+Bits in positions multiple of 2's will contribute to parity at 2.\\
+Bits in positions multiple of 4's will contribute to parity at 4.\\
+and so on. In this case one bit errors can be corrected(similar to
+prisoner wine question). Minimum number of parity bits to correct
+all one bit errors is log n. No of
+possible bit strings is $2^m$. To be able to correct
+all one bit errors, I need to have m parity bits. For
+each valid code word number of valid codewords that have
+exactly one bit flip = n. Therefore number of
+strings which are either correct or differ by 1 is
+$(n+1)*2^m$.\\
+$(n+1)*2^m \le 2^n$.\\
+n = m+r and hence minimum r is log n.
+m = 64kB = $2^{19}$ bits.\\
+min r is 20.\\
+Error correction is done in case of optical links in addition
+to error detection.\\
+
+Cycle Redundancy Check (CRC) :\\
+\begin{itemize}
+\item Polynomial arithmetic modulo 2.
+\item 1 0 1 1 $\leftarrow$ $x^3 + x + 1$.
+\item addition and subtraction is same as xor.
+\item Define a generator polynomial c(x) of degree k.
+The constant term is 1. Other coefficients can be 0 or 1.
+\item Given M(x), a message of length m bits,
+T(x) = $x^k$*M(x) which is essentially left shifting by k bits.
+\item Let Rem(x) be remainder polynomial obtained
+after dividing T(x) by C(x).
+\item Therefore what is sent is $x^{k}M(x) - Rem(x)$.
+\item Let Recv(x) be the received polynomial.
+Receiver algo : If c(x) evenly divides
+Recv(x) then no error else error present discard packet.
+\end{itemize}
+
+Example :\\
+c(x) = $x^3+x+1$. M(x) = $x^7 + x^6 + x^4 + x^2+ x$.\\
+$x^k$ = $x^3$ in this case $\implies$ $x^10 + x^9 + x^7 + x^5 + x^4$.\\
+Now do bitwise xor division that is instead of
+subtraction use xor operator. We will get remainder to be 111.\\
+Tranmit(x) = 11010110000 xor 111 = 11010110111.
+In the receiver verify whether remainder zero. After
+verifying it, drop the last k bits and the rest is your
+packet.\\
+
+Analysis :\\
+Transmit(x) xor Recv(x) is the error polynomial E(x).\\
+\begin{itemize}
+\item Single bit error :
+$E(x) = x^i$.
+Rem(E(x)/c(x)) = Rem((Transmit(x) xor Recv(x))/E(x)).\\
+Hence Rem(E(x)/c(x)) = Rem(Recv(x)/E(x)).
+If $Rem(E(x)/c(x)) \ne 0$, then error detected as
+Rem(E(x)/c(x)) = Rem(Recv(x)/E(x)).
+x/c(x) will always result in a non zero remainder if the first
+and last coefficient of c(x) is non zero.
+\item Two bit errors :\\
+E(x) = $x^i + x^j$. $i > j$.\\
+$Rem(x^i/c(x)) \ne 0$ and they are co prime
+to each other.\\
+There are some special generator polynomials that
+will not evenly divide $x^l + 1$ for some known large values of l
+(like till l it wont divide).
+This l puts a limit on my packet length for l = 32768.
+\item
+Ensuring that error is detected : Coefficient of $k^{th}$ term
+of g(x) = 1 implies we let coefficient $x^0 = 1$.\\
+$x^{15} + x^{14} + 1$ doesnot evenly divide polynomials
+of the form $x^l + 1$ where $l \le 2^15$.\\
+Odd number of bit errors, if c(x) has x+1 as a factor then all odd number
+of bit errors can be detected.\\
+c(x) = (x+1)*c'(x).\\
+Let E(x) be divisible by (x+1).
+Then E(x) = (x+1)*Q'(x).\\
+If odd number of terms are there in g(x) then it is definitely
+not divisible by x+1 (factor theorem).\\
+\item
+Bursting errors :\\
+E(x) = 0....0 111....000 meaning in betwen many went wrong continuosly.
+CRC can detect all bursty errors of length less than or equal to k.\\
+\end{itemize}
+Sender :\\
+Internet checksum : Organize the messages as 16 bit words
+and add all 16 bit words using 1s compliment address. Let this sum be s.
+Check sum = one's compliment of S.
+Receiver :\\
+all these three are repeated and you should end up with zero to
+succeed.\\
+
+\subsection{Transport Layer}
+How is protocol design for L4 different from or similar to that
+of L2(LLC) ?\\
+\begin{itemize}
+\item
+Both do multiplexing and demultiplexing on the packets.
+\item Provide reliable transmits over the corresponding lower
+that can be unreliable. The UDP has SRC port, destination
+protocol, check sum and length of the packet.
+\item RTTs are much higher in L4 compared to L2 and design
+becomes more complex.
+\item RTT variance is very high and timeout estimation
+is harder.
+\item L4 has to deal with packet errors and packet drops
+in intermediate routers.
+\item L4 might choose to deal with congestion in networks.
+\item L2 and L4 complement flow control(fast sender and a slow receiver).
+\end{itemize}
+\subsubsection{UDP}
+Applications :\\
+LAN Apps, video (RTT on the top of UDP).\\
+Real time protocol has time stamp and a sequence number over
+the underlying UDP.\\
+Remote procedure call(RPC). Very small over head in UDP.
+Need for low latency, low complexity and low overhead.
+It is useful when the applications are more error hard.
+Transmit window = min(SWS, RWS) which is called window based
+protocol.\\
+\subsubsection{TCP}
+\begin{itemize}
+\item Connection oriented, reliable transmission, byte stream, in
+order delivery.
+\item TCP has three phases : Set up phase, data transfer, release phase
+which is called 3 way handshake.
+\end{itemize}
+TCP header has n bits which has source and destination
+port number 16 bits, then it has a sequence number,
+ack number. Every byte has a unique sequence number.
+The sequence number sent is the starting byte's sequence number.
+The ack number is a piggy backed ack in the sense that the source expects that
+particular ack number which has no relevance to the sender's sending bytes.
+Then we have window size of 16 bytes and check sum of 16 bits.
+Options are $10-40$ bytes. Header bits = 4.\\
+If only the header is sent even then the number of bytes sent is 4*x
+where x is the value stored in the header bits.
+Legal values for header is minimum of 5 as the minimum
+sent must be 20 bytes. Hence if we get these 4 bits value to be less than 4
+we know that it has been corrupted.\\
+Check sum is computed on (entire TCP header + Data + Part of the IP header
++ sender address + destination IP address + protocol field). That is we
+fragment these into 16 bits each and compute check sum for each of them.\\
+
+$Applicaton \leftarrow TCP|App \leftarrow IP|TCP|App$, the maximum
+an IP can send is $2^{16}$ bytes. Ethernet can send atmost 1500 bytes.
+Hence IP will fragment here. We will take the packet and fragment
+it such that we will send IP header with every fragmented packet and
+we will not send TCP header from now on. Now there would some
+fragmented offset which would be assimilated in the IP layer
+of the receiver to reconstruct the packet. There are the source id's,
+destination id and some kind of id (for reconstruction).\\
+There might be further fragmentation. If a fragmented part is dropped
+the whole packet will be $re-sent$. IP will have length of data not TCP.\\
+
+$UAPRSF$ is acronym for Urgent Ack Push Reset Syn Fin.\\
+Urgent pointer refers to the first bits which should be processed. Urgent is
+assigned to zero if you simply start from the beginning of the packet,
+one if the. Ack bit refers to whether there is a valid Ack. If it is 1 then
+it means there is a valid ack field. There is no packet sanctity in TCP.
+Its simply based on the number of bytes sent. If Push is set to 1 means we
+need to send data in this packet immediately to the layers below or above
+depending on whether in receiver or sender. Reset is a master switch
+which rolls back to a particular point and starts $re-sending$ from there.\\
+Syn corresponds to connection setup and fin corresponds to
+connection finished.\\
+
+3 Way handshake :\\
+First we send Syn x, then receiver sends back Syn + Ack x+1 for which we send back
+Ack. Default tcp uses go back n and cumulative ack.
+If the receiver didnot receive the Syn then no issues because of timeouts.
+Similarly all timeouts will be handled. Starting sequence can also be
+clock based. If you receive a Syn + Ack z+1 different from x+1 then we simply
+ignore this packet because we know that is not corresponding to it.\\
+FSM for TCP :\\
+Server :\\
+Closed on listen goes to Listen.\\
+Listen on (Syn) goes to Ack wait and sends back Syn + Ack.\\
+Ack wait on Ack goes to Established.\\
+
+Client :\\
+Closed on (connected or syn) goes to (Syn + Ack) wait.\\
+Syn + Ack wait on (Syn + Ack) goes to Established and sends back Ack.\\
+
+Many timeouts are there on either side.\\
+
+IETF : Internet Engineering Task Force.\\
+(Jon Postel, Sep 1981).\\
+RFC : Request for comments.\\
+RFC 5281 is for congestion control.\\
+
+Connection Finishing :\\
+First Fin is sent then ack is received and then recevier sends back
+Fin + Ack and sender sends back ack and closes.\\
+
+Congestion Control :\\
+This is based on SWS, RWS and CWND. These give an estimate of network's
+capacity. Transmitted WS = min(SWS, RWS, CWND).\\
+Water river gold example.\\
+\begin{itemize}
+\item Across connections we fix maximum segment size(MSS).
+\item Negotiated between two TCP end points. Normally
+during connection establishment.
+\item An IP router cannot advertise an MTU(maximum transfer units)
+less than 576 bytes.
+\item Min MSS = 576 - 20 - 20 = 536.
+\item MAX MSS = 64kb - 20 - 20 = 65496.
+\item MSS is setup using the TCP options header.
+\item Assumptions : RWS = 32KB and MSS = 1KB.\\
+CWND = 1 MSS.\\
+Max transmitted bytes in a window = min(SWS, RWS, CWND).\\
+Therefore initially it is 1 MSS = 1 KB.\\
+
+For each ack received before timeout, CWND is increased proportionate to no of
+bytes acked. TCP segment number to window size
+will be growing exponentially till it reaches RWS(if there are no
+problems, that is, all acks are good). This is called K slow start phase.\\
+
+When the first time a timeout takes place, we go back to 1 MSS
+and we start again. Now the threshold will be set to half of before
+and we go exponentially till there and from there we go linearly until
+we reach maximum RWS.\\
+
+TCP assumes that the only possibility
+for packet drop is congestion. There is another methodology
+called Threshold which is set as half of previous CWND.\\
+
+\item Additive increase multiplicative decrease (AIMD).
+\end{itemize}
+
+UDP has a better throughput because there is no congestion control.\\
+In TCP, there is dumb bell topology. Packet drop occurs
+at common link. DCCP is a new alternate to UDP with control
+mechanism.\\
+
+TCP flavours :\\
+\begin{itemize}
+\item TCP Tahoe in BSD tahoe and supports fast retransmission.
+Send only the packet for which 3 duplicate read.
+\item TCP Reno which supports fast recovery.
+\item TCP uses cumulative ack by default.
+\item TCP buffers as much as the reciever window size specified.
+\end{itemize}
+We will have a hybrid of GBN and SR.\\
+Look up silly window syndrome.\\
+Nagle's Algorithm says that receiver should not advertise very small window
+size. The least window size which you want to advertise is the MSS.\\
+Timeout estimation :\\
+\begin{itemize}
+\item $Estimated RTT = \alpha*EstRTT + (1-\alpha)*SampleRTT$\\
+$Timeout = 2*EstRTT$
+\item
+$Diff = EstRTT - SampleRTT$\\
+$EstRTT += \delta*Diff$\\
+$Deviation += \delta*(|Diff|-deviation)$\\
+$Timeout = \mu*EstRTT + \phi*Deviation$
+\end{itemize}
+
+TCP options and extensions :\\
+Type | Length | Options Info.\\
+Type is of 8 bits and length is of 8 bits.
+\begin{itemize}
+\item MSS option which is setup using type 2. It is of length 4
+(that is 16 bytes which includes Type, Length and Info) and option info which
+specifies MSS size which is of 16 bits.
+\item SACK permitted. The length field is for two bytes and has no
+options info.
+\item
+TCP can support only maximum upto 512 Mbps due to its
+window size constraint because window size is only of $2^{16}$ bits.
+Window scaling is done so as to accomodate this. Max window size
+is $2^{30}$. Length is 4 bytes. If sequence number is constraining,
+simply add the timestamp to the sequence number and make it 64 bits.\\
+\end{itemize}
+
+Addressing and routing :\\
+IP header format :
+\begin{itemize}
+\item 20 to 60 bytes.
+\item 32 bit end point address, hierarchical address space.
+\end{itemize}
+Mentioning various parts of the header.\\
+It has version bits, and B-bit offsets, IP field, D bit,
+type of source, source address, destination address, options, checksum,
+protocol bit specifying which protocol is used.\\
+
+Max TTL = 255.(Interpreted as top count)\\
+Every router formatting a packet will decrement TTL by 1.
+Update TTL, checksum and then forward it to the next router.\\
+if(TTL == 0)\\
+Router is expected to send an ICMP error message ("TTL exceeded").\\
+Internet continued message protocol.\\
+
+IP also has a protocol field which refers to whether TCP, UDP
+or whatever is used. If the data packet is corrupted then TCP
+would be dropped. The D bit is set to 1 means do not fragment this
+packet. Directive to a router processing the packet.\\
+
+Find out maximum transmission unit along a path :\\
+MTU of a path = min MTU of all routers along the path.\\
+
+Ipheader :\\
+Fragment 1 offset = 0 : mf = 1, Len = 1480+20.\\
+Fragment 2 offset = 185 : mf = 1, Len = 1480+20.\\
+Fragment 3 offset = 370 : mf = 1, Len = 1480+20.\\
+Fragment 4 offset = 555 : mf = 0, len = 60+20.\\
+mf indicates whether it is the end of the packet or not. If it is 1
+it is not if it is zero it is.
+If mtu is less than the size then further fragmentation
+takes place. \\
+\begin{itemize}
+\item Defragmentation takes place at destination node.
+\item If fragments arrive out of order, buffer them and
+discard after some timeout if missing fragments dont arrive.
+\end{itemize}
+
+Options :\\
+\begin{itemize}
+\item Source routing which has a list of specific router and IP
+address along the path. Used for diagnostic purposes.
+\item Loose source routing. This has a list of intermediate landmarks.
+There is no one fixed path. Used for diagnostic purposes.
+\item Record route option : Each intermediate router processing the packet
+adds its IP address to the options field of the packet.
+Used for diagnostic purposes. There is a timestamp option as well
+which can be used to track when this packet was created etc.
+\end{itemize}
+
+Ipv4 address dotted decimal notation. The 32 bit address
+are grouped as 4 8-bit groups. MAC address is of 48 bits.\\
+IP address has two paths :\\
+\begin{itemize}
+\item Network prefix.
+\item Host prefix.
+\end{itemize}
+
+172.16.* to 172.31.* are private routable address.\\
+169.254.* is a link local and not routable.\\
+Classes of IP address :\\
+\begin{itemize}
+\item Class A :\\
+It has 8 bits for the networks part and 24 bits for the host part.
+The first bit is assigned to zero for this type. 0 and
+127 are not supposed to be used. Therefore valid addresses are
+$2^{8-1} - 2 = 126$. Max No of hosts per network is $2^{24}$
+excluding some special cases like before. This is generally used
+by the government.
+\item Class B :\\
+It has 16 bits for max number of networks where
+the first two bits are set to 1 and 0 resepctively and 16 bits
+for hosts per network. Max number of networks is $2^{14}$.
+Max number of networks is $2^{16}$. This is for universities.
+\item Class C :\\
+There are 24 bits where the first 3 bits are set to 110(like options).
+Max no of networks and maximum hosts per network
+is $2^{8}$.
+\item Class D :\\
+This is called as Multi cast and first four bits are 1110.
+\item Class E :\\
+This is expected to come around in the future. The first four
+bits are 1111.
+\end{itemize}
+We had the issue of lot of unused addresses (problem of averaging).
+Therefore we were given some non contiguos class addresses.
+Routing will take slightly more time. Number of addresses the router
+has to lookup in the forwarding table again blows up.\\
+The above methodology is called classless inter domain routing (CIDR).\\
+
+Example :\\
+Class A : 11.* to 11.0.0.8 we can split it into 4 networks.\\
+The split up can be :\\
+11.0000 ...\\
+11.0100 ...\\
+11.1000 ...\\
+11.1100 ...\\
+Hence network access is 10 bits. That is 8 bits before
+and 2 bits now given by the split mentioned above.\\
+We need to build a multicast tree. It is a seperate topic in itself.\\
+No assignments regarding multicast !!!!!\\
+Ipv6 talks about 128 bit address space. Here the address is normally
+divided into two parts. Network part has 64 bits and Host is of 64 bits.\\
+Link local :\\
+Global unicast. How do we embed Ipv4 address in an Ipv6 address ?\\
+32 bits can be embedded in the available 64 bits space. In the host
+part we can embed the 48 bit MAC address.\\
+ARP is the address resolution protocol. MAC id given for IP address
+during broadcast protocol.\\
+RARP : When I know the mac address how to find the corresponding IP address.
+This is normally used when booting up. The rarp server will tell this guy's
+IP address.\\
+Ipv6 header :\\
+fixed length.\\
+First 32 bits : 4 bits | 8 bits service field | 20 bit flow label.\\
+Next 32 :  Payload length (16 bytes) | Next header (8 bytes) | Hop limit (8).\\
+Next 32*4 : 16 bytes (Src).\\
+Next 32*4 : 16 bytes (Dest).\\
+Below there is the Payload.\\
+There is no protocol field, no checksum, no fragmentation. Find the MTU
+and send correspondingly.\\
+This highly depends on the other layers around this.\\
+Next header corresponds to the options header (or) Protocol type.\\
+After payload there will be an option header. Each option header will
+also have a length header field. The lat option header's next header will
+contain the protocol header of L4 protocol. This protocol is like
+a null for the linked list of headers. The protocol header are preknown
+values and below this there will be the data.\\
+
+D-V (RIP) : A node's entire routing table is exchanged. Exchange with
+neighbours only.\\
+L-S (OSPF) : Link stat input of a node's neighbours. It can exchange it
+with other network nodes.\\
+Given a connected graph, writing the table is easy
+just write the neighbours name and the edge weight corresponding to
+it in the table. Now everyone gets their neighbour's routing table.\\
+Consider nodes i and j and $C_{ij}$ be the current cost known from i to j.
+We can continue computing the minimum cost easily by the above algorithm
+and some easy techniques.\\
+We get a routing table by this methodology and you can also
+note that for this routing you need to go to this particular next neighbour.\\
+These are all required for computing how to move in case of forwarding to
+a particular node. All these will take some time for steadying. If any link
+goes down, I will go ahead and recompute the shortest path
+for certain nodes again.\\
+
+The above is called bellman forde Algorithm.\\
+Data plane happens in parallel to the routing
+
+Effectiveness metric for a routing for a Routing algorithm for
+a routing protocol: Convergence time for routing table building,
+recovery time / updating after failures.\\
+In Bellman Forde, updating at every step is atmost O($n^2$).\\
+Time and space complexity of computations should be taken into account.\\
+D's alg (Djikstra's Algorithm) :\\
+Let Source be A, input graph and nodes, output shortest paths
+from A to all other nodes.\\
+For every node, there is a label (known cost form source, preceding node
+to source).\\
+Permanent :- Set of nodes for which shortest cost paths are
+known at an intermediate step of alg.\\
+Tentative :- $V - P$.\\
+Initial :
+Labels except A and Label for A is (0, A).\\
+Hence P = \{A\}.\\
+\begin{itemize}
+\item Let i be the node most recently added to P.
+\item Update labels of all the neighbours of i.
+$C_{Aj} = min()$.\\
+if($ C_{Ai} + C_{ij} < C_{Aj}$) Preceeding node of j is updated to i.
+Now we find the smallest node and add it to P.\\
+\end{itemize}
+The above can be done with heaps and order E*log(E).\\
+
+\end{document}

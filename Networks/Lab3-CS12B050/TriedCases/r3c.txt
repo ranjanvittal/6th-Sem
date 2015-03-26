@@ -1,0 +1,5 @@
+All packets transmitted successfully
+Packet gen rate : 19
+Average Packet length : 784
+Retransmission ratio : 1.0365
+Average RTT : 1 : 331

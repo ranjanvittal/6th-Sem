@@ -1,0 +1,5 @@
+The java byte is seemingly small while both C and C++
+asm files are pretty large.
+The C++ version and C lok pretty much the same where
+all of them are written in 3 address code and class declaration is
+abstracted out in C++.

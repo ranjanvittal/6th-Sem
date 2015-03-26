@@ -1,0 +1,6 @@
+The assignment gave a good understanding about how to send and receive packets
+safely and gave us a good session in debugging a different kind of code.
+
+The assignment can be cut short to sending and receiving files alone
+as the other things don’t seem too very necessary to the networks part of the
+code and are time consuming.

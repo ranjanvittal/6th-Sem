@@ -1,0 +1,150 @@
+\documentclass[12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb,complexity}
+\usepackage[T1]{fontenc}
+\begin{document}
+
+\hrule
+\vspace{3mm}
+\noindent
+{\sf IITM-CS6840-2015 : Advanced Complexity Theory  \hfill Given on: Feb 15, 10:30am}
+\vspace{3mm} \\
+\noindent
+{\sf Problem Set \#2 \hfill Due on : Feb 22, 10:00pm}
+\vspace{3mm}
+\hrule
+
+\begin{questions}
+
+%\question[5]
+%Show that computing the permanent of matrices with integer entries is in %$\FP^{\#\SAT}$.
+
+%\begin{solution}
+%Write Solutions like this.
+%\end{solution}
+
+\question[10]
+Consider the following definition of $\IP^*$, a perfect soundness version of $IP$ : $L \in \IP^*$ if there exists a $(P,V)$ with $V$ being a probablistic Turing machine running in polynomial time in $n = |x|$.
+\[ x \in L \implies \Pr_y~[(P-V_y) \textrm{ Accepts }] \ge \frac{3}{4} \]
+\[ x \not\in L \implies \Pr_y~[(P-V_y) \textrm{ Accepts }] = 0 \]
+Prove that $\NP = \IP^*$.
+\begin{solution}
+Let us first prove NP is contained in IP*.\\
+Given NP machine M, forget the randomization and simply
+ask for which path to run on from the prover and run on that
+particular path and accept if accept reject if rejects. Now if there
+exists an accepting path then prover will send it and if none are present
+it cannot send any valid path and the verifier will find out, hence with
+perfect soundness and perfect completeness without randomness, we can
+realize NP. Hence $NP \subseteq IP*$.\\
+
+Now let us prove that IP* is contained in NP.\\
+Consider any IP* machine M, we will make NP machine
+M' recognizing the same. Whenever M expects a proof, guess
+the proof using the nondeterminism to run over all proofs and whenever the
+verifier uses his randomness, again use nondeterminism to simulate parallel
+running of all randomness and in each path accept if it leads to an accept
+and reject otherwise. If M' doesnot accept x on any path
+then M couldnot have accepted x as for all x there doesnot exist
+a proof. If M' accepts x and M does not accept x it means there exists a
+conversation between prover and verifier which could have possibly lead
+to an accept but this is a contradiction to perfect soundness. Hence if
+M' accepts x then M doesnot accept x. Hence M accepts x iff
+M' accepts x implying L(M') = L(M). Hence $IP* \subseteq NP$.\\
+
+Therefore NP = IP*.
+\end{solution}
+\question[10]
+Prove that if $\NP = \RP$, then $\AM = \BPP$.
+\begin{solution}
+If $NP = RP$ then $NP \subseteq BPP$.
+But we know that $BPP^{BPP} = BPP$. This means
+$NP^{NP} = \Sigma_2 \subseteq BPP^{BPP} = BPP$.\\
+We further know that BPP is closed under complimentation,
+hence $\Pi_2 \subseteq BPP$. Therefore assuming
+$AM \subseteq \Pi_2$ from question 3 we get,
+$AM \subseteq \Pi_2 \subseteq BPP$. Hence $AM \subseteq BPP$.
+We already know that $BPP \subseteq AM$ (discussed in class).
+Therefore AM = BPP.
+\end{solution}
+\question[10]
+Show that $\AM \subseteq \Pi_2$ and $\AM \subseteq \NP/\poly$.
+\begin{solution}
+AM is defined as follows :
+\begin{itemize}
+ \item If $x \in L$ then for all r there exists a $\pi$ such that V(x,r,$\pi$)=1.
+ \item If $x \not \in L$ then $Pr[\exists \pi : V(x,r,\pi) = 1] \le 1/3$.
+ \end{itemize}
+Let us amplify the soundness to suit as follows :\\
+$x \not \in L \implies \forall \pi P(\exists V(x, r, \pi) = 1) \le 1/(2^{p+1}).$\\
+$R_\pi = \{r | \forall V(x, r, \pi) = 1\}.$\\
+Now we can actually send the random bit before hand even because the
+number of wrong answers(total) would be $R*2^p/2^{p+1}$ which is R/2.\\
+This proves that more than half of the random strings donot get accepted
+by any proof(from $AM_\epsilon = AM$ proof). Hence the quantifier
+statement $\forall r \exists \pi V(x, t, \pi) accepts$ is not true.
+When x is in the language then as per definition,
+$\forall r \exists \pi V(x, t, \pi) accepts$ (Q). Hence given any AM protocol,
+the quantifier statement Q realizes it and Q is in $\Pi_2$. Hence
+$AM \subseteq \Pi_2$.\\
+
+Equivaletly we can see AM as given x it asks for an advice
+(r) such that if NDTM M which runs over all proofs and verifies
+V(x, y, r). If V(x, y, r) satisfies it accepts else it rejects.
+Proof for the above :\\
+If x is in the language no matter what r is given it will
+lead to an accept so anyway M will accept. When x is not
+in the language we know that there exists atleast one r for which
+V(x, y, r) rejects and each time the advice would be this r.\\
+
+
+Let N be a matrix of size $2^n*2^{p(n)}$.\\
+and probability error = $1/2^{2n}$.
+Here the number of rows is $2^n$ and number of columns is $2^{p(n)}$.\\
+N(x,y) = 1 if random string y leads M to correct decision on input x
+and 0 otherwise.
+Let us look at how many zeroes are there in any row. There are $2^p(n)$ total strings possible and based on our assumption there can be atmost $2^{p(n)}/2^{2n}$.
+Hence summing over all rows we end up with $2^{p(n) - n}$ maximum number of zeroes
+where we can easily see that it is less than the number of columns. Hence there is
+atleast one column full of ones which essentially gives us a set of strings which
+helps us find the correct path $always$ because of the construction of the matrix.
+
+(the above argument is same as showing BPP is in P/Poly).
+Hence we have shown that there exists r for every |x| such that NP machine M
+is lead to accept on r. Hence $AM \in NP/Poly$.
+
+
+\end{solution}
+\question[10]
+Show that for all constant $k \ge 2$, $\AM[k] \subseteq \AM[\frac{k}{2}+1]$. (Hint(*) : Divide the protocol sequence into $\frac{k}{4}$ AMAM segments. Replace each MAM with AMA. This does not work as it is.)
+
+%\question[10]
+%Let $S$ be a set of $n$ elements (numbered $1$ to $n$). Let $G$ and $H$ be groups of permutations on $n$ elements. That is $G$ and $H$ are subgroups of $S_n$. The right coset $G$ with respect to of $g \in S_n$ is defined as $Gg = \{ g'g \mid g' \in G \}$. The coset intersection problem asks, given $G, H, g, h$, does $Gg$ intersect $Hh$? It is known that Graph Isomorphism problem reduces to Coset intersection problem.
+\question[10]
+Show that if $\PSPACE \subseteq \P/\poly$ then $\PSPACE = \MA$.
+\begin{solution}
+Consider $L \in PSPACE$. As IP = PSPACE, we can have an interactive
+proof system for L where the prover runs a PSPACE machine. If L is in P/Poly,
+then there exists a polynomial size advice for every input length which
+can be used to verify whether $x \in L$ or not. Consider the IP prover
+verifier system for L say M. We know that the prover doesnot do anymore than
+what a PSPACE machine could. If we could transfer the power of this
+PSPACE machine to the verifier somehow then the verifier will not ask
+the query to the prover but simulate it on the verifier side itself.\\
+
+Let Merlin give the advice for |x| = p(n)*q(n) for the PSPACE complete machine
+where p(n) denotes the number of times we query the prover in IP system
+and q(n) denotes length of the conversation. Hence any question asked to
+the prover cannot be more than this. If the prover sends this, then
+the verifier will just start simulating the IP machine for L all
+by itself and hence making it an MA protocol. If x is in L
+then and the proof being the above specified
+advice, then perfect completeness is guaranteed as IP macine has perfect
+completeness. If x is not in L due to the IP system which we establish,
+the prover cannot cheat us more than a specified less probability (like 1/3).
+Hence the above MA protocol recognizes any L in PSPACE.
+We already know that $MA \subseteq IP = PSPACE$. Hence
+MA = PSPACE.
+\end{solution}
+\end{questions}
+\end{document}

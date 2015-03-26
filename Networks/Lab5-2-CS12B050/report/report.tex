@@ -1,0 +1,200 @@
+\documentclass[solution,addpoints,12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\begin{document}
+\hrule
+\vspace{3mm}
+\noindent
+{\sf IITM-CS3200-2015 : Computer Networks  \hfill Given on: 9 March}
+\vspace{3mm} \\
+\noindent
+{\sf Lab5-2 : Tcp Nuts and Bolts \hfill Due on : March 22}\\\\
+\vspace{3mm}
+\noindent
+{\sf Report By : R.Ranjan \hfill Roll No : CS12B050}
+\vspace{3mm}
+\hrule
+\begin{verbatim}
+References : https://www.nsnam.org/docs/models/html/tcp.html
+For this particular piece of code which used to instantiate different
+tcp variants across different nodes.
+// Create and bind the socket...
+TypeId tid = TypeId::LookupByName ("ns3::TcpTahoe");
+std::stringstream nodeId; nodeId << n0n1.Get (0)->GetId ();
+std::string specificNode = "/NodeList/" + nodeId.str () + "/$ns3::TcpL4Protocol/SocketType";
+Config::Set (specificNode, TypeIdValue (tid));
+Ptr<Socket> localSocket = Socket::CreateSocket (n0n1.Get (0), TcpSocketFactory::GetTypeId ());
+
+Some report references (Description of TCP versions) are taken
+from wikipedia.
+\end{verbatim}
+
+
+Let us discuss about the three different tcp variants
+mentioned to us :\\
+There are three phases to these :
+\begin{itemize}
+\item
+Slow Start : Where we start at a very low value and
+exponentially increase for every RTT till we reach the threshold.
+The exponential increase (in general) is simulated as follows :
+for every ack received you increase the cwnd by 1 MSS. Hence when
+a whole window is transmitted(1 RTT) cwnd becomes twice itself.\\
+\item
+Congestion Control : When cwnd reaches threshold we
+make the increase to be linear to ensure that the cwnd doesnt
+blow up.
+\item
+Fast Retransmission : When there are certain number of acks
+which are duplicate acks, we reduce the threshold to half of its
+original and we reduce the cwnd to half of the bytes which
+are being transmitted currently. After this is done there is only
+a linear increase (ie) it goes to congestion control phase.
+\end{itemize}
+\section{TCP Tahoe}
+This is a relatively naive scheme when compared to the
+other two as fast recovery is not an option here.\\
+The algorithm here is that whenever there is a packet drop
+we simply go ahead and change the window size to 1 MSS
+and do slow start from there. Whenever it reaches the slow start threshold
+it starts increasing linearly (congestion control region).
+The linearity is ensured by adding the maximum of 1 or
+mss*mss/cwnd. If we add only 1 extra byte to the window size,
+it is clear that the cwnd doesnot grow exponentially.\\
+
+This can be observed in the following graphs which mark
+the slow start points and the congestion control regions.\\
+\newpage
+The below one is the graph on which the first experiment is
+done :\\
+The sudden drop is due to udp clogging the mid node.\\
+\includegraphics{TcpTahoe}
+\newpage
+The below one is the graph on which the second experiment where
+three different variants where used (Reno, Tahoe, NewReno):\\
+\includegraphics{TcpTahoe2}
+\newpage
+The below one is the graph on which the second experiment where
+three different variants where used (Mine, Tahoe, NewReno):\\
+We see that there is a significant drop here due to the aggressiveness
+of TcpMine which is the new variant introduced. Details of the aggressiveness
+are given later.\\
+\includegraphics{TcpTahoe3}
+\newpage
+\section{TCPReno}
+The algorithm here is that whenever there is a packet drop
+we simply go ahead and change the window size to 1 MSS
+and do slow start from there and whenever 3 duplicate acks
+arrive it makes the threshold half of before and cwnd half of
+before and proceeds. The congestion control protocol remains
+the same as that of TcpTahoe.\\
+This can be observed in the following graphs which mark
+the slow start points, fast recovery points and the congestion control regions.\\
+The first graph is the one which the first experiment is conducted
+and the second on is on which the second setup is done. Notice that
+the first graph has a drop due to the udp clogging and the second graph
+reduces its window size because of competition from the other nodes.\\
+\newpage
+\includegraphics{TcpReno}
+\newpage
+\includegraphics{TcpReno2}
+\newpage
+\section{TCPNewReno}
+TCP New Reno improves retransmission during the fast-recovery phase of TCP Reno. During fast recovery, for every duplicate ACK that is returned to TCP New Reno, a new unsent packet from the end of the congestion window is sent, to keep the transmit window full. For every ACK that makes partial progress in the sequence space, the sender assumes that the ACK points to a new hole, and the next packet beyond the ACKed sequence number is sent.\\
+
+Because the timeout timer is reset whenever there is progress in the transmit buffer, this allows New Reno to fill large holes, or multiple holes, in the sequence space – much like TCP SACK. Because New Reno can send new packets at the end of the congestion window during fast recovery, high throughput is maintained during the hole-filling process, even when there are multiple holes, of multiple packets each.\\
+
+New Reno performs as well as SACK at low packet error rates, and substantially outperforms Reno at high error rates.\\
+
+This can be significantly noted in the first graph and if
+we analyze the throughput for NewReno in the first experiment.
+The other two which are shown are when the second setup is carried
+out in place of reno and Mine (the newly created tcp version).
+We can also notice that during the fast recovery stage the
+increase is steep compared to Reno. Also in the third case the drop
+is significant due to the aggressiveness of TcpMine
+\newpage
+\includegraphics{TcpNewReno}
+\newpage
+\includegraphics{TcpNewReno2}
+\newpage
+\includegraphics{TcpNewReno3}
+
+Now let us move on to the TCP variant which is newly made called
+TcpMine :\\
+\section{TcpMine}
+TcpMine is built over TcpReno and these are the modifications
+done to the existing code of TcpReno :\\
+\begin{itemize}
+\item In congestion control I increase the window size by
+MSS/4 so long as the CWND is considerably less (less than 60000)
+whenever an ack is received and follow the original method
+if the cwnd has shot up above 60000. These are the lines modified :\\
+\begin{verbatim}
+    if(m_cWnd.Get() >= 60000) {
+        double adder = static_cast<double> (m_segmentSize * m_segmentSize) / m_cWnd.Get ();
+        adder = std::max (1.0, adder);
+        m_cWnd += static_cast<uint32_t> (adder);
+      }
+      // I slowly do exponential increase here as well if cWnd is not already high.
+      else {
+        m_cWnd += m_segmentSize/4;
+      }
+\end{verbatim}
+This ensures that there is a reasonably exponential increase in the
+case of control as well. It also is apt as it doesnt increase it as much
+as slow start and it doesnt blow up after it reaches a significantly
+high value.
+\item
+The threshold for fast recovery is set to 4*BytesInFlight/5 unless it is less than 2*MSS. This is in accordance to the aggression as this version
+assumes more or less that during fast recovery it is more likely that
+there is not much congestion and threshold could be high. Code
+is given below.
+\begin{verbatim}
+m_ssThresh = std::max (2 * m_segmentSize, 4*BytesInFlight () / 5);//changed
+\end{verbatim}
+\item
+The threshold for slow start is kept at 3*BytesInFlight/4 unless it
+is less than 2*MSS. Furthermore unlike rest all slow starts
+this restarts from current cwnd/8 as this version doesnot want
+to lose on the already established fact that this was handling
+more than cwnd/8 for a reasonable amount of time.(Two changes.)
+\begin{verbatim}
+m_ssThresh = std::max (2 * m_segmentSize, 3*BytesInFlight () / 4);//changed
+m_cWnd = std::max(m_cWnd.Get()/8, m_segmentSize);//changed
+\end{verbatim}
+\end{itemize}
+The graphs from the experiments are attached below. Notice
+that the steep is more in case of congestion control and that
+the value of cwnd of slow start is not exactly 1MSS and threshold
+set is also higher.\\
+
+The first graph is one where udp clogs.\\
+
+The second one is where the second setup is set with Tahoe and NewReno.\\
+
+The next three are in an additional experiment where the three
+TCP Mine's competes.
+\newpage
+\includegraphics{TcpMine}
+\newpage
+\includegraphics{TcpMine3}
+\newpage
+\includegraphics{TcpMine31}
+\newpage
+\includegraphics{TcpMine32}
+\newpage
+\includegraphics{TcpMine33}
+
+Overall from the experiments conducted and the throughput results
+gotten we could see that this variant is very aggressive
+and achieves 0.05 more in the first experiment and twice as
+much as TCP reno in the second setup. It also gives a decent
+performance when all three are running as TcpMine which is an additional
+experiment conducted. It gives as much sum of throughputs as the
+original setup and is more averaged out between the three.(This can be
+observed in the throughput information collected in the respective folders
+in code).
+\end{document}

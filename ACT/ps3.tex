@@ -1,0 +1,217 @@
+\documentclass[12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb,complexity}
+\begin{document}
+
+\hrule
+\vspace{3mm}
+\noindent
+{\sf IITM-CS6840-2015 : Advanced Complexity Theory  \hfill Given on: Feb 23, 10:00pm}
+\vspace{3mm} \\
+\noindent
+{\sf Problem Set \#3 \hfill Due on : Mar 4, 10:00pm}
+\vspace{3mm}
+\hrule
+
+\begin{questions}
+
+\question[10]
+Show that, if $\NP = \PCP(r(n), O(1))$ for some $r(n) = o(\log n)$, then $\P = \NP$.
+
+\question[10] Explain in your own words (perhaps with the help of a reference) a greedy deterministic algorithm that approximates MAX-3-SAT with approximation ratio 1/8. (That is, the algorithm should satisfy at least 7/8 the number of clauses that are possible to satisfy.) Here it is important that the clauses each contain three distinct variables.
+\begin{solution}
+\begin{verbatim}
+Reference : https://aaronschild.wordpress.com/2012/12/19/
+the-max-3sat-problem-and-the-method-of-conditional-expectation/
+\end{verbatim}
+First let us show that the average number of clauses satisfied for
+any random assignment of the variables is 7k/8 where k is the number of
+clauses.\\
+Let the 3-MAX-SAT problem have k clauses. Let the number of variables
+be n. Hence number of different assignments are $2^n$.
+Now every clause consists of 3 variables and they
+are distinct as well and hence each clause will satisfy exactly
+$(7/8)*2^n$ assignments. Hence total sum over all clauses satisfied over all
+assignments is $(7/8)*2^n*k$. Hence average number of clauses
+satisfied per assignment is $7k/8$.\\
+Let us give an assignment which satisfies more than 7k/8 clauses as follows.
+The maximum number of clauses which could probably have been satisfied is k.
+Hence this would give us the approximation ratio which we want.\\
+
+Consider the following algorithm to get an assignment satisfying atleast
+7/8 of the clauses.
+\begin{itemize}
+\item We know that the average number of satisfying assignments
+would be 7k/8.
+\item Substitute $x_1$ = 1. This would mean some $l_1$ clauses would
+be satisfied out of the k clauses. Now there are $l_1-k$ other clauses.
+We can find the average number of clauses which could be satisfied
+for this formula. Let the average be $t_1$.\\
+Now substitute $x_1$ = 0 and do the same. Let the number of
+satisfying assignments be $l_2$ and average turn out to be $t_2$.
+Now we know that ($l_1$ + $t_1$ + $l_2$ + $t_2$)/2 = 7k/8.
+This is because lhs and rhs denote the average.\\
+Hence either of the two ($x_1 = 1$ or $x_1 = 0$) would result in
+a better expectation than 7k/8. Now substitute $x_1$ = 0 or 1
+based on whichever is higher.
+\item Now at every stage repeat the same. That is now fix
+$x_i$ in a similar manner. That is substitute $x_i$ as 1 and 0,
+check the average and choose the one with the better $l+t$.
+This ensures that at every stage we definitely go on
+to satisfy atleast 7/8 of the overall number of clauses
+(argument is similar to the second point).
+\end{itemize}
+The computation of average can be done in polynomial time (p(n)) and we need
+to fix n variables each needing p(n). Hence running time is polynomial
+and we still end up with an approximation ratio of 1/8.
+\end{solution}
+\question[10]
+Prove the easy direction of PCP theorem !.
+\begin{solution}
+We need to prove that $PCP[O(log(n)), O(1)] \subseteq NP$.\\
+
+Consider any $L \in PCP$.\\
+Let the number of random bits used be c*log(n) and number of queries be q.\\
+First guess strings of length upto max($2^{c*log(n)}$, max independent query) which is essentially $n^c$ non deterministically. Maximum independant query is something where
+we donot use the randomness to query and is a fixed query to the proof.
+We are going to look at these as proofs in that particular branch as any query
+asked to the proof cannot be more than the random number generated or the maximum
+independent query. Now on each path, the number of queries to the proof is
+atmost q and the number of random bits is bounded by c*log(n).\\
+
+Now total number of different possibilities are bounded by : (${n^c}$ choose q )*$2^{c*log(n)}$
+.\\
+That is basically it can ask q queries on the proof which is of length $n^c$.
+On each set of queries the maximum number of random bits which can be used are bounded
+by c*log(n) and hence running over all random string can be done in $2^{c*log(n)}$ time.
+Once we run over all possible random strings and use all q queries we can use the verifier
+to count whether it has been accepted or rejected. The counter size is also polynomial
+in length. Hence if all the possibilities accept we accept in that branch. If even one
+of the possibilities reject, we reject in that branch.\\
+
+Hence overall time taken = (${n^c}$ choose q )*$2^{c*log(n)}$*time.\\
+
+Consider $x \in L$. Then it means there exists a prover which agrees on all
+random strings (completeness). Hence our machine will end up accepting.
+If $x \not \in L$, none of the proofs would accept all random strings
+because soundness is guaranteed to be half and hence all of the paths
+will be rejected. This implies $L \in NP$.\\
+
+Therefore $PCP(O(log(n)), O(1)) \subseteq NP$.\\
+\end{solution}
+\question[10]
+{\sc QuadEq} is the following problem: Given a system of homogeneous quadratic equations modulo 2, test if it has
+solution over $\mathbb{F}_2$. Prove that {\sc QuadEq} is $\NP$-complete.
+\begin{solution}
+Note : mod 2 has been skipped in some cases.
+
+Given any assignment to the various variables
+given in the equation, we can verify whether it is a correct assignment
+in polynomial time. Hence QuadEq is in NP.\\
+
+
+Let us reduce 3 SAT to QuadEq.\\
+Let the variables be $x_1$, $x_2$, .... $x_n$ and clauses
+be $C_1$, $C_2$, .... $C_n$. Let $y_i$ denote complement of $x_i$.\\
+For every variable $x_i$ introduce constraint
+${x_i}^2$ + ${y_i}^2$ = 1.\\
+$x_i*y_i$ = 0.\\
+The above two conditions ensure that $y_i$ is the compliment of
+$x_i$.\\
+
+Let us take a clause $C_i$ with literals a, b, c (ie)
+clause is a+b+c.\\
+Hence we need to introduce constraints so as to
+ensure that boolean addition of a, b and c gives 1. In other
+words $\overline{a}*\overline{b}*\overline{c}$ = 0.\\
+Consider the following equations which will be satisfied
+iff $\overline{a}*\overline{b}*\overline{c}$ = 0.\\
+
+$\overline{a}*d$ = 0.\\
+$d^2 + \overline{b}*\overline{c} = 0$.\\
+
+If a = b = c = 0, then the above set is not satisfiable as this
+forces d to be 1 and the first equation wont be satisfied.\\
+In any other case setting $d = \overline{b}*\overline{c}$
+gives a proper solution to the above set.\\
+
+Hence the above reduction to a QuadEq has a solution iff there
+exists a satisfying assignment for the original problem.
+Hence QuadEq is NP complete.
+
+\end{solution}
+\question[10] Show that the class PCP(O(log n), 2) is contained in P.
+\begin{solution}
+
+The proof could atmost be of size $2^{c*log(n)}$. Let it be called X.\\
+Let us reduce PCP(O(log n), 2) to 2SAT.\\
+Let us consider 3 stages in the proof.\\
+Stage A : The procedure of the verifier before it asks the first query.\\
+Stage B : The procedure of the verifier before it asks the second query.\\
+Stage C : The procedure of the verifier until it accepts.\\
+If there exists an X such that for all these randomization stages, the final
+state is accept, then it means x is in L. But if there is no such X
+then it is guaranteed that x is not in L.\\
+
+We can simulate random choosing of strings of length O(log(n)) in P
+as we can simply run over all such strings and have a counter which would
+keep in it the number of accepting paths.\\
+Lets do the folowing :\\
+Run over all paths of A(randomness introduces) and reach a stage where you
+have at the most $2^{c*log(n)}$ different places before you place the first query.
+At every leaf the verifier would now be expected to query a random bit
+from a $subset$ of X. Let this subset with variables
+$x_1$, $x_2$, .... $x_k$ (A). Note that this subset could be different at different
+leaves.\\
+
+Now branch out twice and assume that the value
+you get is zero in one branch and one in another and proceed to stage B.
+There might be further randomization in B leading to various leaves.
+Let the query made on some leaf be $y_{11}$, $y_{12}$, $y_{13}$, ... $y_{1l}$ (B1).
+Assume either zero or 1 and proceed on to stage C similar to before.
+Now some branches from B might lead to all accepting
+and some others may not. The branches which donot lead to all accepting are
+ones which must be avoided as that means if the random string chosen were of that
+form then it leads to a reject state and perfect completeness is gone. Now
+collect all the pairs of queries which lead to accept states. Consider the
+case where we ended up at querying A. Now if lets say the valid proof gave
+us yes for an answer then, it means it should give yes for all those elements in that
+subset. Lets say that query A and query B one after another when queried ended
+up giving all accepting paths. Hence the corresponding expression
+regarding this branch where we chose yes as the outcome of A,
+$x_1$*$x_2$*.....$x_k$*$y_{11}$*$y_{12}$* ... $y_{1l}$*$y_{21}$*$y_{22}$....
+The $y_{2i}$ and so on refer to the various queries made by the verifier
+on the second branch from A. Similarly we can view any query $y_{ki}$. If zero answer
+leads to an accept it means that we expect zero to be the output from
+any chosen vertex of the set and hence for that we have something like
+$\overline{q_1}*\overline{q_2}....$. If both 1 and zero leads to all accept
+we can simply ignore the branch as it just means that particular branch
+is independent of randomness and no constraint needs to be imposed on it.
+As whatever the proof has in that subset, would lead to an accept.\\
+
+At every leaf at stage A the proof
+could have given either 1 or 0. If atleast one of these branches leads
+to all accept the prover is fine. The constraint for one particular
+branch is specified above. For the other branch hence it would be like :\\
+$\overline{x_1}*\overline{x_2}....$*$z_{11}$*$z_{12}$* ... $z_{1l}$*$z_{21}$*$z_{22}$....
+where z is like y but on the other branch. Now either of the two must be satisfied
+for the prover to consistently give accept on all paths. Hence have an 'or' between
+these two functions. Basically it turns out like :\\
+$\Pi (x_i) * \Pi (y_{ij})$ + $\Pi (\overline{x_i}) * \Pi (z_{ij})$
+.\\
+
+In another words the same function can be seen as follows :\\
+whenever some $x_i$ = 1, it means all $y_{ij}$ must be equal to 1 and when
+some $x_i$ = 0, then all $z_{ij}$ = 1. This can be modelled as :\\
+$\Pi(\overline{x_i} + y_{ij})* \Pi(x_i + z_{ij}) * \Pi(x_i + \overline{x_j})$ which is eventually in
+2SAT.\\
+Now this must satisfy overall paths branched out in A as well. Hence if
+we combine all the constraints (as in 'and' all the constraints obtained
+over all paths), we get a 2SAT formula which we know is in P. If this formula
+is satisfied then there exists a prover with perfect completeness
+for the current string else there is not. Hence we have solved
+PCP(O(log n), 2) in polynomial time as each of the steps are polynomial.
+\end{solution}
+\end{questions}
+
+\end{document}

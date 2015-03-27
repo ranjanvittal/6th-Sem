@@ -1585,7 +1585,7 @@ ${TC}^0$ is the class where threshold is given as a gate and an ${AC}^0$ circuit
 $Th_1$ is in $AC_0$ and $Th_n$ is in $AC_0$ (or, and gates).\\
 poly log threshold(from either side) is also in $AC_0$ (Project qn).\\
 
-Lets show that ${ACC}_0 \in {TC}_0$.\\
+Lets show that ${ACC}^0 \in {TC}^0$.\\
 A function f : ${\{0, 1\}}^n \rightarrow \{0, 1\}$
 is said to be symmetric if for all permutation
 of the input the function gives the same value.\\
@@ -1604,14 +1604,25 @@ all the inputs. Now using and or and not we can find out where
 $Th$ starts becoming zero and we can output log(n) wires which refers
 to bitcount.\\
 Now the input size is just log(n) bits and we can trivially simulate
-the truth table of the function f using ${AC}_0$.\\
+the truth table of the function f using ${AC}^0$.\\
 
-Hence ${ACC}_0 \in {TC}_0$.\\
+Hence ${ACC}^0 \in {TC}^0$.\\
 
 What happens when we restrict the fanout to 1 ?\\
 These are called boolean formulae.(Fanout is only for gates).\\
 $BF$ is set of all languages such that L can be computed
 by family of formulas $F_n, n \ge 0$ with size poly(n).\\
+Let us show that ${NC}^1 = BF$.\\
+${NC}^1 \subseteq BF$.\\
+We can show this as follows :\\
+Number of paths are only polynomially many. For
+every path duplicate the gate. Wherever
+there is a fanout of more than 2, duplicate it. Now
+the original structure is maintained with log depth.
+Hence we are easily done (as now the number of nodes would
+be polynomial as depth is logarithmic) even though the copies
+would have blown it out.\\
 
-
+Now let us show that $BF \subseteq {NC}^1$.\\
+Given any path
 \end{document}

@@ -172,7 +172,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
         for(int i = 0; i < n1.size(); i++) {
             VarDeclaration v = (VarDeclaration) n1.elementAt(i);
             String type = (String) v.f0.accept(this, argu);
-            String var = "LoopyTaco" + v.f1.f0.toString();
+            String var = (String) v.f1.accept(this, argu);
             pto(type + " " + var + ";\n");
 
         }
@@ -214,7 +214,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
         for(int i = 0; i < n1.size(); i++) {
             VarDeclaration v = (VarDeclaration) n1.elementAt(i);
             String type = (String) v.f0.accept(this, argu);
-            String id = v.f1.f0.toString();
+            String id = (String) v.f1.accept(this, argu);
             pto(type + " " + id + ";");
         }
         n1 = n.f4;
@@ -248,7 +248,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
         for(int i = 0; i < n1.size(); i++) {
             VarDeclaration v = (VarDeclaration) n1.elementAt(i);
             String type = (String) v.f0.accept(this, argu);
-            String id = v.f1.f0.toString();
+            String id = (String) v.f1.accept(this, argu);
             pto(type + " " + id + ";");
         }
         n1 = n.f6;

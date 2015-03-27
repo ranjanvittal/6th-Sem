@@ -971,7 +971,8 @@ public class GJDepth2<R,A> extends GJDepthFirst<R, A> {
                     passOn.retString = true;
                     inLic = true;
                     while(i < passOn.lic.size()) {
-                        passOn.lic.elementAt(i).accept(this, (A) passOn);
+                        if(!passOn.nlic.contains(passOn.lic.elementAt(i)))
+                            passOn.lic.elementAt(i).accept(this, (A) passOn);
                         i++;
                     }
                     inLic = false;
@@ -1072,9 +1073,10 @@ public class GJDepth2<R,A> extends GJDepthFirst<R, A> {
                     passOn1.checkInvariant = false;
                 }
             }
-            if(!checkInvariant)
+            if(!checkInvariant) {
                 e.nlic = true;
-
+                passOn1.checkInvariant = false;
+            }
             if(passOn1.lastPass) {
                 n.f13.accept(this, argu);
                 if(!passOn1.isNlic(n.f13)) {
@@ -1091,10 +1093,11 @@ public class GJDepth2<R,A> extends GJDepthFirst<R, A> {
                 passOn1.checkInvariant = checkInvariant;
             }
             else {
-                n.f13.accept(this, argu);
-                if(passOn1.isNlic(n.f13) || !checkInvariant)
+                if(passOn1.isNlic(n.f13) || !checkInvariant) {
                     e.nlic = true;
-
+                    passOn1.checkInvariant = false;
+                }
+                n.f13.accept(this, argu);
                 passOn1.checkInvariant = checkInvariant;
             }
         }

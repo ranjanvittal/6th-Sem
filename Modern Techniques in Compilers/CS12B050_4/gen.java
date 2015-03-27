@@ -12,7 +12,7 @@ System.out.println(LoopyTacot1);
 }
 }
 class LoopyTacoFac
-{public int divide(int n, int d){
+{int LoopyTacooo;public int divide(int n, int d){
 int i;
 int ret;
 boolean b;
@@ -54,44 +54,87 @@ int LoopyTacoj;
 int LoopyTacok;
 int LoopyTacosum;
 int LoopyTacosum2;
+int LoopyTacok1;
+int LoopyTacok2;
 int[] LoopyTacoa;
 int[] LoopyTacob;
 int[] LoopyTacoc;
 int LoopyTacokk;
 int LoopyTacom;
 int LoopyTacoret;
+boolean LoopyTacot1;
+boolean LoopyTacot2;
+boolean LoopyTacot12;
 int temp0;
 int temp1;
 int temp2;
-int temp3;
-int temp4;
-int temp5;
 boolean t0;
-boolean t1;
+int t1;
+int t2;
+boolean t3;
+int l0;
+int l1;
+int l2;
+int l3;
+boolean l4;
+int l5;
+boolean l6;
+int l7;
 a = this;
 LoopyTacoret = 0;
+LoopyTacot1 = true;
+LoopyTacot2 = true;
 LoopyTacom = LoopyTaconum+LoopyTaconum;
 LoopyTacoa = new int[LoopyTacom];
 LoopyTacob = new int[LoopyTacom];
 LoopyTacoc = new int[LoopyTacom];
 LoopyTacok = 4;
 LoopyTacosum = 0;
+LoopyTacoi = 4;
 LoopyTacoj = 0;
 t0 = LoopyTacoj<LoopyTaconum;
 if(t0)
 {
-LoopyTacok = 5;
+t1 = 1+5;
+t2 = 5*3;
 for(LoopyTacoj=0;LoopyTacoj<LoopyTaconum;LoopyTacoj = LoopyTacoj+1)
 {
-LoopyTacosum = LoopyTacosum+LoopyTacoj;
+{
+if(LoopyTacot1)
+{
+if(LoopyTacot2)
+LoopyTacok = t1;
+else
+LoopyTacok = 3;
+}
+else
+{
+LoopyTacok = 2+LoopyTacoi;
+}
+}
+LoopyTacosum = LoopyTacok+LoopyTacok;
+LoopyTacooo = t2;
+LoopyTacosum = LoopyTacosum+LoopyTacok;
+for(LoopyTacoi=0;LoopyTacoi<LoopyTaconum;LoopyTacoi = LoopyTacoi+1)
+{
+if(LoopyTacot1)
+{
+LoopyTacok1 = 2*LoopyTacok;
+}
+else
+{
+LoopyTacok1 = 7;
+}
+LoopyTacosum = LoopyTacosum+LoopyTacok;
+}
 }
 }
 else
 {
 }
 LoopyTacoi = 0;
-t1 = LoopyTacoi<LoopyTaconum;
-if(t1)
+t3 = LoopyTacoi<LoopyTaconum;
+if(t3)
 {
 for(LoopyTacoi=0;LoopyTacoi<LoopyTaconum;LoopyTacoi = LoopyTacoi+1)
 {
@@ -112,69 +155,44 @@ for(LoopyTacoj=0;LoopyTacoj<LoopyTaconum;LoopyTacoj = LoopyTacoj+1)
 LoopyTacosum = LoopyTacosum+LoopyTacoj;
 
 }
-/*LOOPDISTRIBUTE*/
 for(LoopyTacoj=1;LoopyTacoj<LoopyTaconum;LoopyTacoj = LoopyTacoj+1)
 {
-LoopyTacoa[LoopyTacoj] = LoopyTacoj;
-LoopyTacok = LoopyTacoj-1;
-LoopyTacokk = LoopyTacoa[LoopyTacok];
-LoopyTacob[LoopyTacoj] = LoopyTacokk;
+LoopyTacok = 2*LoopyTacoj;
+LoopyTacoa[LoopyTacok] = LoopyTacoj;
 }
-/*LOOPDISTRIBUTE*/
-for(LoopyTacoj=0;LoopyTacoj<LoopyTaconum;LoopyTacoj = LoopyTacoj+1)
+for(LoopyTacoj=1;LoopyTacoj<LoopyTaconum;LoopyTacoj = LoopyTacoj+1)
 {
-LoopyTacoa[LoopyTacoj] = LoopyTacoj;
-LoopyTacok = LoopyTacoj+1;
-LoopyTacokk = LoopyTacoa[LoopyTacok];
-LoopyTacob[LoopyTacoj] = LoopyTacokk;
+LoopyTacokk = 2*LoopyTacoj;
+LoopyTacok1 = LoopyTacokk+1;
+LoopyTacok2 = LoopyTacoa[LoopyTacok1];
+
 }
-temp1 = 16;
+for(l0= 0;l0 < 64;l0 = l0 + 4)
+for(l1 = 0;l1 < 64;l1 = l1 + 4) {
+l2 = l0 + 4;
+l3 = l1 + 4;
+l4 = l2 < 64;
+l6 = l3 < 64;
+if(l4)
+l5 = l2;
+else
+l5 = 64;
+if(l6)
+l7 = l3;
+else
+l7 = 64;
+for(LoopyTacoi = l0;LoopyTacoi < l5;LoopyTacoi = LoopyTacoi + 1)
+for(LoopyTacoj = l1;LoopyTacoj < l7;LoopyTacoj = LoopyTacoj + 1)
+{
+LoopyTacok1 = 2*LoopyTacoi;
+LoopyTacoa[LoopyTacok1] = 1;
+}
+}
+temp1 = 64;
 temp2 = 4;
 temp0 = a.divide(temp1, temp2);
 temp0 = temp0*4;
-for(LoopyTacoj=0;LoopyTacoj<temp0;LoopyTacoj = LoopyTacoj)
-{
-{
-LoopyTacoa[LoopyTacoi] = LoopyTacoj;
-LoopyTacosum = LoopyTacosum+LoopyTacoj;
-}
-LoopyTacoj = LoopyTacoj+1;
-{
-LoopyTacoa[LoopyTacoi] = LoopyTacoj;
-LoopyTacosum = LoopyTacosum+LoopyTacoj;
-}
-LoopyTacoj = LoopyTacoj+1;
-{
-LoopyTacoa[LoopyTacoi] = LoopyTacoj;
-LoopyTacosum = LoopyTacosum+LoopyTacoj;
-}
-LoopyTacoj = LoopyTacoj+1;
-{
-LoopyTacoa[LoopyTacoi] = LoopyTacoj;
-LoopyTacosum = LoopyTacosum+LoopyTacoj;
-}
-LoopyTacoj = LoopyTacoj+1;
-}
-for(LoopyTacoj=LoopyTacoj;LoopyTacoj<16;LoopyTacoj = LoopyTacoj+1)
-{
-{
-LoopyTacoa[LoopyTacoi] = LoopyTacoj;
-LoopyTacosum = LoopyTacosum+LoopyTacoj;
-}
-}
-/*LOOPTILE 4 4 */
-for(LoopyTacoi=0;LoopyTacoi<64;LoopyTacoi = LoopyTacoi+1)
-for(LoopyTacoj=0;LoopyTacoj<64;LoopyTacoj = LoopyTacoj+1)
-{
-LoopyTacok = LoopyTacoi+LoopyTacoj;
-LoopyTacokk = LoopyTacoa[LoopyTacok];
-LoopyTacoa[LoopyTacoi] = LoopyTacokk;
-}
-temp4 = 12;
-temp5 = 4;
-temp3 = a.divide(temp4, temp5);
-temp3 = temp3*4;
-for(LoopyTacoi=0;LoopyTacoi<temp3;LoopyTacoi = LoopyTacoi)
+for(LoopyTacoi=0;LoopyTacoi<temp0;LoopyTacoi = LoopyTacoi)
 {
 {
 LoopyTacoret = LoopyTacoa[LoopyTacoi];
@@ -197,19 +215,12 @@ System.out.println(LoopyTacoret);
 }
 LoopyTacoi = LoopyTacoi+1;
 }
-for(LoopyTacoi=LoopyTacoi;LoopyTacoi<12;LoopyTacoi = LoopyTacoi+1)
+for(LoopyTacoi=LoopyTacoi;LoopyTacoi<64;LoopyTacoi = LoopyTacoi+1)
 {
 {
 LoopyTacoret = LoopyTacoa[LoopyTacoi];
 System.out.println(LoopyTacoret);
 }
-}
-/*LOOPDISTRIBUTE*/
-for(LoopyTacoj=0;LoopyTacoj<LoopyTaconum;LoopyTacoj = LoopyTacoj+1)
-{
-System.out.println(LoopyTacoj);
-LoopyTacoret = LoopyTacoa[LoopyTacoj];
-System.out.println(LoopyTacoret);
 }
 return LoopyTacoret;
 }

@@ -15,6 +15,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
    // Auto class visitors--probably don't need to be overridden.
    //
     boolean inLic;
+    boolean tiling;
     String methodString = "";
     String variableString = "";
     String overall = "";
@@ -36,9 +37,11 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
     class Gcd {
         public Integer gcd;
         public Integer constant;
+        public boolean danger;
         public Gcd() {
             gcd = 0;
             constant = 0;
+            danger = false;
         }
     }
 
@@ -76,16 +79,21 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
         Iterator e1 = h1.iterator();
         Iterator e2 = h2.iterator();
         boolean fl = true;
+        //System.out.println(h1.size());
+        //System.out.println(h2.size());
         while(e1.hasNext()) {
             StringGcd g1 = (StringGcd) e1.next();
             while(e2.hasNext()) {
                 StringGcd g2 = (StringGcd) e2.next();
+                if(g1 != g2) {
+                    if(g1.id.equals(g2.id)) {
+                        if(g1.gcd == 0 || g2.gcd == 0)
+                            return false;
 
-                if(g1.id.equals(g2.id)) {
-                    if(g1.gcd == 0 || g2.gcd == 0)
-                        return false;
-                    if((g1.constant - g2.constant) % gcd(g1.gcd, g2.gcd) == 0)
-                        return false;
+                        if((g1.constant - g2.constant) % gcd(g1.gcd, g2.gcd) == 0)
+                            return false;
+
+                    }
                 }
             }
         }
@@ -96,6 +104,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
         public boolean toPrint;
         public boolean collectArray;
         public boolean hasBeenPrinted;
+        public boolean dont;
         public Hashtable<String, Gcd> gcd;
 
         public Set<String> useVariables;
@@ -118,6 +127,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
             gcd = new Hashtable<String, Gcd>();
             validStrings = globalValidStrings;
             hasBeenPrinted = false;
+            dont = false;
         }
         public void addToUse(String s) {
             useVariables.add(s);
@@ -204,7 +214,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
     }
 
     public String makeVar(String type) {
-        String temp = "t" + String.valueOf(temps);
+        String temp = "l" + String.valueOf(temps);
         variableString += type + " " + temp + ";\n";
         temps++;
         return temp;
@@ -607,6 +617,8 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
             }
             else
                 n.f2.accept(this, argu);
+            if(!distOn.validStrings.contains(id))
+                distOn.dont = true;
         }
         return _ret;
     }
@@ -625,12 +637,19 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
         DistOn  distOn = (DistOn) argu;
         String id1 = (String) n.f0.accept(this, argu);
         String id2 = (String) n.f2.accept(this, argu);
-        String id3 = (String) n.f5.accept(this, argu);
-        if(distOn.toPrint)
+        String id3;
+
+        if(distOn.toPrint) {
+            id3 = (String) n.f5.accept(this, argu);
             print(id1 + "[" + id2 + "]" + " = " + id3 + ";\n");
+        }
 
         else if(!distOn.collectArray) {
             //distOn.addToUse(id1);
+            if(n.f5.f0.which == 0)
+                id3 = (String) n.f5.accept(this, argu);
+            else
+                id3 = String.valueOf((Integer) n.f5.accept(this, argu));
             distOn.addToUse(id2);
             if(n.f5.f0.which == 0)
                 distOn.addToUse(id3);
@@ -642,11 +661,14 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                 s.gcd = g.gcd;
                 s.constant = g.constant;
                 s.id = id1;
+                if((g.danger || g.gcd == 0) && tiling)
+                    distOn.dont = true;
             }
             else {
                 s.gcd = 0;
                 s.id = id1;
                 s.constant = 0;
+                distOn.dont = true;
             }
             distOn.writeTable.add(s);
         }
@@ -669,8 +691,10 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
         DistOn  distOn = (DistOn) argu;
         if(distOn.toPrint)
             print(id1 + "." + id2 + " = " + id3 + ";\n");
-        else
+        else {
+            distOn.dont = true;
             distOn.addToUse(id3);
+        }
 
         return _ret;
     }
@@ -733,6 +757,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
             distOn.readTable.addAll(distOn1.readTable);
             distOn.readTable.addAll(distOn2.readTable);
 
+            distOn.dont = distOn1.dont || distOn2.dont;
         }
         return _ret;
     }
@@ -786,16 +811,21 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
 
         if(n.f0.present()) {
             la = (LoopAnnotate) n.f0.accept(this, argu);
+            int i = 0;
+            DistOn distOn;
+            String id;
             if(la.which == 3) {
                 Block b = (Block) n.f13.f0.choice;
                 Vector<Node> nodes = b.f1.nodes;
-                int i = 0;
-                String id = (String) n.f3.accept(this, argu);
-                DistOn distOn = new DistOn();
+                tiling = false;
+                id = (String) n.f3.accept(this, argu);
+                distOn = new DistOn();
                 DistOn distOn2 = new DistOn();
                 DistOn distOn3 = new DistOn();
-
-                distOn.gcd.put(id, new Gcd());
+                Gcd g = new Gcd();
+                g.gcd = 1;
+                g.constant = 0;
+                distOn.gcd.put(id, g);
 
                 distOn.validStrings = globalValidStrings;
                 distOn.toPrint = false;
@@ -818,7 +848,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                 intersection2.retainAll(distOn2.defVariables);
                 Set<String> intersection3 = new HashSet<String>(distOn2.defVariables);
                 intersection3.retainAll(distOn3.defVariables);
-                //System.out.println(intersection1.size());
+
                 int k = intersection1.size() + intersection2.size() + intersection3.size();
 
 
@@ -838,17 +868,10 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                 Enumeration it = distOn3.gcd.keys();
                 while(it.hasMoreElements()) {
                     String s = (String) it.nextElement();
-                    if(distOn.gcd.containsKey(s)) {
-                        Gcd g = new Gcd();
-                        g.gcd = 0;
-                        g.constant = 0;
-                        distOn.gcd.put(s, g);
-                    }
-                    else
-                        distOn.gcd.put(s, distOn3.gcd.get(s));
+                    distOn.gcd.put(s, distOn3.gcd.get(s));
                 }
-
-                if(k != 0 ||( distOn2.hasBeenPrinted && distOn3.hasBeenPrinted)) {
+                distOn.dont = distOn2.dont || distOn3.dont;
+                if(k != 0 ||( distOn2.hasBeenPrinted && distOn3.hasBeenPrinted) || distOn.dont) {
                     distOn1.toPrint = true;
                 }
                 else {
@@ -870,7 +893,6 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                     Set<StringGcd> oneRead = distOn2.readTable;
                     Set<StringGcd> twoWrite = distOn3.writeTable;
                     Set<StringGcd> twoRead = distOn3.readTable;
-
                     boolean l = checkIndependency(oneWrite, twoWrite);
                     l = l & checkIndependency(oneWrite, twoRead);
                     l = l & checkIndependency(twoWrite, oneRead);
@@ -886,7 +908,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                         print(id1 + " = ");
                         String exp3 = (String) n.f11.accept(this, argu);
                         print(exp3 + ")\n");
-                        nodes.elementAt(0).accept(this, argu);
+                        nodes.elementAt(0).accept(this, (A) distOn);
                         print("for(");
                         print(id + "=");
                         print(exp1 + ";");
@@ -905,12 +927,17 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                     else
                         distOn1.toPrint = true;
                 }
+            }
             if(la.which == 0) {
-                int i = 0;
-                String id = (String) n.f3.accept(this, argu);
-                DistOn distOn = new DistOn();
+                i = 0;
+                tiling = true;
+                id = (String) n.f3.accept(this, argu);
+                distOn = new DistOn();
 
-                distOn.gcd.put(id, new Gcd());
+                Gcd g1 = new Gcd();
+                g1.gcd = 1;
+                g1.constant = 0;
+                distOn.gcd.put(id, g1);
 
                 distOn.validStrings = globalValidStrings;
                 distOn.toPrint = false;
@@ -923,52 +950,55 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                 distOn.collectArray = true;
                 n.f13.accept(this, (A) distOn);
                 i = 0;
-                distOn.collectArray = true;
-                distOn.toPrint = false;
-                distOn2 = new DistOn();
-                distOn3 = new DistOn();
-                deepCopy(distOn2, distOn);
-                deepCopy(distOn3, distOn);
-                nodes.elementAt(i).accept(this, (A) distOn2);
-                i++;
-                while(i < nodes.size()) {
-                    nodes.elementAt(i).accept(this, (A) distOn3);
-                    i++;
-                }
 
-                Set<StringGcd> oneWrite = distOn2.writeTable;
-                Set<StringGcd> oneRead = distOn2.readTable;
-                Set<StringGcd> twoWrite = distOn3.writeTable;
-                Set<StringGcd> twoRead = distOn3.readTable;
+                Set<StringGcd> oneWrite = distOn.writeTable;
+                Set<StringGcd> oneRead = distOn.readTable;
 
-                boolean l = checkIndependency(oneWrite, twoWrite);
-                l = l & checkIndependency(oneWrite, twoRead);
-                l = l & checkIndependency(twoWrite, oneRead);
-                if(l) {
+
+                boolean l = checkIndependency(oneWrite, oneWrite);
+                l = l & checkIndependency(oneWrite, oneRead);
+
+                if(l && !distOn.dont) {
                     distOn.toPrint = true;
+                    String t1 = makeVar("int");
+                    String t2 = makeVar("int");
                     print("for(");
-                    print(id + "=");
-                    String exp1 = (String) n.f5.accept(this, argu);
-                    print(exp1 + ";");
-                    String exp2 = (String) n.f7.accept(this, argu);
-                    print(exp2 + ";");
-                    String id1 = (String) n.f9.accept(this, argu);
-                    print(id1 + " = ");
-                    String exp3 = (String) n.f11.accept(this, argu);
-                    print(exp3 + ")\n");
-                    nodes.elementAt(0).accept(this, argu);
-                    print("for(");
-                    print(id + "=");
-                    print(exp1 + ";");
-                    print(exp2 + ";");
-                    print(id1 + " = ");
-                    print(exp3 + ")\n{\n");
-                    i = 1;
-                    while(i < nodes.size()) {
-                        nodes.elementAt(i).accept(this, (A) distOn);
-                        i++;
-                    }
-                    print("\n}\n");
+                    print(t1 + "= 0;");
+                    CompareExpression ce = (CompareExpression) n.f7.f0.choice;
+                    String id6 = (String) ce.f2.accept(this, (A) distOn);
+                    print(t1 + " < " + id6 + ";");
+                    print(t1 + " = " + t1 + " + " + String.valueOf(la.tile_1) + ")\n");
+                    ForStatement f = (ForStatement) n.f13.f0.choice;
+                    ce = (CompareExpression) f.f7.f0.choice;
+                    String id7 = (String) ce.f2.accept(this, (A) distOn);
+                    print("for(" + t2 + " = 0;" + t2 + " < " + id7 + ";");
+                    print(t2 + " = " + t2 + " + " + String.valueOf(la.tile_2) + ") {\n");
+                    String t3 = makeVar("int");
+                    String t4 = makeVar("int");
+                    String t5 = makeVar("boolean");
+                    String t6 = makeVar("int");
+                    String t7 = makeVar("boolean");
+                    String t8 = makeVar("int");
+                    print(t3 + " = " + t1 + " + " + String.valueOf(la.tile_1) + ";\n");
+                    print(t4 + " = " + t2 + " + " + String.valueOf(la.tile_2) + ";\n");
+                    print(t5 + " = " + t3 + " < " + id6 + ";\n");
+                    print(t7 + " = " + t4 + " < " + id7 + ";\n");
+                    print("if(" + t5 + ")\n");
+                    print(t6 + " = " + t3 + ";\n");
+                    print("else\n");
+                    print(t6 + " = " + id6 + ";\n");
+                    print("if(" + t7 + ")\n");
+                    print(t8 + " = " + t4 + ";\n");
+                    print("else\n");
+                    print(t8 + " = " + id7 + ";\n");
+
+                    String id8 = (String) f.f3.accept(this, (A) distOn);
+                    print("for(" + id + " = " + t1 + ";" + id + " < " + t6 + ";");
+                    print(id + " = " + id + " + 1)\n");
+                    print("for(" + id8 + " = " + t2 + ";" + id8 + " < " + t8 + ";");
+                    print(id8 + " = " + id8 + " + 1)\n");
+                    f.f13.accept(this, (A) distOn);
+                    print("}\n");
                     done = true;
                     return null;
                 }
@@ -976,7 +1006,6 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                     distOn1.toPrint = true;
             }
         }
-    }
 
         if(distOn1.toPrint ) {
             if(n.f0.present()) {
@@ -1094,6 +1123,8 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
         else {
             distOn.addToUse(id);
             distOn.hasBeenPrinted = true;
+            if(tiling)
+                distOn.dont = true;
         }
 
         return _ret;
@@ -1185,18 +1216,21 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
             Gcd gcd = new Gcd();
             gcd.gcd = 0;
             gcd.constant = 0;
+            String id1 = (String) n.f0.accept(this, argu);
+
             boolean fl = true;
             if(n.f0.f0.which == 0) {
-                String id1 = (String) n.f0.accept(this, argu);
                 distOn.useVariables.add(id1);
                 if(distOn.gcd.containsKey(id1)) {
                     Gcd gcd1 = distOn.gcd.get(id1);
                     gcd.gcd = gcd1.gcd;
                     gcd.constant = gcd1.constant;
+                    //System.out.println(gcd.gcd + " : " + id1);
                 }
                 else {
                     gcd.gcd = 0;
                     gcd.constant = 0;
+                    gcd.danger = true;
                 }
             }
             else {
@@ -1211,6 +1245,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                     if(fl) {
                         gcd.gcd = gcd(gcd.gcd, gcd1.gcd);
                         gcd.constant = gcd.constant + gcd1.constant;
+                        gcd.danger = true;
                     }
                     else {
                         gcd.gcd = gcd1.gcd;
@@ -1220,16 +1255,19 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                 else {
                     gcd.gcd = 0;
                     gcd.constant = 0;
+                    gcd.danger = true;
                 }
             }
             else {
-                if(!fl)
+                if(fl)
                     gcd.constant += ((Integer) n.f2.accept(this, argu)).intValue();
                 else {
                     gcd.gcd = 0;
                     gcd.constant = 0;
+                    gcd.danger = true;
                 }
             }
+            //System.out.println(id1 + ":" + gcd.gcd);
             return (R) gcd;
         }
     }
@@ -1266,7 +1304,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                 }
             }
             else {
-                gcd.constant =  ((Integer) n.f0.accept(this, argu)).intValue();
+                gcd.constant =  - ((Integer) n.f0.accept(this, argu)).intValue();
                 fl = false;
             }
             if(n.f2.f0.which == 0) {
@@ -1277,6 +1315,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                     if(fl) {
                         gcd.gcd = gcd(gcd.gcd, gcd1.gcd);
                         gcd.constant = gcd.constant - gcd1.constant;
+                        gcd.danger = true;
                     }
                     else {
                         gcd.gcd = gcd1.gcd;
@@ -1289,12 +1328,13 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                 }
             }
             else {
-                if(!fl)
+                if(fl)
                     gcd.constant -= ((Integer) n.f2.accept(this, argu)).intValue();
                 else {
                     gcd.gcd = 0;
                     gcd.constant = 0;
                 }
+
             }
             return (R) gcd;
         }
@@ -1355,7 +1395,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                 }
             }
             else {
-                if(!fl) {
+                if(fl) {
                     gcd.constant *= (Integer) n.f2.accept(this, argu);
                     gcd.gcd *= (Integer) n.f2.accept(this, argu);
                 }
@@ -1393,8 +1433,9 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
             else {
                 StringGcd g = new StringGcd();
                 g.id = (String) n.f0.accept(this, argu);
-                if(distOn.gcd.containsKey(g.id)) {
-                    Gcd g1 = distOn.gcd.get(g.id);
+                String gen = (String) n.f2.accept(this, argu);
+                if(distOn.gcd.containsKey(gen)) {
+                    Gcd g1 = distOn.gcd.get(gen);
                     g.gcd = g1.gcd;
                     g.constant = g1.constant;
                 }
@@ -1457,6 +1498,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
             Gcd gcd = new Gcd();
             gcd.gcd = 0;
             gcd.constant = 0;
+            distOn.dont = true;
             return (R) gcd;
         }
     }
@@ -1534,10 +1576,13 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                     return (R) g;
                 }
             }
+
             else {
                 Gcd g = new Gcd();
                 g.gcd = 0;
                 g.constant = 0;
+                if(n.f0.which == 4 || n.f0.which == 5 || n.f0.which == 6)
+                    distOn.dont = true;
                 return (R) g;
             }
         }

@@ -1578,8 +1578,40 @@ The number of zeroes are so much so as to hold the maximum carry which
 is the BITCOUNT size which is log(n) size. Hence we will put log(n)
 zeroes in between. Hence we are done.\\
 
-${ACC}^0$ is the class where parity is given as a gate and an ${AC}^0$ circuit.\\
+${ACC}^0$ is the class where parity(any modulo not just 2) is given as a gate
+(parity on polynomial inputs) and an ${AC}^0$ circuit.\\
 ${TC}^0$ is the class where threshold is given as a gate and an ${AC}^0$ circuit.\\
+
+$Th_1$ is in $AC_0$ and $Th_n$ is in $AC_0$ (or, and gates).\\
+poly log threshold(from either side) is also in $AC_0$ (Project qn).\\
+
+Lets show that ${ACC}_0 \in {TC}_0$.\\
+A function f : ${\{0, 1\}}^n \rightarrow \{0, 1\}$
+is said to be symmetric if for all permutation
+of the input the function gives the same value.\\
+Parity is a symmetrical, mod k is symmetric. mod k refers
+to bit count mod k.\\
+Basically it is clear that it is more like $f : (0-n) \rightarrow \{0, 1\}$.\\
+therefore the domain is actually linear(the domain can be looked up as
+number of 1's).\\
+Hence number of such functions are $2^n$.\\
+Theorem : All symmetric functions are in ${TC}^0$.\\
+The function value depends only on number of 1's in the input.\\
+We can use BITCOUNT to generate the number of one's.\\
+It can be done in the following way :\\
+We can have $Th_0, Th_1, ... Th_n$  in the first layer and feed in
+all the inputs. Now using and or and not we can find out where
+$Th$ starts becoming zero and we can output log(n) wires which refers
+to bitcount.\\
+Now the input size is just log(n) bits and we can trivially simulate
+the truth table of the function f using ${AC}_0$.\\
+
+Hence ${ACC}_0 \in {TC}_0$.\\
+
+What happens when we restrict the fanout to 1 ?\\
+These are called boolean formulae.(Fanout is only for gates).\\
+$BF$ is set of all languages such that L can be computed
+by family of formulas $F_n, n \ge 0$ with size poly(n).\\
 
 
 \end{document}

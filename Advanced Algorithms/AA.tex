@@ -985,5 +985,47 @@ which is atmost 1/2 the size of the original ellipse. When the
 center is in the valid region we stop, else if the volume of ellipsoid
 becomes less than the error we can tolerate, then we stop.\\
 
+UGC (unique gates conjecture).\\
+Semi definite programs more powerful than LP's.
+This is solvable in P time using ellipsoid method.
+LP duality and slackness.\\
+\subsection{SDP}
+min $c^T*X*c$.\\
+Given :\\
+$A.X \ge b$.\\
+X is a positive semidefinite matrix and A.X is the inner product.\\
+The above is the formulation of  Semi definite programs.\\
+
+
+PSD :\\
+$\forall x, x^T*A*x \ge 0$, then A is PSD.\\
+Symmetric matrices :\\
+$A^T = A$.\\
+$Ax = \lambda*x$.\\
+then :
+\begin{itemize}
+\item $\lambda$ is real.
+$Ax = \lambda*x$.\\
+${x^T}^* A^T = \overline{\lambda}*{x^T}^*$.\\
+(Let $x^* = {x^T}^*$).\\
+$x^* A x = \lambda x^* x$.\\
+$x^* A x = \overline{\lambda} x^* x$.\\
+Therefore $\lambda = \overline{\lambda}$.\\$Ax = \lambda*x$.\\
+Hence it is real.\\
+\item There are atmost n distinct $\lambda's$ given that dimension of x is n.\\
+The following proves this statement.
+\item If $\lambda_i \ne \lambda_j$ then $x_i.x_j = 0$.
+\end{itemize}
+
+$A = \Sigma \lambda_i*(x_i)*{(x_i)}^T$.\\
+Where $x_i$ are orthogonal vectors which are eigenvectors.\\
+We can easily show that
+$\forall y, Ay = \Sigma \lambda_i*(x_i)*{(x_i)}^T$.\\
+Hence the above claim is true (ie) :\\
+$A = \Sigma \lambda_i*(x_i)*{(x_i)}^T$.\\
+
+If $x_1, x_2$ are PSD, then $\alpha*x_1 + (1 - \alpha)*x_2$ is also PSD.\\
+Ellipsoid like methods work here.\\
+
 
 \end{document}

@@ -905,8 +905,78 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
                     else
                         distOn1.toPrint = true;
                 }
+            if(la.which == 0) {
+                int i = 0;
+                String id = (String) n.f3.accept(this, argu);
+                DistOn distOn = new DistOn();
+
+                distOn.gcd.put(id, new Gcd());
+
+                distOn.validStrings = globalValidStrings;
+                distOn.toPrint = false;
+                distOn.collectArray = false;
+
+
+
+                n.f13.accept(this, (A) distOn);
+
+                distOn.collectArray = true;
+                n.f13.accept(this, (A) distOn);
+                i = 0;
+                distOn.collectArray = true;
+                distOn.toPrint = false;
+                distOn2 = new DistOn();
+                distOn3 = new DistOn();
+                deepCopy(distOn2, distOn);
+                deepCopy(distOn3, distOn);
+                nodes.elementAt(i).accept(this, (A) distOn2);
+                i++;
+                while(i < nodes.size()) {
+                    nodes.elementAt(i).accept(this, (A) distOn3);
+                    i++;
+                }
+
+                Set<StringGcd> oneWrite = distOn2.writeTable;
+                Set<StringGcd> oneRead = distOn2.readTable;
+                Set<StringGcd> twoWrite = distOn3.writeTable;
+                Set<StringGcd> twoRead = distOn3.readTable;
+
+                boolean l = checkIndependency(oneWrite, twoWrite);
+                l = l & checkIndependency(oneWrite, twoRead);
+                l = l & checkIndependency(twoWrite, oneRead);
+                if(l) {
+                    distOn.toPrint = true;
+                    print("for(");
+                    print(id + "=");
+                    String exp1 = (String) n.f5.accept(this, argu);
+                    print(exp1 + ";");
+                    String exp2 = (String) n.f7.accept(this, argu);
+                    print(exp2 + ";");
+                    String id1 = (String) n.f9.accept(this, argu);
+                    print(id1 + " = ");
+                    String exp3 = (String) n.f11.accept(this, argu);
+                    print(exp3 + ")\n");
+                    nodes.elementAt(0).accept(this, argu);
+                    print("for(");
+                    print(id + "=");
+                    print(exp1 + ";");
+                    print(exp2 + ";");
+                    print(id1 + " = ");
+                    print(exp3 + ")\n{\n");
+                    i = 1;
+                    while(i < nodes.size()) {
+                        nodes.elementAt(i).accept(this, (A) distOn);
+                        i++;
+                    }
+                    print("\n}\n");
+                    done = true;
+                    return null;
+                }
+                else
+                    distOn1.toPrint = true;
             }
         }
+    }
 
         if(distOn1.toPrint ) {
             if(n.f0.present()) {

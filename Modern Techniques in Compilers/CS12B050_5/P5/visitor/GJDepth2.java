@@ -290,7 +290,7 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
             String type = (String) n.f0.accept(this, argu);
             String variable = "funkyTaco" + n.f1.f0.toString();
             String classLength = (new Integer(className.length())).toString();
-            pto(type + " " + "funkyTaco" + variable + ";\n");
+            pto(type + " " + variable + ";\n");
             ptnm("public " + type + " get_" + className + "_" + variable + "_" + classLength + "() {\n");
             ptnm("return " + variable + ";\n}\n");
             currentClassVariables.put(variable, type);
@@ -298,7 +298,7 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
         else {
             String type = (String) n.f0.accept(this, argu);
             String variable = "funkyTaco" + n.f1.f0.toString();
-            pto(type + " " + "funkyTaco" + variable + ";\n");
+            pto(type + " " + variable + ";\n");
             currentVariables.put(variable, type);
         }
 
@@ -669,6 +669,7 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
                 Enumeration<String> en = h1.keys();
                 Set<String> specialVars = new HashSet<String>();
                 renamed = makeVar(klass);
+                ptm(renamed + " = " + caller + ";\n");
                 renamedVariables.put("this", renamed);
                 currentVariables.put(renamed, klass);
                 while(en.hasMoreElements()) {
@@ -689,7 +690,7 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
                     FormalParameterList fpl = (FormalParameterList) md.f4.node;
                     Vector<Node> nlo2 = al.f1.nodes;
 
-                    variable = (String) al.f0.f0.accept(this, argu);
+                    variable = (String) al.f0.accept(this, argu);
                     FormalParameter fp = fpl.f0;
                     type = (String) fp.f0.accept(this, argu);
                     renamed = makeVar(type);

@@ -1,10 +1,10 @@
 class funkyTacoT1 {
 public static void main(String[] funkyTacoa) {
-funkyTacoFac3 funkyTacofunkyTacon;
-int funkyTacofunkyTacot;
-int funkyTacofunkyTacot1;
-int funkyTacofunkyTacoid1;
-int funkyTacofunkyTaconine_thousand;
+funkyTacoFac3 funkyTacon;
+int funkyTacot;
+int funkyTacot1;
+int funkyTacoid1;
+int funkyTaconine_thousand;
 funkyTacoFac3 temp0;
 int temp1;
 int[] temp2;
@@ -38,10 +38,11 @@ funkyTacon.funkyTaconum = funkyTaconine_thousand;
 funkyTacoid1 = 23;
 
 {
+temp0 = funkyTacon;
 temp1 = funkyTacon.get_funkyTacoFac3_funkyTacogg_13();
 temp2 = funkyTacon.get_funkyTacoFac3_funkyTacoa_13();
 temp3 = funkyTacon.get_funkyTacoFac3_funkyTaconum_13();
-temp4 = null;
+temp4 = funkyTacoid1;
 temp15 = 0;
 temp16 = 0;
 temp14 = 0;
@@ -73,6 +74,7 @@ temp2[temp15] = temp16;
 }
 
 {
+temp17 = temp0;
 temp18 = temp0.get_funkyTacoFac3_funkyTacogg_13();
 temp19 = temp0.get_funkyTacoFac3_funkyTacoa_13();
 temp20 = temp0.get_funkyTacoFac3_funkyTaconum_13();
@@ -103,9 +105,9 @@ System.out.println(funkyTacot1);
 }
 class funkyTacoFac3
 {
-int funkyTacofunkyTaconum;
-int[] funkyTacofunkyTacoa;
-int funkyTacofunkyTacogg;
+int funkyTaconum;
+int[] funkyTacoa;
+int funkyTacogg;
 public int get_funkyTacoFac3_funkyTaconum_13() {
 return funkyTaconum;
 }
@@ -116,11 +118,11 @@ public int get_funkyTacoFac3_funkyTacogg_13() {
 return funkyTacogg;
 }
 public int funkyTacoassignArray() { 
-int funkyTacofunkyTacoi;
-int funkyTacofunkyTacoj;
-int funkyTacofunkyTacok1;
-int funkyTacofunkyTacok2;
-int funkyTacofunkyTacozero;
+int funkyTacoi;
+int funkyTacoj;
+int funkyTacok1;
+int funkyTacok2;
+int funkyTacozero;
 for(funkyTacoi = 0;funkyTacoi<64;funkyTacoi = funkyTacoi+1)
 for(funkyTacoj = 0;funkyTacoj<64;funkyTacoj = funkyTacoj+1)
 {
@@ -137,18 +139,18 @@ funkyTacozero = 0;
 return funkyTacozero;
 }
 public int funkyTacoComputeFac3(int funkyTaconum) { 
-int funkyTacofunkyTacoi;
-int funkyTacofunkyTacoj;
-int funkyTacofunkyTacok;
-int funkyTacofunkyTacosum;
-int funkyTacofunkyTacosum2;
-int[] funkyTacofunkyTacob;
-int[] funkyTacofunkyTacoc;
-int funkyTacofunkyTacokk;
-int funkyTacofunkyTacom;
-int funkyTacofunkyTacoret;
-int funkyTacofunkyTacok1;
-int funkyTacofunkyTacok2;
+int funkyTacoi;
+int funkyTacoj;
+int funkyTacok;
+int funkyTacosum;
+int funkyTacosum2;
+int[] funkyTacob;
+int[] funkyTacoc;
+int funkyTacokk;
+int funkyTacom;
+int funkyTacoret;
+int funkyTacok1;
+int funkyTacok2;
 funkyTacoFac3 temp26;
 int temp27;
 int[] temp28;
@@ -189,6 +191,7 @@ funkyTacoa[funkyTacok1] = funkyTacok2;
 }
 
 {
+temp26 = this;
 temp27 = this.get_funkyTacoFac3_funkyTacogg_13();
 temp28 = this.get_funkyTacoFac3_funkyTacoa_13();
 temp29 = this.get_funkyTacoFac3_funkyTaconum_13();

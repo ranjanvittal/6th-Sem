@@ -25,20 +25,20 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
     String overall = "";
 
     String currentClass;
-    Hashtable<String, String> classVariable;
+
     Hashtable<String, String> currentVariables;
+
     Set<String> inlinedClassMethod = new HashSet<String>();
     boolean inlining = false;
-    Vector<Hashtable<String, String>> inliningStack = new Vector<Hashtable<String, String>>();
-    Vector<Set<String>> specialVarsStack = new Vector<Set<String>>();
+
+    Set<String> specialVars;
+    Hashtable<String, String> renamedVariables;
 
     Hashtable<String, Set<String>> dangerMethods;
     Hashtable<String, Hashtable<String, String>> classMethods;
     Hashtable<String, Hashtable<String, String>> classVariables;
     Hashtable<String, Hashtable<String, MethodDeclaration>> classMethodDescription;
     String newMethod = "";
-
-    Hashtable<String, String> currentClassVariables;
 
     public String makeVar(String type) {
         String id = "temp" + temps++;
@@ -84,6 +84,19 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
 
     public void pto(String a) {
         overall +=   a;
+    }
+
+    public void doingVariables() {
+        Hashtable<String, String> h1 = classVariables.get(className);
+        Enumeration<String> h2 = h1.keys();
+        String classLength = (new Integer(className.length())).toString();
+
+        while(h2.hasMoreElements()) {
+            String variable = (String) h2.nextElement();
+            String type = h1.get(variable);
+            ptnm("public " + type + " get_" + className + "_" + variable + "_" + classLength + "() {\n");
+            ptnm("return " + variable + ";\n}\n");
+        }
     }
 
     public R visit(NodeList n, A argu) {
@@ -228,15 +241,16 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
         R _ret = null;
         n.f0.accept(this, argu);
         className = (String) n.f1.accept(this, argu);
-        currentClassVariables = new Hashtable<String, String>();
-        currentClassVariables.put("this", className);
 
         newMethod = "";
         n.f2.accept(this, argu);
         inClass = true;
         pto("class " + className + "\n{\n");
         n.f3.accept(this, argu);
+
+        doingVariables();
         pto(newMethod);
+
         inClass = false;
         n.f4.accept(this, argu);
         n.f5.accept(this, argu);
@@ -258,14 +272,18 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
         R _ret = null;
         n.f0.accept(this, argu);
         className = (String) n.f1.accept(this, argu);
-        currentClassVariables = new Hashtable<String, String>();
-        currentClassVariables.put("this", className);
+
         n.f2.accept(this, argu);
-        String parent = (String) n.f4.accept(this, argu);
+        String parent = (String) n.f3.accept(this, argu);
+        pto("class " + className + " extends " + parent + "\n{\n");
+        newMethod = "";
         inClass = true;
         n.f5.accept(this, argu);
         inClass = false;
-        pto("class " + className + " extends " + parent + "\n{\n");
+
+        doingVariables();
+        pto(newMethod);
+
         n.f6.accept(this, argu);
         n.f7.accept(this, argu);
         pto("\n}\n");
@@ -283,17 +301,18 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
             String type = (String) n.f0.accept(this, argu);
             String variable = "funkyTaco" + n.f1.f0.toString();
             String renamed = makeVar(type);
+
+            specialVars.remove(variable);
             currentVariables.put(renamed, type);
-            inliningStack.elementAt(inliningStack.size()-1).put(variable, renamed);
+            renamedVariables.put(variable, renamed);
+
         }
         else if(inClass){
             String type = (String) n.f0.accept(this, argu);
             String variable = "funkyTaco" + n.f1.f0.toString();
-            String classLength = (new Integer(className.length())).toString();
             pto(type + " " + variable + ";\n");
-            ptnm("public " + type + " get_" + className + "_" + variable + "_" + classLength + "() {\n");
-            ptnm("return " + variable + ";\n}\n");
-            currentClassVariables.put(variable, type);
+            // ptnm("public " + type + " get_" + className + "_" + variable + "_" + classLength + "() {\n");
+            // ptnm("return " + variable + ";\n}\n");
         }
         else {
             String type = (String) n.f0.accept(this, argu);
@@ -304,6 +323,8 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
 
         return _ret;
     }
+
+
 
     /**
      * f0 -> "public"
@@ -327,8 +348,11 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
         String fpl = "";
         if(n.f4.present())
             fpl = (String) n.f4.accept(this, argu);
+
         pto("public " + type + " " + method + "(" + fpl + ")" + " { \n");
-        currentVariables = new Hashtable<String, String>(currentClassVariables);
+        currentVariables = new Hashtable<String, String>(classVariables.get(className));
+        currentVariables.put("this", className);
+
         inlining = false;
         variableString = "";
         methodString = "";
@@ -460,15 +484,22 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
         R _ret = null;
 
         n.f0.accept(this, argu);
-        String id = (String) n.f0.accept(this, argu);
+        String id;
+        id = "funkyTaco" + n.f0.f0.toString();
         n.f2.accept(this, argu);
         String exp = (String) n.f2.accept(this, argu);
-        ptm(id + " = " + exp + ";\n");
-        if(inlining && specialVarsStack.contains(id)) {
-            String currentThis = inliningStack.elementAt(inliningStack.size()-1).get("this");
-            ptm(currentThis + ".funkyTaco" + n.f0.f0.toString() + " = " + id + ";\n");
-        }
 
+        if(inlining && specialVars.contains(id)) {
+            String currentThis = renamedVariables.get("this");
+            String type = currentVariables.get(id);
+            String id1 = makeVar(type);
+            ptm(id1 + " = " + exp + ";\n");
+            ptm(currentThis + "." + id + " = " + id1 + ";\n");
+        }
+        else if(inlining)
+            ptm(renamedVariables.get(id) + " = " + exp + ";\n");
+        else
+            ptm(id + " = " + exp + ";\n");
         return _ret;
     }
 
@@ -615,8 +646,10 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
      */
     public R visit(MessageSendStatement n, A argu) {
         R _ret = null;
-        boolean oldInlining = inlining;
-        Hashtable<String, String> backup = currentVariables;
+        boolean backupInlining = inlining;
+
+
+
         boolean fl = true;
         String variable;
         String renamed;
@@ -651,6 +684,8 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
             //System.out.println(inlining);
             //print("here");
             //print(methodString);
+            //print(caller);
+            //System.out.println(klass);
 
             goAhead = !dangerMethods.get(klass).contains(method);
             String klassLength = (new Integer(klass.length())).toString();
@@ -658,7 +693,17 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
             goAhead = goAhead & !inlinedClassMethod.contains(klassMethod);
 
             if(goAhead) {
-                Hashtable<String, String> renamedVariables = new Hashtable<String, String>();
+
+                Set<String> backupSpecialVars = specialVars;
+                Hashtable<String, String> backupCurrentVariables = currentVariables;
+                Hashtable<String, String> backupRenamedVariables = renamedVariables;
+
+                Set<String> newSpecialVars = new HashSet<String>();
+                Hashtable<String, String> newCurrentVariables = new Hashtable<String, String>();
+                Hashtable<String, String> newRenamedVariables = new Hashtable<String, String>();
+
+
+
                 inlinedClassMethod.add(klassMethod);
 
                 ptm("\n{\n");
@@ -667,23 +712,21 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
                 currentVariables = new Hashtable<String, String>();
 
                 Enumeration<String> en = h1.keys();
-                Set<String> specialVars = new HashSet<String>();
+
+                //specialVars = new HashSet<String>();
                 renamed = makeVar(klass);
                 ptm(renamed + " = " + caller + ";\n");
-                renamedVariables.put("this", renamed);
-                currentVariables.put(renamed, klass);
+                newRenamedVariables.put("this", renamed);
+                newCurrentVariables.put(renamed, klass);
                 while(en.hasMoreElements()) {
                     variable = en.nextElement();
                     type = h1.get(variable);
                     renamed = (String) makeVar(type);
-                    currentVariables.put(variable, type);
-                    renamedVariables.put(variable, renamed);
-                    ptm(renamed + " = " + caller + ".get_" + klass + "_" + variable + "_" + klassLength + "();\n");
-                    specialVars.add(renamed);
-
+                    newCurrentVariables.put(variable, type);
+                    newSpecialVars.add(variable);
                 }
                 i = 0;
-                specialVarsStack.add(specialVars);
+
                 MethodDeclaration md = classMethodDescription.get(klass).get(method);
                 if(ms.f4.present()) {
                     ArgList al = (ArgList) ms.f4.node;
@@ -700,53 +743,79 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
                     NodeListOptional nlo = fpl.f1;
                     Vector<Node> vectorFormalParameter = nlo.nodes;
 
+                    newRenamedVariables.put(parameter, renamed);
+                    newCurrentVariables.put(renamed, type);
+                    newSpecialVars.remove(parameter);
+
                     if(nlo.present()) {
-                        renamedVariables.put(parameter, renamed);
                         int size = nlo2.size();
 
                         i = 0;
+
                         while(i < size) {
                             FormalParameterRest fpr = (FormalParameterRest) vectorFormalParameter.elementAt(i);
                             ArgRest ar = (ArgRest) nlo2.elementAt(i);
+
                             variable = (String) ar.f1.accept(this, argu);
                             type = (String) fpr.f1.f0.accept(this, argu);
+                            if(variable == null) {
+                                print(ar.f1.f0.toString());
+                                print("hi");
 
+                            }
                             renamed = makeVar(type);
                             ptm(renamed + " = " + variable + ";\n");
                             parameter = "funkyTaco" + fpr.f1.f1.f0.toString();
-                            renamedVariables.put(parameter, renamed);
+
+                            newRenamedVariables.put(parameter, renamed);
+                            newCurrentVariables.put(renamed, type);
+                            newSpecialVars.remove(parameter);
                             i++;
                         }
                     }
 
                 }
-                inliningStack.add(renamedVariables);
+
                 inlining = true;
+                specialVars = newSpecialVars;
+                currentVariables = newCurrentVariables;
+                renamedVariables = newRenamedVariables;
+
                 md.f7.accept(this, argu);
                 md.f8.accept(this, argu);
                 String ret = (String) md.f10.accept(this, argu);
 
-                int size = inliningStack.size();
-                inliningStack.removeElementAt(size-1);
-                inlinedClassMethod.remove(klassMethod);
-                specialVarsStack.removeElementAt(size-1);
 
-                inlining = oldInlining;
+                inlinedClassMethod.remove(klassMethod);
+
+                specialVars = backupSpecialVars;
+                currentVariables = backupCurrentVariables;
+                renamedVariables = backupRenamedVariables;
+
+
+                inlining = backupInlining;
                 if(n.f1.which == 1) {
                     RetMessageSendStmt n3 = (RetMessageSendStmt)  n.f1.choice;
-                    String id = (String) n3.f0.accept(this, argu);
-                    ptm(id + " = " + ret + ";\n");
-                    if(size >= 2) {
-                        if(specialVarsStack.elementAt(size-2).contains(id)) {
-                            String currentThis = inliningStack.elementAt(inliningStack.size()-1).get("this");
-                            ptm(currentThis + ".funkyTaco" + n3.f0.f0.toString() + " = " + id + ";\n");
+
+                    if(inlining) {
+                        String id = "funkyTaco" + n3.f0.f0.toString();
+                        if(specialVars.contains(id)) {
+                            String currentThis = renamedVariables.get("this");
+                            ptm(currentThis + "." + id + " = " + ret + ";\n");
                         }
+                        else {
+                            ptm(renamedVariables.get(id) + " = " + ret + ";\n");
+                        }
+                    }
+                    else {
+                        String id2 = (String) n3.f0.accept(this, argu);
+                        ptm(id2 + " = " + ret + ";\n");
                     }
                 }
                 ptm("\n}\n");
             }
         }
-        inlining = oldInlining;
+
         if(!goAhead)
             n.f1.accept(this, argu);
 
@@ -1006,8 +1075,16 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
         n.f0.accept(this, argu);
         String s  =  "funkyTaco" + n.f0.toString();
         if(inlining) {
-            Hashtable<String, String> in = inliningStack.elementAt(inliningStack.size()-1);
-            return (R) in.get(s);
+            if(specialVars.contains(s)) {
+                String type = currentVariables.get(renamedVariables.get("this"));
+                String variableType = currentVariables.get(s);
+                String id = makeVar(variableType);
+                String currentThis = renamedVariables.get("this");
+                String classLength = (new Integer(type.length())).toString();
+                ptm(id + " = " + currentThis + ".get_" + type + "_" + s + "_" + classLength + "();");
+                return (R) id;
+            }
+            return (R) renamedVariables.get(s);
         }
         return (R) s;
     }
@@ -1029,10 +1106,8 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
         R _ret = null;
         n.f0.accept(this, argu);
         String s = "this";
-        if(inlining) {
-            s = inliningStack.elementAt(inliningStack.size() - 1).get("this");
-            return (R) s;
-        }
+        if(inlining)
+            return (R) renamedVariables.get("this");
         return (R) s;
     }
 

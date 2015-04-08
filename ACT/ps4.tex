@@ -1,0 +1,294 @@
+\documentclass[12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb,complexity}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+\begin{document}
+
+\hrule
+\vspace{3mm}
+\noindent
+{\sf IITM-CS6840-2015 : Advanced Complexity Theory  \hfill Given on: Mar 23, 11:55pm}
+\vspace{3mm} \\
+\noindent
+{\sf Problem Set \#4 \hfill Due on : Apr 1, 11:55pm}
+\vspace{3mm}
+\hrule
+
+\begin{questions}
+
+\question[10]
+In this problem, we will show that there is a circuit of
+depth $d$ and size $\poly(n).2^{n^{\frac{1}{d-1}}}$ which computes
+parity on $n$ inputs. Assume that the circuit uses variables $x_1, x_2
+\ldots, x_n$ and $\lnot x_1,\lnot x_2, \ldots, \lnot x_n$
+\begin{parts}
+\part[2] Show that PARITY can be computed by a circuit of depth 2 and
+size $c.2^n$ where $c$ is a constant, thus proving the result for
+$d=2$.
+\part[3] Show how to reduce the size to $2^{\sqrt{n}}.\poly(n)$
+  increasing the depth to 4.
+\part[2] Show how to do the same with depth 3 thus proving the result for $d=3$.
+\part[3] Give a generalization to other depths.
+\end{parts}
+\begin{solution}
+\begin{parts}
+\part  We can write the disjunctive normal form of parity that
+is sum of products form of parity. This would require at the most
+$2^n$ or gates with fan in of n and 1 or gate with fan-in of
+atmost $2^n$. Therefore total number of gates required is $2^n + 1$
+upper bounded by 2*$2^n$ gates anyway.
+\part
+Consider the following idea :\\
+Split n as $n^{0.5}$ groups each containing $n^{0.5}$ variables each.\\
+Now for each of the groups use $c*(2^{n^{0.5}})$ gates as done above
+using DNF to compute the xor of the variables in each group.
+This requires a depth of 2 as seen above and requires $c*n^{0.5}*2^{n^{0.5}}$
+number of gates.
+Now we will have $n^{0.5}$ variable whose xor is to be computed.
+Again paste the circuit which uses DNF to compute the xor of these
+$n^{0.5}$ bits using $c*(2^{n^{0.5}})$ gates and a further
+depth of 2. Hence we will finally get the xor output of all the
+bits at a depth of 4 and number of gates utilized would be
+$c*2^{n^{0.5}}*(n^{0.5}+1)$.\\
+Hence number of gates used is $2^{n^{0.5}}*poly(n)$ with a depth of 4.
+\part
+Now a simple trick can transform this into a 3 depth circuit.
+Instead of doing the DNF again the second time, do a CNF of xor.
+Now the different levels are : and, or, or, and (ie) the
+first and, or is for generating the xor in the DNF form as mentioned
+above and the second or, and is for generating xor in CNF for the
+$n^{0.5}$ bits gained by xor in the first step. Now we can
+easily see that the two consecutive or's can be merged into 1
+as instead of taking two or's we can simply increase the fanin and
+take one or in that place. It is trivial to see that this decreases
+the number of gates and hence is still $c*poly(n)*2^{n^{0.5}}$.
+\part
+Split n into $n^{(d-2)/(d-1)}$ groups of $n^{1/(d-1)}$ variables each.
+Now each of these groups can be computed using a 2 depth circuit in DNF
+and $c*2^{1/(d-1)}$ number of gates. Therefore with $c*n^{(d-2)/(d-1)}*2^{1/(d-1)}$
+number of gates we can take the xor of these groups independently. Now
+recursively reduce $n^{(d-2)/(d-1)}$ to $n^{(d-3)/(d-1)}$ in a similar
+manner this will again be $poly(n)*2^{n^{1/(d-1)}}$ with an additional
+increase of 2 in the depth. If we just continue so on, like
+reducing $n^{(d-k)/(d-1)}$ to $n^{(d-k-1)/(d-1)}$ in every step from
+k = 1, we would finally have a circuit which has $poly(n)*2^{n^{1/(d-1)}}$
+number of gates and depth would be $2*d - 2$ (2 for every drop from k to k+1
+(ie) from $n^{(d-k)/(d-1)}$ to $n^{(d-k-1)/(d-1)}$). Now by the
+trick mentioned above, use the conjunctive normal form every alternative step.
+This would transform :\\
+$and_1$, $or_1$, $and_2$, $or_2$, .... and, or to\\
+$and_1$, $or_1$, $or_2$, $and_2$, $and_3$, $or_3$, $or_4$, $and_5$, .... .\\
+It is easy to note that every subsequent pairs of ors or pairs of and can
+be combined like $or_1$ and $or_2$ can be combined and so on. It is
+easy to note that there would be $d-2$ such subsequent pairs. Hence it
+is easy to see that while merging these subsequent pairs, we would
+end up reducing the depth to d while the size only goes down and
+hence the size is still $poly(n)*2^{n^{1/(d-1)}}$.\\
+
+
+\end{parts}
+\end{solution}
+\question[10]
+Show that every sparse set can be computed by a polynomial sized
+circuit family. (without using the result that $\P/\poly = $ {\sf PSIZE}).
+\begin{solution}
+A sparse set is one in which number of strings of length n which
+belongs to L are polynomially many for all n say p(n). Hence consider
+the infinite union of the following circuits all of which have polynomially
+many gates :\\
+For any n lets say p(n) n length strings are accepted.
+Checking equality of two n bit strings
+can trivially be done in polynomial time (check equality
+of each bit by making the xnor gate and take an and over all such).
+Now check equality of the input sequence of bits with each
+of the p(n) length strings and have an or gate which feeds in
+from all of these equality checks. Now this circuit exactly
+accepts all the sparse set strings of length n and has only
+polynomially many number of gates. For any n we can see that
+polynomially many number of gates are sufficient to accept
+all n length strings which belong to the sparse set.\\
+
+Hence every sparse set can be computed by a polynomial sized
+circuit family.
+\end{solution}
+\question[10]
+A circuit is said to be {\em monotone} if it does not use negation
+gates (all gates either $\land$ or $\lor$ type) and is said to be {\em
+  weakly monotone} if all the negation gates are at the input.
+\begin{parts}
+\part[5] Argue that if a function $f:\{0,1\}^n \to \{0,1\}$ is computed
+  by a circuit $C$ of size $s$ and depth $d$, then $f$ can also be
+  computed by a weakly montone circuit of size $2.size(C)$ and depth
+  $d$. Use this to show that circuit value problem even when restricted to weakly monotone
+  circuits is $\P$-complete.
+\part[5] Argue that the functions computed by monotone circuits are monotone (use the definition of monotone functions that we used in class). Hence conclude that parity cannot be computed by such
+  circuits at all (given any size).
+\end{parts}
+\begin{solution}
+\begin{parts}
+\part
+Given a circuit C, there exists a gate all of whose inputs are either
+the input variables or its negations. If that gate is an and,
+then make an or gate which looks at the negations of all the
+input variables looked at by the and gate (similarly
+if it was or, make an and gate which feeds in from all the
+negations of the variables looked at by the or gate).It is easy by de morgans
+law to notice that this or gate computes the negation of the previous
+and gate. Now wherever this and gate was originally negated, feed in with
+this or gate. Now this circuit(C') computes the exact same function as what the
+original circuit computes. Now remove the gate we saw and its compliment from
+C' and let all the fanout of these two gates in C' be treated as input
+vatiables. Let this be C''. If C'' is computed with only and/or
+gates with all the negations pushed to the input variables (say C'''), then that
+circuit can be used in place of C'' in C' and we will get a circuit
+which is weakly monotone (C''''). Another thing is that C' has the
+same depth as C.\\
+Now this circuit again has a gate all of whose inputs are either
+input variables or its negations and we can again do the same
+procedure mentioned above. Like this, each time find the gate, do the
+above procedure and then remove the gate to get another circuit. Each
+step we can notice that the correctness of the circuit is maintained
+and that for every gate we are issuing exactly one more copy for the gate.
+As in each step we are removing a gate, we would finally end up with
+no gates finally at some stage. Now we can start reassembling the
+circuit with every gate and its negation as seen above while maintaining
+the correctness of the circuit. We would finally have a circuit which
+has exactly twice the number of gates(and/or) in C as for every gate
+we have introduced exactly one additional gate and the depth
+also doesnot change. It is easy to see that given
+a circuit computing a boolean function, making it
+weakly monotone as seen above can be done in Log space. Therefore
+as circuit value problem is P complete, weakly monotone
+circuit value problem is also P complete.
+\part
+For n = 1, the function computed by a monotone
+gate is monotone (n is the number of gates and fanin of this gate doesnot matter).\\
+Let us assume for every k till n number of gates that if all the given
+gates are monotone, the circuit can compute only monotone gates.\\
+
+Consider a circuit C with n+1 monotone gates computing function f.
+There exists a gate which
+looks at all the input variables say gate g. Now let $y_1, y_2, ... y_l$
+be the input variables to this monotone gate and let these sequence of
+bits be denoted by y. Now remove
+this gate from C and replace
+all the fanout of this gate as input wires to obtain C'.
+It is known that C' computes only a monotone function say f'
+by induction assumption.
+If $x' \le z'$ then $f'(x') \le f'(z')$ where x' is an input to
+circuit C'.\\
+Consider $x \le z$ as input to f. This means that $y(x) \le y(z)$
+where y(x) denotes the $y_1, y_2, ... y_l$ of x and similarly
+for y(z).\\
+
+Case 0 :\\
+x = z is trivially done as f(x) = f(z).\\
+
+Case 1 :\\
+y(x) = y(z) and $x < z$.\\
+In this case the output of the gate for both x and z will be the same.
+(ie) g(x) = 0 iff g(z) = 0 where g is the gate looked at.
+Hence if we remove this gate to obtain C', all the fanouts
+of this gate will be either uniformly zero or uniformly 1.
+Let the input to the C' be x' from x and z' from z.
+It is easy to see that $f'(x') = f(x)$ and $f'(z') = f(z)$.
+Now in the transformation from C to C', we might have lost some
+input variables(I) which fed into g and would have gained new
+variables which are the fanout of this gate (O).\\
+All the variables except I and O are retained. We already know
+that I(x) = I(z) and O(x) = O(z) as y(x) = y(z). Therefore
+$x' < z'$. As $x' \le z'$, $f'(x') \le f'(z')$ as f' is monotone.
+Therefore $f(x) \le f(z)$.\\
+
+Case 2 :\\
+$y(x) < y(z)$.
+This implies $g(x) \le g(z)$. Hence if we remove this
+gate to obtain C', all the fanouts of z would be greater
+than or equal to all the fanouts of x. Now in the transformation from C to C', we
+might have lost some input variables(I) which fed into g and would have gained new
+variables which are the fanout of this gate (O). Now all the other
+variables are retained(R). $O(x) \le O(z)$ as $g(x) \le g(z)$. Therefore
+as $x \le z$, $R(x) \le R(z)$, and $O(x) \le O(z)$ implies $x'\le z'$
+where x' and z' can be seen as input to C'. Therefore $f'(x') \le f'(z')$
+and $f(x) \le f(z)$ follows similarly to case 1 as $f'(x') = f(x)$
+and $f'(z') = f(z)$.\\
+
+Therefore if $x \le z$ then $f(x) \le f(z)$. Hence f is monotone.
+Therefore if all boolean circuits with
+k monotone gates are monotone, then all boolean circuits with
+k+1 monotone gates are monotone and all boolean circuits with
+one monotone gate is monotone. Therefore any boolean circuit
+with any number of monotone gates is monotone.
+\end{parts}
+\end{solution}
+\question[10]
+It is unknown currently whether there is an explicit function in $\NP$ that does not have $O(n)$ sized circuits. In this problem, we will show something weaker. Show that there is a function in the $\PH$ which does not have
+$O(n)$ sized circuits. (Hint: how does one describe a Boolean function which can be computed by a circuit of size $k$, but cannot be computed by any circuit of size $k'$ where $k' < k$? think of $k$ as $O(n^2)$ and $k'$ as $O(n)$.)
+
+\question[10]
+Read up on {\em Characterisation of regular languages using syntactic monoids.}. Link : \href{http://www.cmi.ac.in/~kumar/words/lecture01.pdf}{www.cmi.ac.in/\~{ }kumar/words/lecture01.pdf}\\
+Use this to show that all regular languages are in $\NC^1$.
+\begin{solution}
+We know that ${NC}^1 = BF$. Therefore if we are able to
+make a log space constructible BF, we are done.\\
+Wlog the input is binary.\\
+
+Let the regular language be accepted by an automaton with k states
+namely $x_1, x_2, ... x_k$.\\
+Consider the following k+1 to k bit function.\\
+k wires ($iw_1, {iw}_2, ... {iw}_k$) denote the k states of the machine such
+that if ${iw}_i = 1$ implies that the current state is $x_i$. It is guaranteed
+that exactly one of these wires in the input are 1. The other input is from the
+input to the automaton (ie) it looks at one bit from the input say $\alpha$
+. The outputs (${ow}_1, {ow}_2 ... {ow}_k$) are again
+such that exactly one of these wires are 1. If ${ow}_j$ is 1, it would denote the state
+to which the automaton jumps to from state $x_i$ is $x_j$.\\
+This can be achieved as follows :\\
+Let $x_{i_1}, x_{i_2}, .... x_{i_l}$ on 0 goes to $x_t$ and
+$x_{j_1}, x_{j_2}, ..... x_{j_q}$ on 1 goes to $x_t$.\\
+Then ${ow}_t = (x_{i_1} + x_{i_2} + .... x_{i_l}).\overline{\alpha} + (x_{j_1} + x_{j_2}
++ ..... x_{j_q}).\alpha$ (where + denotes or and . denotes and) . It is
+easy to see that all transitions of the automaton can be taken care of by
+this boolean circuit. Also only one output wire would be one because
+only one input wire was one and automaton on an input bit goes to only
+one other state. This circuit requires constant number of gates as k is
+a constant.\\
+
+Hence consider the following construction of a circuit which has fanout = 1
+for all gates and has polynomially many gates.\\
+There are n such circuits where n denotes the input size length. The
+first gate looks at the first bit of the number and the rest
+all input wires are pre encoded to zero except the input wire
+which corresponds to the start state which is assiged to 1.
+For every other $i^{th}$ circuit the input is the output of
+the ${i-1}^{th}$ gate and the $i^{th}$ bit of the input. After
+the $n^{th}$ circuit 'or' all the wires which corresponds to final states.\\
+The output wire, which is 1, of the $i^{th}$ circuit would tell us which state the
+automaton is in after seeing the $i^{th}$ input bit. Hence if
+the string belongs to the language, it would end up in a final state and hence
+our circuit would output 1 indicating acceptance and if a string
+doesnot belong to the language, it would not end up in a final state
+and our circuit would output zero indicating rejection.\\
+
+This circuit has O(n) number of gates and no gate has fanout greater than 1.
+It is also easy to see that this circuit is log time constructible
+(actually log time constructible).
+Therefore this circuit is in BF. Therefore there exists a $\NC^1$
+circuit which computes the same. Hence all regular languages are in
+${NC}^1$.
+
+
+\end{solution}
+
+
+
+\end{questions}
+
+\end{document}

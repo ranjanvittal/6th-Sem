@@ -1029,4 +1029,200 @@ Now we find the smallest node and add it to P.\\
 \end{itemize}
 The above can be done with heaps and order E*log(E).\\
 
+Sender packets are 64kB and ack packets are 40 bytes.\\
+Control plane, Routing which gives duster plane and forwarding
+of duster plance.\\
+
+Congestion control, quality of service are of importance.\\
+For a given flow how many buffers to allocate ?\\
+Flow session is a 5-tuple : (Src IP, Dest IP, Src port, dest port, protocol).\\
+For each flow allocate some buffer space.\\
+
+When the packet arrives we no longer look at only the destination address,
+some other parameters are involved.\\
+
+Classification of packets :\\
+Scheduling of plots is also based on the packet class. That is we classify them
+based on the flow. The general scheduling algorithm is FIFO, weighted round robin,
+shortest packet first. When there are different flows, how to share the sources ?\\
+This is used like for fair sharing.\\
+There are two ways of congestion control which is implicit and explicit.
+Implicit means drop packets from tcp flows which would definitely reduce the
+window size. Random early detection. If the average q length is less than some
+threshold, go on else randomly drop a packet. Here the threshold is generally fixed.
+This is on the receiver side basically. Explicit is Deebit which is old and
+there is something else which is called explicit
+congestion notification (ECN).\\
+
+Explicit is by sending some bits(2 I guess) allocated to specify so as to reduce the
+sender window size. Sender can accept these bits and change window size accordingly
+or pack it.\\
+
+Quality of service :\\
+\begin{itemize}
+\item Reservation request protocol.
+\item Admission control protocol.
+\item Quality of service scheduling.
+\item Traffic shaping/policing.
+\end{itemize}
+\section{Router Protocols}
+
+Circuit switching gives deticated bandwidth, but it is constrained by
+inflexibility. Packet switching is more flexible. Virtual circuits switching(1990's - ATM networks).\\
+Packet switching is also in the way of vritual switching. This is called
+multi protocol label switching.
+
+\subsection{VC switching}
+There are 3 phases in doing this.
+\begin{itemize}
+\item Establishment phase (Set up of VC).\\
+A connection request arrives : which says like
+source, destination and some quality of service like 1 Mbps
+connection, etc. Each such request goes to the controller.\\
+\begin{itemize}
+\item Determine the end to end path from s to d. This can be bidirectional
+(ie) the to path's reverse can be used as fro.
+\item Now we have a virtual circuit identifiers (VCID). Like VCID is 8 bits
+long. VCID field is independent of the number of slots in a frame. We just
+simply assign some identifiers to it in each node in the path.
+Even if number of slots could be lesser, we are more or less fixing it. Now
+this is only dependent on the number of bits in the VCID.
+\item Using signalling messages, find a VCID that is free on each link of
+the path.
+\item Setup the forwarding table on each router along the path. Every
+node has several interfaces. Every time the VCID is modified
+before sending to the next router. Based on the packet number, the node
+determines where it will be routed next to based on the VCID it receives
+and routes it to that particular output interface of this router which
+then will route it to the corresponding output VCID (ie) it would have
+changed correspondingly change the VCID
+to the VCID of the next router in the path. VCID is only link unique.
+Hence we need interface id as well. There are input interface id's and output interface id's.\\
+\end{itemize}
+VCID bounds the number of connections possible on a link.\\
+
+Let cumulative link capacity requests go up to $\alpha*LinkCapacity$ when
+we require more than this. Since allowed max capacity is more than
+the link capacity, we would now admit this connection here.\\
+If the 1 Mbps is based on only burst traffic and is not
+consistent, then we could use queuing accordingly to be able to
+live up to the promise. In here a complete packet would be sent other than like
+in circuit switching where packets are sent byte by byte.\\
+
+\item Data transfer protocol.\\
+
+Here we look at only the VCID but we actually dont need the
+Src IP or the Destination IP address.\\
+If a link fails, we need to signal source, and reestablish the
+connection. Routing layer header need not have Src IP or Destination IP.\\
+We can do aggregation at various levels so as to allow multiple
+users connecting to one VCID. Some other routers will have large
+bits VCID's.
+
+\item Teardown phase.\\
+This is the reverse phase of establishment.
+\end{itemize}
+ATM (Asynchronous transfer mode):\\
+\begin{itemize}
+\item Network layer tech to support Broadband-ISDV srvices. They wanted
+to have 155Mbps connections.
+\item Cells : Fixed length packet. US wanted 64 bytes, europe wanted 32 bytes.
+They finally ended up at 48 bytes + 5 bytes header = 53 bytes.
+\item Hardware switches.
+\item VC switching based.
+\end{itemize}
+The header for this is : VPID(12 bits), VCID (16 bits) and
+checksum for error corrections.\\
+People started IP over ATM (IPOATM) which is like minimal ATM circuits
+which are built over underlying IP. Tag switching which led to MPLS
+are other protocols. MPLS is multi protocol label switching.
+the label generally is VCID. It is similar to IPOATM, that is
+underlying network is IP and hence it is called multi protocol. At
+various nodes, we would have some special protocols
+like IPMPLS(which may be ATM or something like that). The VC is
+called an LSP (Label switched path). there would be some control nodes
+which would transfer from IP to IPMPLS which would
+add VCID to the path. Similarly there would
+be another controller which strips the header
+of VCID and go through as IP header alone.\\
+The packet would now be like :\\
+| L2 Header | MPLS Header | IPHeader | TCP |.\\
+The MPLS Header is for 4 bytes of this.\\
+
+\section{MAC Layer}
+Point to Point Links. Shared/Broadcast Link(network)).\\
+There is a common shared communication medium(channel).\\
+MAC is medium access control.\\
+The questio here is : When does the user get access
+to the user ?\\
+This is defined by the medium access control protocol.\\
+
+Shared network topologies :\\
+The bus topology :\\
+\begin{itemize}
+\item There is a bus.
+\item The connections are called taps (like pings).
+\item There is a terminator which absorb all the energies
+and then there is no further transmission of the signal.
+\end{itemize}
+The star topology :\\
+\begin{itemize}
+\item Here there is a central server which is
+a broadcast medium. Any frequence is associated to the server
+and any signal from the servers would be broadcasted to
+the nodes connected to the central servers.
+\item This is used in Wifi hotspots on some fixed frequency.
+\item Base station for cellular network.
+Frequency division multiplexing (FDM)
+splits it into individual channels and each channel
+can be channelled into mulitple user based on time division
+multiplexing (TDM).
+\item Satellite. This was done by the Aloha protocol.
+This was done for connecting Hawaai as wifi was not enough and
+wired was not possible.
+\end{itemize}
+
+The ring topology is like a bidirectional link
+where the users are connected in circular manner.
+It was used in SONET for MAN (Metropolitan Area Network)
+and in LAN for FDDI (Metropolitan Area Network).\\
+
+MAC :\\
+\begin{itemize}
+\item Static access : Collision Free. This is like
+only one person can talk at one point in time.\\
+
+N users sharing a channel.
+TDMA (Time Division Multiple Access). Basically
+there is a notion of slot and then round robin
+in that particular slot. Another thing is how
+much time to allocate for each guy in the slot.\\
+
+\begin{itemize}
+\item Assume fixed length packets.
+\item Define 1 slot time taken to send 1 packet.
+\item Assume N is fixed.
+\item Time on channel is divided into time frames each with N slots.
+\item User i can send only in slot i, $1 \le i \le n$.
+\item If User i has no packet to send, it is wasted.
+\item We can also handle variable number of slots, we need
+to have an extra controller in front of it.
+\item Inflexible bus allocation.
+\item Let $\lambda$ be the average number of packets generated
+per slot.\\
+Case 1 :\\
+$\lambda$ very less than 1 (ie) lightly loaded system.
+Waiting time to start transmission = 0 or $n-1$.\\
+Avg waiting time is $(n-1)/2$.\\
+Total packet delay = (N-1)/2 + 1 = (N+1)/2 which
+is O(n) which is not exactly good.\\
+
+When $\lambda$ is greater than 1, then it is heavily
+loaded then each user always has a packet to send.
+
+\end{itemize}
+\item Random access : Collision Based. This is
+where everybody can talk at once even.
+\end{itemize}
+
 \end{document}

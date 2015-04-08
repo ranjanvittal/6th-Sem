@@ -873,7 +873,23 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
      */
     public R visit(VoidMessageSendStmt n, A argu) {
         R _ret = null;
-        String s = (String) n.f0.accept(this, argu);
+
+
+        String id1 = "funkyTaco" + n.f0.f0.f0.toString();
+        String klass;
+        if(inlining && specialVars.contains(id1))
+            klass = currentVariables.get(id1);
+        else {
+            String pe = (String) n.f0.f0.accept(this, argu);
+            klass = currentVariables.get(pe);
+        }
+        String method = "funkyTaco" + n.f0.f2.f0.toString();
+        String type = classMethods.get(klass).get(method);
+
+        String id = makeVar(type);
+        String s = id + " = ";
+        s = s + (String) n.f0.accept(this, argu);
+
         s = s + ";\n";
         ptm(s);
         return _ret;

@@ -1027,5 +1027,127 @@ $A = \Sigma \lambda_i*(x_i)*{(x_i)}^T$.\\
 If $x_1, x_2$ are PSD, then $\alpha*x_1 + (1 - \alpha)*x_2$ is also PSD.\\
 Ellipsoid like methods work here.\\
 
+SDP can be solved in P time.\\
+Randomized rounding using SDP optimum.\\
+Separation oracle usage.\\
+
+Given a set of vertices, we need to paritition the vertices
+into sets of -1 and 1.\\
+We write $max(\Sigma 1 - y_i*y_j)/2$ which again computes max cut.\\
+
+It can be formulated in SDP or Vector program saying the norm of $||y_i|| = 1$.\\
+Any PSD can be writted as $X*X^T$.\\
+
+Relaxation value(y*) is greater than or equal to MAX CUT.\\
+We get a cut S whose value is atleast 0.878 times the MAX CUT.\\
+
+f(x) = $(1/{(2*\Pi*\sigma^2)}^0.5)*e^{-{(x-\mu)}^2/2*\sigma^2}$.\\
+Variance is $E({(x - \mu)}^2)$.\\
+
+Check that the probability of $r/||r||$ is equal to 1/surface area of sphere.\\
+This is also a normal distribution.\\
+L = $v_i$ such that $v_i.r < 0$.\\
+and U = $v_i$ such that $v_i.r \ge 0$.\\
+r is the vector that degenerated the plane that is v such that v.r = 0.\\
+The probability that the edge x y is cut = 2*Pr($v_i.r < 0$ and $v_j.r \ge 0$).\\
+
+\begin{itemize}
+\item View y* as n vectors $v_1, v_2, ... v_n$.
+\item Select an r each coordinate from N(0, 1).
+\item Projection of r onto the place containing $v_x$ and $v_y$
+is also uniformly distributed on the circle containing $v_x$ and $v_y$.
+The probability that r falls in the angle in the required region
+of $\theta$ is $2*\theta/2*\pi$ = $\theta/\pi$.\\
+Based on the splitting based on this one vector, we can round the
+vectors.\\
+\item $v_x.v_y = cos(\theta)$.\\
+Therefore $\theta/\pi = {cos}^{-1}(v_i.v_j)/\pi \ge 0.878*(1-x)/2$.
+\end{itemize}
+Linearity of expectation saves us again. Therefore the probability
+that an edge is cut is $\Sigma$ (over all e) Pr(e) is cut = $\Sigma {cos}^{-1}(v_x.v_y)/\pi$.\\
+which is greater than or equal to 0.878*value(y*) which is greater than or equal to
+0.878*MAXCUT.\\
+
+Quadratic programming OPT :\\
+max $\Sigma a_{ij}*x_i*x_j$ where $x_i \in {-1, +1}$.\\
+max $\Sigma a_{ij}*v_i.v_j$ where $||v_i|| = 1$.\\
+We select a random hyperplane and set these variables as 1 and -1
+correspondingly from the vector we chose if $r.v_i \ge 0$ then $x_i = 1$ and
+-1 otherwise.\\
+
+$E(x_i.x_j) = Pr[x_i.x_j = 1] - Pr[x_i.x_j = -1] = (1 - Pr[x_i.x_j = -1]) - (Pr[x_i.x_j = -1])$.\\
+We know that the $Pr[x_i.x_j = - 1] = (1/\pi)*{cos}^{-1}(v_i.v_j)$ that is the
+vectors are cut by the random hyper plane. Hence the expectation is $1 - (2/\pi)*{cos}^{-1}(v_i.v_j)$
+.\\
+If we substitute cos inverse by $\pi/2 - sin$ inverse we get,\\
+$E(x_i.x_j) = (2/\pi)*{sin}^{-1}(v_i.v_j)$.\\
+Hence if we get that $\Sigma a_{ij}*{sin}^{-1}(v_i.v_j) - \Sigma a_{ij}*v_i.v_j$
+is greater than zero then we have a $2/\pi$ approximation.\\
+
+$a_{ij} \ge 0$ only gives us the power which we used in the last lecture.\\
+Consider the matrix $X = V^T.V$. Hence X is positive semidefinite.\\
+Put down V as the column vectors got by setting $v_i$ that is the
+frst column of V is $v_1$ and so on.\\
+Now X is PSD. Termwise multiplication of PSD's gives us a PSD.\\
+If C is PSD then sum over all elements in C is greater than or
+equal to 0.\\
+Now we are going to make up a PSD such that the sum over all
+elements of the PSD is $\Sigma a_{ij}*{sin}^{-1}(v_i.v_j) - \Sigma a_{ij}*v_i.v_j$ . Let this term be called $\gamma$.\\
+
+Let A = [$a_{ij}$], B = [${sin}^{-1}(v_i.v_j) - (v_i.v_j)]$.
+Let us analyze ${sin}^{-1}(x) - x$.\\
+
+The taylor series expansion can be looked at.\\
+From some arguments we can get that matrix formed by ${sin}^{-1}(x) - x$ is
+PSD.\\
+Assume that $A$ is positive semidifinite and we get the above calculation easily.\\
+As termmwise multiplication of two PSD, gives a PSD, we can end up with a PSD
+and hence $\Sigma a_{ij}*{sin}^{-1}(v_i.v_j) - \Sigma a_{ij}*v_i.v_j$ is greater
+than or equal to 0. Hence the $2/\Pi$ approximation holds.\\
+
+We can have bicriteria optimizations like $\alpha*MST$ + $(1-\alpha)*SSSP$.\\
+(SSSP refers to single source shortest path).
+Colouring combinatorial :\\
+Given a planar graph checking whether it is 3 colourable or a
+4 colourable is NP complete.\\
+
+Semidefinite Programming for colouring in P time.\\
+If 3 coloring if promised, you can do a $n^{0.287}$ coloring in P time.\\
+Assume $v_i$ is the vector for vertex i.\\
+Observation :\\
+$v_i.v_i = 1$.\\
+$v_i.v_j \le \lambda$.\\
+min $\lambda$.\\
+is the SDP we will use. $s = cos(2*\pi/3)$, then we are asured that
+the current colouring is a 3 colouring.\\
+Pick r random hyperplanes passing through the origin. This
+would give us $2^r$ partitioning. r is going to be less than $log(n)$.\\
+For each part, assign a different colour.\\
+$Pr[c(u_i) = c(u_j)]$ where $u_i, u_j$ is an edge is as follows :\\
+$c(u_i) \ne c(u_j) \leftrightarrow \exists$ such a plane which
+puts them in opposite regions (lets say some n).\\
+$c(u_i) = c(u_j) \leftrightarrow \forall n (v_i.n \& v_j.n < 0)$.
+As of now we have not used the three colourableness of the
+graph here.\\
+Probability that no planes cross an edge ($c(u_i) = c(u_j)$) =
+$(1 - {cos}^{-1}(v_i.v_j)/\pi)^r$.\\
+${cos}^{-1}(v_i.v_j) \ge {cos}^{-1}(\lambda)$.\\
+Because the graph is three colourable, we can be assured that we would
+get $\lambda \le -1/2$ (which is atleast cos($2*\pi$/3)).\\
+$(1 - {cos}^{-1}(v_i.v_j)/\pi)^r \le (1 - {cos}^{-1}(\lambda)/\pi)^r \le 1/3^r$.\\
+Hence we are done.\\
+
+Round by Round : At every iteration choose different hyper planes
+and recolour the badly coloured edges (ie) take
+out the vertices's colours and recolour the
+sub graph.\\
+% Markov inequality :\\
+% $Pr(X > 2*m/3^r) < 1/2$.\\
+% $Pr(\le 2*m/3^r$ edges are badly coloured $) \ge 1/2$.\\
+Given a 3 colouring graph, we set m so as to the number
+of vertices (which is atmost twice the number of edges badly coloured)
+which are badly coloured is less than or equal to $2*m*/3^r$.
+
+
 
 \end{document}

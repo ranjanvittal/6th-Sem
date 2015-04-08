@@ -1324,8 +1324,8 @@ Any boolean function can be computed using and, or and not
 by a circuit of size (1 + o(1))*$2^n/n$ where
 o(1) is bounded by log(n)/n.\\
 Let f be our required function.\\
-f($x_1$, $x_2$, .... $x_n$) = ($x_1 & f(1, x_1, x_2, .... x_n)$) or
-$\overline{x_1} & f(0, x_1, x_2, ... x_n)$. (Trivial)\\
+f($x_1$, $x_2$, .... $x_n$) = ($x_1 \& f(1, x_1, x_2, .... x_n)$) or
+$\overline{x_1} \& f(0, x_1, x_2, ... x_n)$. (Trivial)\\
 We are going to bound the depth of the recursion to some k
 and fill it in with all the $2^{2^k}$ functions in some manner.\\
 There is a function(known) that requires 5*n - O(1) number of gates.\\
@@ -1624,5 +1624,323 @@ be polynomial as depth is logarithmic) even though the copies
 would have blown it out.\\
 
 Now let us show that $BF \subseteq {NC}^1$.\\
-Given any path
+Given any path of poly length, split it into two paths
+A and B by cutting an edge. Now we have two trees A and B.
+The output of B feeding as input to A. Now replicate A into
+two A's where in one A assume the input of B as 1 and in
+another assume it as 0 and now feed in B into a multiplexer
+and choose one A or the other based on that. This reduces the height
+by 1/2 factor.\\
+
+Formally :\\
+For a binary tree with s internal vertices, there is a vertex v
+such that if $T_v$ a tree rooted at v, $s/3 \le |T_v| \le 2*s/3$.\\
+Assuming the above (easy to show) : Let $F_v$ be the formula rooted
+at v  and assuming 0 as input from $T_v$ and $F_v~$ be the one with
+assuming 1 as input from $T_v$ and now use $T_v$ as a selector
+for $F_v$ and $F_v~$.\\
+$size(s) \le 3*size(2*s/3) + 4$. Because of this if we
+repeat it logarithmically many times
+we will still remain in polynomial time.\\
+
+Depth(s) = Depth(2*s/3) + 2. Hence we are done as depth
+can be made to log(n) and still size remains polynomial still.\\
+
+\subsection{Lower bounds against boolean formulas}
+\begin{itemize}
+\item fanin-2 formulas.
+\item negations are at the leaves.
+\item The size of the formulas are of the order of number of leaves
+because it is a binary tree which is L(f).
+\end{itemize}
+Theorem : For every $\epsilon$, $\exists$ f such thst
+$L(f) \ge (1 - \epsilon)*2^n/log(n)$ for large enough n. Similar
+to shannon's.\\
+Universal functions :\\
+Consider :\\
+$z = (z_1, z_2, ... z_r) \in {\{0, 1\}}^r$.
+$y = (y_1, y_2, ... y_r) \in {\{0, 1\}}^n$.
+n could be of length $2^r$.\\
+u(z, y) = $y_z$ as z could be an index into y
+hence u : ${\{0, 1\}}^{n+r} \rightarrow \{0, 1\}$.\\
+For every function, we can encode the function and find out
+the value from this universal function.\\
+
+Let z also be n bits and look at z as a matrix of $rXn/r$.\\
+u(g(x), y) = u'(x, y) where g(x) converts an n bit function
+to an r bit input. That is z is n bits and g would convert it
+into r bits and feed it into u.\\
+
+As we saw z is of r rows, we will produce one bit for each row.\\
+Lets talk about a structured g which produces an or of all
+the bits in a row as output for the row.\\
+Theorem : L($u^{or}$) requires $n^2/log(n)*log(log(n))$.\\
+Proof :\\
+Let F be the optimal formula for $u^{or}$.\\
+In each row of the matrix, mark the variable which
+appears the least number of times in each row (this is one
+the formula which is touted to be constructed).\\
+Let us set all the unmarked variables to zero to get a formula
+F'.\\
+Observation : F' still has every h from ${\{0, 1\}}^n$
+as a sub function. This is beacause these marked can be seen
+as the indices other than the or which we computed.\\
+Number of leaves is greater than $n/log(log(n))$.\\
+Number of leaves of $F \ge (n/r)*$ number of
+leaves of F'. Hence number of leaves is like $n^2/log(n)*(log(log(n)))$.\\
+
+Theorem : (Subbofovskaya (she) 1960) :\\
+PARITY on n bits this must be atleast $n^{3/2}$ de morgan size.\\
+For every boolean function on n variables it is possible
+to fix some variable to a value such that the resulting function
+f' in (n-1) variables satisfies smaller formulas.\\
+Let there be a formula F with number of leaves is s. Then there
+exists a variable $x_i$ such that $x_i$ appears atleast s/n times.\\
+Therefore the new formula size would go down atleast by s - s/n
+which is s(1 - 1/n).\\
+What she proved is that this actually will kill s${(1 - 1/n)}^{3/2}$.\\
+Neighbour of a subcircuit is something which feeds into
+the same gate as this.\\
+The neighbour of z cannot contain $x_i$ or $\overline{x_i}$.\\
+Because if this is the case then we would have hard coded
+$x_i$ = 1 in the other gate part as this would not affect the argument
+when the gate is and, similarly substitute $x_i = 0$ for or.\\
+
+Similarly we can note that by setting $x_i$ we can eliminate (kill)
+the neighbours and the leaves under the neighbours.
+So when we set $x_i$ just choose the one which kills most of the gates.
+Hence number of leaves are greater than s/n + s/2*n as those many (s/2*n)
+neighbours would definitely get eliminated. Hence number of
+eliminations are now : $s*{(1 - 1/n)}^{3/2}$.\\
+Now we know that parity, when one variable is set, gives
+us either parity or its negation.\\
+$L(Parity)*(1/n)^{3/2} \ge L(f') \ge 1$ as even for one variable it
+is still dependent on f. Hence the lower bound is done.\\
+
+Randomized version :\\
+Restriction which leaves k variables free. We will
+take $x_1, ... x_n$ as (0, 1 or *). If we assign it * it means that it is
+left free. This retriction functions are called $\rho$.\\
+Random restrictions :\\
+Choosing $\rho \in R_k$ at random that is the above function at random.\\
+Choose k indices to be assigned uniformly at random from n indices and
+set them to *. Out of the other n-k variables just move around and
+assign them 0 or 1 with probability half.\\
+There exists a $\rho \in R_k$ such that $L(f/\rho) \le (k/n)^{3/2}L(\rho)$.\\
+Basically we restrict certain variables randomly here instead of studying the
+structure.\\
+
+$Pr[L(f/\rho) \le 4*{(k/n)}^{3/2}] \ge 3/4$.\\
+Proof :\\
+Markov's inequality : $Pr(x > t) \le E(x)/t$.\\
+Essentially we need to show :
+$Pr[L(f/\rho) > 4*{(k/n)}^{3/2}] \le 1/4$.\\
+If expected size of the formula $L(f/\rho)$ is ${k/n}^{3/2}*L(f)$
+then we are done via markov's inequality.\\
+
+There are n-k  stages at each stage choose one variable at random and assign
+0 or 1 to it.\\
+Random restriction with parameter p :\\
+a variable is set to * with probability p.\\
+a variable is set to 0 with probability (1-p)/2 and similarly set to 1 with
+probability (1-p)/2.\\
+Expected number of variables set to * = pn.\\
+\begin{itemize}
+\item Choose i at random and setting $x_i$ to 0/1.\\
+Therefore the expected number of times $x_i$ occurs is |S|/n where
+|S| is the size of the formula. If we set $x_i$ in a favourable
+way we can reduce it by $S/2*n$ more. The point is this is also the average
+that is if it is set as 0 and if you sum it with the case where you set it
+to 1 we get S/n and hence we have S/2*n on an average eliminated.
+This gives us the same result on a better averaginf out sense.
+\end{itemize}
+
+Choosing l variables to be set free uniformly at random and setting
+each to 0/1 .\\
+$Pr_\rho \in R_{n}^{l}[L(f/\rho)] \le 4*(k/n)^{3/2}*L(f)] \ge 3/4$.\\
+$R_{n}^{l}$ is a set of restrictions on a variable leaving l variables free.\\
+Nechiporuk(1956) :\\
+$u^v(x, y) = u(v(x), y)$.\\
+who gave v such that we get number of gates as $\omega(n^{2-o(1)})$ that
+is very slightly less than $n^2$.\\
+
+Andreev :\\
+Define g as follows :\\
+g is an n bit to r bit function. Again it is a series
+of 1 bit functions which operate on m/r bits in the matrix of the input
+of m/rXr.\\
+Here the g is the xor function, (ie) the rowwise xor.\\
+L($u^{xor}$) = $\omega(n^{5/2 - o(1)})$.\\
+
+If h is a hard function on r variables such that $L(h) \ge 2^r/log(r) = n/log(log(n))$.\\
+Now let b be the truth table of h.\\
+$u^{xor}(x, b) =  h(xor(firstRow), xor(secondRow), .....)$.\\
+Suppose we can fix one variable to be alive in each row, then we can ay u computes
+the hard function that is, the one variable which is the input for h is the one
+variable which is the alive variable in the row. We basically make sure
+that in every row there is atleast variable which is alive. This will still give
+us the power to compute the hard function h. The funda of xor which it supercedes
+or is that the one free variable can contribute fully to h irrespective
+of what the other variables are set.\\
+
+Todo :\\
+\begin{itemize}
+\item $Pr_\rho \in R_{n}^{l}[\exists$ atleast one variable in each row is free $ ] \ge 3/4$.
+\item Sabbofavskaya's.
+\end{itemize}
+
+
+Probability that there exists a row with * (* means free) in it is less than or equal
+to 1/4.\\
+Probability that one variable is chosen to be * is l/n. Hence the
+probability that one row doesnot get any * is ${(1 - l/n)}^m$. Hence applying
+union bound probability that such a row exists is $r*{(1 - l/n)}^m$ which
+is bounded by $re^{-lm/n}$. We will choose l = r*log(4r). Hence we get that
+this probability is bounded by 1/4. Since both probabilities are greater than
+3/4, then there definitely exists a $\rho$ which satisfies both the constraints.
+
+$L(u^{xor}) \ge (1/4)*{(n/l)}^{3/2}*L(u^{xor}/\rho)$.\\
+Basically L($u^{xor}/\rho$) can be lower bounded by L(h) which can be lower bounded
+by $n/log(n)$ and hence it gives the $n^{5/2}$ bound.\\
+
+(1983 Furst, saxe, sipser) :\\
+Parity is not in ${AC}^0$. Any depth d circuit computing parity requires
+exponential number of gates (ie) $2^{n^{1/(d-1)}}$. This is done in ps4.\\
+
+We will show that the disjunctive normal form wiht polynomial
+number of gates cannot compute parity.\\
+
+Computation by a decision tree :\\
+f is a function from n bits to 1 bit.\\
+What we can do is that we substitute $x_1 = 0$ and go in one path
+and substitute as 1 in the other and move on in the other. The DNF
+can be computed by visiting all the leaves which are one and adding them up.\\
+If each path looks at all the variables, then the depth has to be n and
+size of the tree has to be $2^n$.\\
+
+Canonical way from DNF to decision tree :\\
+Let there be m clauses $C_1, C_2, ... C_m$ and each one has t variables.\\
+First path queries variables in $C_1$. If $C_1$ evaluates to 0, then
+paste $C_2, C_3, ... C_m$ here. If it is one then we can trivially say
+1 in this path.\\
+$\rho \in {R_n}^l$ is set of all restrictions that keeps l variables free from the
+set of n variables. $\rho$ maps every vertex to \{0, 1, *\}.\\
+DNF = $C_1$ or $C_2$ .... $C_n$.\\
+Ordering among terms based on the variable ordering. DNF to decision tree is
+easy.\\
+You will basically traverse over all paths which lead to 1 and 'and' all the
+variables in the path based on the setting of the variable to 0 or 1 and
+'or' over all such paths.\\
+Let the formula in DNF be F.
+Let $\sigma$ is an assignment to some subset of variables. Now traverse
+the DT and :\\
+\begin{itemize}
+\item Remove terms falsified by $\sigma$.
+\item Remove variables set to 1 by $\sigma$.
+\end{itemize}
+The above is denoted by $F_{\sigma}$.\\
+
+Let F = $C_1$ or F'.\\
+Let k be the variables in $C_1$. CDT for TF starts with binary
+tree of depth k, querying variables in $C_1$ in order defined by the ordering of the variables.\\
+Now wherever it reaches 1 we donot continue. Wherever we see a 0, we paste $T(F_{\sigma})$
+where $\sigma$ is the restriction in the particular path.\\
+Hence it is easy to see that this gives us a one to one correspondance.\\
+
+Hastad's switching lemma :\\
+Let F be a DNF with n variables with terms of length atmost r (this is some function of n
+and can be a constant),
+$l = pn$ where p is the probability of setting a variable to *.\\
+$(|\rho \in {R_n}^l, |T(F_{\rho})| \ge s|/|{R_n}^l) < {(7*p*r)}^s$.
+The || in the above actually the depth of the tree.\\
+
+Lemma :\\
+$n_{i+1}$ = n/(14*${(14*s)}^l$) where $ 0 \le i \le d-1$, where d is the depth.
+C is a circuit of size S and depth d, for a level i, $n_i \ge log(s)$,
+then there is a restriction $\rho \in {R_n}^{n_i}$ such that
+for all gates in C in depth less than or equal to i. Then
+each of the gates can be computed by a DT of height
+less than or equal to log(S).\\
+
+There exists a restriction $\rho$ such that all gates in C with depth
+less than or equal to i, the tree below (ie) $g_{\rho}$, can be computed by a DT
+of height log(S).
+
+Now we are equipped to show that $PARITY \not \in AC_{0}$.\\
+Root gate has depth = d.\\
+variables free. Height of DT($C_{\rho}$) is atmost log(S).
+Remember that root is at depth d and the children of root is
+at depth $d-1$ and so on.
+Look at i as $d-2$, hence
+$\exists \rho \in {R_n}^{n_d}$, such that $n_{d-1}$ = n/14*${(14*log(s))}^{d-2}$.
+By lemma, there exists a restriction $\rho \in {R_n}^{n_d - 1}$
+such that $g_{\rho}$ can be written with a log(S) depth.\\
+
+Induction :\\
+
+i is the depth iterated from 1 to d where 1 is refers to the gates
+looking only at the variables.
+Base Case:\\
+C is a size S depth d, induction is on i, i = 1.\\
+Here the term length is trivially 1 (ie) r = 1.\\
+Fix p = 1/14, then we get from the previous lemma(which we are proving),
+$n_1 = n/14$.\\
+Now we look at the circuit restricted by ${R_n}^{n_1}$.
+Hence from switching lemma, we get that the fraction
+of restrictions that makes the height of $T(g_{\rho}) \ge s$
+is less than $(1/2)^s$ = 1/$2^{log(s)}$ = 1/S, by
+setting s = log(S). Hence we get that there exists atleast
+one restriction will kill all the gates at this level which is atmost
+S.\\
+
+Propogation Step:\\
+Let lemma be true upto i, to prove it for i+1 :\\
+Number of gates at depth i+1 is atmost s.\\
+Assume all these guys as or gates, (and gates can be switched
+as or gates by pushing negations down) Decision tree negations
+are free (ie) depth is the same.
+At level i $n_i$ variables were left free.\\
+At level i+1 $n_{i+1}$ variables were left free.\\
+Now we can write $n_i$ as a level at which we made the DNF for
+it as specified above. Hence all of these would be or gates
+which we would combine with the level i+1 as i+1
+is again an or.
+Hence the DNF's of term size atmost log S by the
+induction propogation at level i. Choose s = log(S), p = 1/(14*log(S)).\\
+We already know that r is restricted by log(S).
+Now apply switching lemma, we again can see that
+$n_{i+1} = n_i/14*log(S) = p*n_i$ which proves the induction claim.
+Basically l = n*p in the swithcing lemma and
+because of the p we chose, we get l = $n_i$*p which
+says that $n_{i+1} = n_i*p$.\\
+
+Switching Lemma Proof :\\
+Combinatorial proof of switching lemma :\\
+Let the set of all $\rho \in {R_n}^l$, such
+that $|T(F_{\rho})| \ge s$ be S.
+We will prove that $|S| \le {(7*p*r)}^s*|{R_n}^l|$.\\
+We will first set up this one to one correspondance from
+S to S' and establish a bound on S' which will in turn bound S.
+
+Stars(r, s) = set of $(\beta_1, \beta_2, .... \beta_k)$.\\
+where $\beta_i \in {\{*, -\}}^{r}$
+such that total number of *'s is ${\beta}_i$ is equal to s and
+number of * is atleast 1.\\
+S' = ${R_n}^{l-s}XStars(r, s)X{\{0, 1\}}^s$.\\
+Now let us look $T(F_{\rho})$.\\
+$F = C_1 | C_2 | ... C_m$.\\
+$F_{\rho} = C_{1'} | C_{2'} ....$.\\
+That is some variables would be already set and they could
+falsify a clause and hence some clauses could have been simplified as well.\\
+Note that $C_{1'}$ is not restricted to $\rho$, it is in the original formula.\\
+Now consider the DNF which is truncated to level s.\\
+$\pi$ = Lex least path of length s in CDT of $F_{\rho}$ (not necessarily truncated).\\
+$C_{1'}$ is the first non falsified clause by $\rho$ in F.\\
+k is the number of variables in ${\sigma}_1$. Where ${\sigma}_1$
+is the assignment to variable in $C_{1'}$.\\
+Let $\pi_1$ be the segment of $\pi$ in $\sigma_1$ that is at that level.
+
+Case 1 :\\
+$\pi_1 \ne \pi$.\\
+
 \end{document}

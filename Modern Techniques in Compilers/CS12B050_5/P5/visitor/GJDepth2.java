@@ -675,8 +675,15 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
             }
 
             caller = (String) ms.f0.accept(this, argu);
+            if(currentVariables.containsKey(caller))
+                klass = currentVariables.get(caller);
+            else {
+                AllocationExpression ae = (AllocationExpression) ms.f0.f0.choice;
+                klass = "funkyTaco" + (String) ae.f1.f0.toString();
+                caller = makeVar(klass);
+                ptm(caller + " = " + (String) ms.f0.accept(this, argu) + ";\n");
+            }
 
-            klass = currentVariables.get(caller);
             //print(caller);
             //print(klass);
             method = "funkyTaco" + ms.f2.f0.toString();

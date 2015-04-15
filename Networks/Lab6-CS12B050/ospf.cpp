@@ -26,16 +26,36 @@ using namespace std;
 
 #define ll long long
 #define NUM_THREADS 4
+#define INF 400000000
+
 mutex mass;
 
 volatile int c = 1;
 
 int sock;
+ll start_time;
 struct sockaddr_in send_addr;
 socklen_t addr_len = sizeof (struct sockaddr);
 
+
+
 volatile int* parent;
 volatile int* cost;
+string outfile;
+typedef pair<pair<int, int>, int> priority_use;
+
+#define time_diff(a, b) ( ((a)-(b))/1000000 )
+
+class Priority
+{
+    public:
+        bool operator() (const priority_use& lhs, const priority_use& rhs) const
+        {
+            return (lhs.first.second > rhs.first.second);
+        }
+} priority;
+
+typedef priority_queue<priority_use, std::vector<priority_use>, Priority> priority_type;
 
 void mysend(void* object, int size, int id) {
     send_addr.sin_port = htons(20000 + id);
@@ -111,22 +131,9 @@ struct LSA {
 
 // Node LSA
 
-LSA* mylsa;
-int mylsa_size;
+volatile LSA* mylsa;
+volatile int mylsa_size;
 
-// void *wait(void *t)
-// {
-//    int i;
-//    long tid;
-
-//    tid = (long)t;
-
-//    mtx.lock();
-//    cerr << "Sleeping in thread " << endl;
-//    cerr << "Thread with id : " << tid << "  ...exiting " << endl;
-//    mtx.unlock();
-//    pthread_exit(NULL);
-// }
 
 void* gen = (void*) malloc(1040);
 
@@ -153,7 +160,6 @@ void *my_listen(void* useless) {
                 cost = low_cost + (rand() % diff);
 
             hr.cost = cost;
-
             mysend((void*) &hr, sizeof(hr), node);
         }
         else if(size == sizeof(HelloReceive)) {
@@ -164,7 +170,7 @@ void *my_listen(void* useless) {
             set(current_node, node, hr->cost);
             mass.unlock();
         }
-        else if(size > sizeof(HelloReceive)){
+        else if(size != -1 && size > sizeof(HelloReceive)){
             //lsa receive
             LSA* lsa = (LSA*) gen;
             int node = lsa->srcid;
@@ -173,7 +179,6 @@ void *my_listen(void* useless) {
             int i;
             int node2;
             int nodecost;
-
             if(sequence_no > sequence_no_map[node]) {
                 mass.lock();
                 for(i = 0; i < number_of_entries; i++) {
@@ -183,6 +188,7 @@ void *my_listen(void* useless) {
                     set(node, node2, nodecost);
                 }
                 sequence_no_map[node] = sequence_no;
+
                 mass.unlock();
 
                 for(i = 0; i < neighbour_size; i++)
@@ -215,8 +221,13 @@ void *send_lsa(void* useless) {
         usleep(lsa_interval);
         int i;
         mass.lock();
-        for(i = 0; i < neighbour_size; i++)
+
+        for(i = 0; i < neighbour_size; i++) {
             mylsa->neighbour[i + neighbour_size] = access(current_node, neighbour_list[i]);
+        }
+
+        mylsa->sequence_no += 1;
+        mylsa->number_of_entries = neighbour_size;
 
         for(i = 0; i < neighbour_size; i++)
             mysend((void*) mylsa, mylsa_size, neighbour_list[i]);
@@ -230,34 +241,26 @@ void *djikstra(void* useless) {
     while(CURRENT_TIME() < overall_stop) {
         usleep(djikstra_interval);
         mass.lock();
-        priority_queue<pair<pair<int, int>, int> > pq;
+        priority_type pq;
         vector<vector<pair<int, int> > > adjlist;
         int i;
         int j;
         adjlist.clear();
 
-        for( i = 0; i < graph_size; i ++ ) {
-            for( j = 0; j < graph_size; j++)
-                cerr << access(i, j) << " ";
-            cerr << endl;
-        }
-
         for( i = 0; i < graph_size; i++) {
             vector<pair<int, int> > current_row;
             current_row.clear();
-            cerr << "HERE" << endl;
             for( j = 0; j < graph_size; j++) {
                 if(access(i, j) != -1 && i != j) {
                     pair<int, int> g;
                     g.first = j;
                     g.second = access(i, j);
                     current_row.push_back(g);
-                    cerr << i << " " << j << " "<< access(i, j) << endl;
                 }
             }
-            cerr << "LEAVING" << endl;
             adjlist.push_back(current_row);
         }
+        //cerr << "-------AA" << endl;
 
         bool visited[graph_size];
         for(i = 0; i < graph_size; i++)
@@ -268,11 +271,11 @@ void *djikstra(void* useless) {
 
         while(!pq.empty()) {
             top = pq.top();
-            pq.pop();
+
             pair<int, int> next_guy;
             if(!visited[top.first.first]) {
                 for(j = 0; j < adjlist[top.first.first].size(); j++) {
-                    next_guy = adjlist[top.first.first][i];
+                    next_guy = adjlist[top.first.first][j];
                     pq.push(make_pair(make_pair(next_guy.first,
                         top.first.second + next_guy.second), top.first.first)
                     );
@@ -281,23 +284,35 @@ void *djikstra(void* useless) {
                 parent[top.first.first] = top.second;
                 cost[top.first.first] = top.first.second;
             }
+            pq.pop();
         }
+
+
+        //cerr << "-------BB" << endl;
+        fstream f;
+        f.open(outfile, std::fstream::app | std::fstream::out);
+        f << endl;
+        ll current_time = CURRENT_TIME();
+        f << "Routing Table for Node No. " << current_node <<
+        " at Time " << time_diff(current_time, start_time) << endl;
+        f << "Destination\t\tPath\t\tCost" << endl;
+
+        string parent_info;
+        string cn = to_string(current_node);
 
         for(i = 0; i < graph_size; i++) {
-            for(j = 0; j < graph_size; j++)
-                cout << access(i, j) << " ";
-            cout << endl;
+            int temp = i;
+            parent_info = "";
+            while(temp != current_node) {
+                parent_info =  "-" + to_string(temp) + parent_info;
+                temp = parent[temp];
+            }
+            parent_info = cn + parent_info;
+            if(cost[i] != 0 && cost[i] != -1)
+                f<< i << "\t\t" << parent_info << "\t\t" << cost[i] << endl;
         }
-        cerr << "--------";
-
-        for(i = 0; i < graph_size; i++)
-            cerr << cost[i] << " ";
-
-        cerr << "--------";
 
         mass.unlock();
-        // for(i = 0; i < graph_size; i++)
-        //     cerr << parent[i] << " " << cost[i] << endl;
 
     }
     printf("exiting djikstra\n");
@@ -312,9 +327,12 @@ int main (int argc, char** argv)
     struct hostent *host;
 
     char* infile;
-    char* outfile;
+    char* of;
 
-    pthread_t threads[NUM_THREADS];
+    pthread_t lsa_thread;
+    pthread_t djikstra_thread;
+    pthread_t hello_thread;
+    pthread_t listen_thread;
     pthread_attr_t attr;
 
     void *status;
@@ -330,7 +348,7 @@ int main (int argc, char** argv)
         }
         else if(!strcmp(argv[i], "-o")) {
             i++;
-            outfile = strdup(argv[i]);
+            of = strdup(argv[i]);
         }
         else if(!strcmp(argv[i], "-h")) {
             i++;
@@ -346,6 +364,10 @@ int main (int argc, char** argv)
         }
     }
 
+    outfile = string(of) + "-" + to_string(current_node) + ".txt";
+    fstream f2;
+    f2.open(outfile, std::fstream::out);
+    f2.close();
     fstream f;
     int edges;
     f.open(infile, std::fstream::in);
@@ -363,13 +385,11 @@ int main (int argc, char** argv)
         for(j = 0; j < graph_size; j++)
             set(i, j, -1);
 
-    for(i = 0; i < graph_size; i ++)
-        set(i, i, 0);
+
 
     i = 0;
     while(i < edges) {
         f >> vertex1 >> vertex2 >> mincost >> maxcost;
-        cerr << vertex1 << " " << vertex2 << " "  << mincost << " " << maxcost;
         if(vertex1 == current_node || vertex2 == current_node) {
 
             if(vertex2 == current_node)
@@ -380,27 +400,27 @@ int main (int argc, char** argv)
             neighbour_lower_costs[node] = mincost;
             neighbour_upper_costs[node] = maxcost;
             sequence_no_map[node] = -1;
-            set(node, current_node, 0);
-            set(current_node, node, 0);
+            set(node, current_node, mincost);
+            set(current_node, node, mincost);
 
             neighbour_size++;
         }
         i++;
     }
-    cerr << neighbour_size << "DD";
 
     mylsa = (LSA*) malloc(sizeof(LSA) + sizeof(int)*(2*neighbour_size-1));
     mylsa_size = sizeof(LSA) + sizeof(int)*(2*neighbour_size-1);
     mylsa->srcid = current_node;
     mylsa->number_of_entries = neighbour_size;
     mylsa->sequence_no = 0;
+
     for(i = 0; i < neighbour_size;i++) {
         mylsa->neighbour[i] = neighbour_list[i];
         mylsa->neighbour[i+neighbour_size] = 0;
     }
 
-
-    overall_stop = CURRENT_TIME() + 20000000;
+    start_time = CURRENT_TIME();
+    overall_stop = CURRENT_TIME() + 10000000;
 
 
 
@@ -442,10 +462,10 @@ int main (int argc, char** argv)
     cost[current_node] = 0;
     parent[current_node] = -1;
 
-    rc = pthread_create(&threads[0], NULL, my_listen, gen);
-    rc = pthread_create(&threads[1], NULL, send_hello, gen);
-    rc = pthread_create(&threads[2], NULL, send_lsa, gen);
-    rc = pthread_create(&threads[3], NULL, djikstra, gen);
+    rc = pthread_create(&listen_thread, NULL, my_listen, gen);
+    rc = pthread_create(&hello_thread, NULL, send_hello, gen);
+    rc = pthread_create(&lsa_thread, NULL, send_lsa, gen);
+    rc = pthread_create(&djikstra_thread, NULL, djikstra, gen);
 
 
    // free attribute and wait for the other threads

@@ -1,0 +1,135 @@
+
+Routing Table for Node No. 2 at Time 20
+Destination		Path			Cost
+0			2-1-0			400000278
+1			2-1			278
+3			2-3			385
+4			2-4			366
+5			2-4-5			674
+6			2-4-6			598
+
+Routing Table for Node No. 2 at Time 40
+Destination		Path			Cost
+0			2-1-0			767
+1			2-1			305
+3			2-3			430
+4			2-4			315
+5			2-3-5			740
+6			2-4-6			690
+
+Routing Table for Node No. 2 at Time 60
+Destination		Path			Cost
+0			2-3-0			685
+1			2-1			246
+3			2-3			307
+4			2-4			386
+5			2-4-5			669
+6			2-4-6			760
+
+Routing Table for Node No. 2 at Time 80
+Destination		Path			Cost
+0			2-3-0			793
+1			2-1			446
+3			2-3			348
+4			2-4			295
+5			2-4-5			657
+6			2-4-6			663
+
+Routing Table for Node No. 2 at Time 100
+Destination		Path			Cost
+0			2-1-0			690
+1			2-1			426
+3			2-3			393
+4			2-4			427
+5			2-3-5			685
+6			2-4-6			677
+
+Routing Table for Node No. 2 at Time 120
+Destination		Path			Cost
+0			2-3-0			626
+1			2-1			418
+3			2-3			323
+4			2-4			294
+5			2-4-5			616
+6			2-4-6			770
+
+Routing Table for Node No. 2 at Time 140
+Destination		Path			Cost
+0			2-3-0			661
+1			2-1			341
+3			2-3			263
+4			2-4			270
+5			2-3-5			606
+6			2-4-6			676
+
+Routing Table for Node No. 2 at Time 160
+Destination		Path			Cost
+0			2-3-0			747
+1			2-1			415
+3			2-3			343
+4			2-4			305
+5			2-4-5			622
+6			2-4-6			711
+
+Routing Table for Node No. 2 at Time 180
+Destination		Path			Cost
+0			2-3-0			659
+1			2-1			432
+3			2-3			382
+4			2-4			331
+5			2-4-5			751
+6			2-4-6			535
+
+Routing Table for Node No. 2 at Time 200
+Destination		Path			Cost
+0			2-3-0			643
+1			2-1			426
+3			2-3			356
+4			2-4			427
+5			2-3-5			745
+6			2-4-6			757
+
+Routing Table for Node No. 2 at Time 220
+Destination		Path			Cost
+0			2-3-0			678
+1			2-1			298
+3			2-3			320
+4			2-4			275
+5			2-4-5			651
+6			2-4-6			565
+
+Routing Table for Node No. 2 at Time 240
+Destination		Path			Cost
+0			2-3-0			558
+1			2-1			402
+3			2-3			339
+4			2-4			308
+5			2-4-5			701
+6			2-4-6			554
+
+Routing Table for Node No. 2 at Time 260
+Destination		Path			Cost
+0			2-3-0			659
+1			2-1			332
+3			2-3			298
+4			2-4			254
+5			2-3-5			615
+6			2-4-6			555
+
+Routing Table for Node No. 2 at Time 280
+Destination		Path			Cost
+0			2-3-0			643
+1			2-1			393
+3			2-3			306
+4			2-4			362
+5			2-3-5			619
+6			2-4-6			757
+
+Routing Table for Node No. 2 at Time 300
+Destination		Path			Cost
+0			2-3-0			804
+1			2-1			457
+3			2-3			365
+4			2-4			265
+5			2-4-5			579
+6			2-4-6			486

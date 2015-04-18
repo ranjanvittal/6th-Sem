@@ -1,0 +1,135 @@
+
+Routing Table for Node No. 6 at Time 20
+Destination		Path			Cost
+0			6-4-3-0			400000628
+1			6-4-2-1			1031
+2			6-4-2			611
+3			6-4-3			628
+4			6-4			272
+5			6-5			422
+
+Routing Table for Node No. 6 at Time 40
+Destination		Path			Cost
+0			6-5-3-0			1007
+1			6-5-3-1			987
+2			6-4-2			676
+3			6-5-3			642
+4			6-4			375
+5			6-5			332
+
+Routing Table for Node No. 6 at Time 60
+Destination		Path			Cost
+0			6-5-3-0			1082
+1			6-4-2-1			1035
+2			6-4-2			713
+3			6-5-3			704
+4			6-4			374
+5			6-5			298
+
+Routing Table for Node No. 6 at Time 80
+Destination		Path			Cost
+0			6-5-3-0			1123
+1			6-4-2-1			1058
+2			6-4-2			637
+3			6-5-3			678
+4			6-4			368
+5			6-5			339
+
+Routing Table for Node No. 6 at Time 100
+Destination		Path			Cost
+0			6-5-3-0			901
+1			6-4-2-1			900
+2			6-4-2			542
+3			6-5-3			586
+4			6-4			250
+5			6-5			294
+
+Routing Table for Node No. 6 at Time 120
+Destination		Path			Cost
+0			6-5-3-0			1095
+1			6-4-2-1			1156
+2			6-4-2			895
+3			6-5-3			792
+4			6-4			476
+5			6-5			333
+
+Routing Table for Node No. 6 at Time 140
+Destination		Path			Cost
+0			6-5-3-0			1090
+1			6-5-3-1			1002
+2			6-4-2			786
+3			6-5-3			692
+4			6-4			406
+5			6-5			349
+
+Routing Table for Node No. 6 at Time 160
+Destination		Path			Cost
+0			6-4-3-0			1119
+1			6-4-3-1			1145
+2			6-4-2			836
+3			6-4-3			715
+4			6-4			406
+5			6-5			439
+
+Routing Table for Node No. 6 at Time 180
+Destination		Path			Cost
+0			6-4-3-0			933
+1			6-4-2-1			941
+2			6-4-2			607
+3			6-4-3			656
+4			6-4			204
+5			6-5			311
+
+Routing Table for Node No. 6 at Time 200
+Destination		Path			Cost
+0			6-4-3-0			953
+1			6-4-2-1			902
+2			6-4-2			548
+3			6-4-3			666
+4			6-4			330
+5			6-5			307
+
+Routing Table for Node No. 6 at Time 220
+Destination		Path			Cost
+0			6-5-3-0			1021
+1			6-4-2-1			1069
+2			6-4-2			683
+3			6-5-3			663
+4			6-4			290
+5			6-5			310
+
+Routing Table for Node No. 6 at Time 240
+Destination		Path			Cost
+0			6-4-3-0			860
+1			6-4-3-1			1057
+2			6-4-2			594
+3			6-4-3			641
+4			6-4			246
+5			6-5			361
+
+Routing Table for Node No. 6 at Time 260
+Destination		Path			Cost
+0			6-5-3-0			989
+1			6-4-2-1			989
+2			6-4-2			588
+3			6-5-3			628
+4			6-4			301
+5			6-5			311
+
+Routing Table for Node No. 6 at Time 280
+Destination		Path			Cost
+0			6-5-3-0			1001
+1			6-5-3-1			1028
+2			6-4-2			749
+3			6-5-3			664
+4			6-4			395
+5			6-5			351
+
+Routing Table for Node No. 6 at Time 300
+Destination		Path			Cost
+0			6-4-3-0			1011
+1			6-4-3-1			911
+2			6-4-2			667
+3			6-4-3			572
+4			6-4			221
+5			6-5			314

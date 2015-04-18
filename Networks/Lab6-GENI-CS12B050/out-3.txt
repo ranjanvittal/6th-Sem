@@ -1,0 +1,135 @@
+
+Routing Table for Node No. 3 at Time 20
+Destination		Path			Cost
+0			3-0			494
+1			3-1			415
+2			3-2			253
+4			3-4			331
+5			3-5			344
+6			3-4-6			563
+
+Routing Table for Node No. 3 at Time 40
+Destination		Path			Cost
+0			3-0			508
+1			3-1			441
+2			3-2			350
+4			3-4			251
+5			3-5			285
+6			3-5-6			617
+
+Routing Table for Node No. 3 at Time 60
+Destination		Path			Cost
+0			3-0			318
+1			3-1			383
+2			3-2			230
+4			3-4			339
+5			3-5			378
+6			3-5-6			676
+
+Routing Table for Node No. 3 at Time 80
+Destination		Path			Cost
+0			3-0			355
+1			3-1			337
+2			3-2			245
+4			3-4			251
+5			3-5			300
+6			3-4-6			619
+
+Routing Table for Node No. 3 at Time 100
+Destination		Path			Cost
+0			3-0			459
+1			3-1			351
+2			3-2			282
+4			3-4			433
+5			3-5			231
+6			3-5-6			525
+
+Routing Table for Node No. 3 at Time 120
+Destination		Path			Cost
+0			3-0			495
+1			3-1			418
+2			3-2			323
+4			3-4			372
+5			3-5			357
+6			3-5-6			690
+
+Routing Table for Node No. 3 at Time 140
+Destination		Path			Cost
+0			3-0			370
+1			3-1			325
+2			3-2			263
+4			3-4			442
+5			3-5			292
+6			3-5-6			641
+
+Routing Table for Node No. 3 at Time 160
+Destination		Path			Cost
+0			3-0			388
+1			3-1			394
+2			3-2			343
+4			3-4			314
+5			3-5			378
+6			3-4-6			720
+
+Routing Table for Node No. 3 at Time 180
+Destination		Path			Cost
+0			3-0			393
+1			3-1			330
+2			3-2			382
+4			3-4			320
+5			3-5			397
+6			3-4-6			524
+
+Routing Table for Node No. 3 at Time 200
+Destination		Path			Cost
+0			3-0			320
+1			3-1			378
+2			3-2			356
+4			3-4			353
+5			3-5			363
+6			3-5-6			670
+
+Routing Table for Node No. 3 at Time 220
+Destination		Path			Cost
+0			3-0			320
+1			3-1			254
+2			3-2			320
+4			3-4			414
+5			3-5			287
+6			3-5-6			597
+
+Routing Table for Node No. 3 at Time 240
+Destination		Path			Cost
+0			3-0			423
+1			3-1			255
+2			3-2			339
+4			3-4			447
+5			3-5			289
+6			3-5-6			650
+
+Routing Table for Node No. 3 at Time 260
+Destination		Path			Cost
+0			3-0			465
+1			3-1			452
+2			3-2			298
+4			3-4			547
+5			3-5			266
+6			3-5-6			577
+
+Routing Table for Node No. 3 at Time 280
+Destination		Path			Cost
+0			3-0			392
+1			3-1			467
+2			3-2			306
+4			3-4			330
+5			3-5			421
+6			3-4-6			725
+
+Routing Table for Node No. 3 at Time 300
+Destination		Path			Cost
+0			3-0			343
+1			3-1			391
+2			3-2			365
+4			3-4			352
+5			3-5			302
+6			3-4-6			573

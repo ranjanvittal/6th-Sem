@@ -1940,7 +1940,390 @@ k is the number of variables in ${\sigma}_1$. Where ${\sigma}_1$
 is the assignment to variable in $C_{1'}$.\\
 Let $\pi_1$ be the segment of $\pi$ in $\sigma_1$ that is at that level.
 
-Case 1 :\\
-$\pi_1 \ne \pi$.\\
+Look at reference in the Home page.\\
+Switching lemma showed finally that Parity is not in ${AC}_0$.\\
+
+Majority cannot by ${AC}^{0}[2]$. Any depth d circuit computing Majority
+over and, or and parity must have $2^{\omega(n^{1/2d})}$.\\
+
+Razborov-Smolensky theorem(1989) :\\
+Any depth d circuit computing Parity over and, or and xor must have
+size $2^{\omega(n^{1/(d-1)})}$.\\
+$p(x_1, x_2, .... x_n)$ with coefficients over $F_q$. We think of q
+as a prime number. We talk about polynomials which takes values zero or 1.\\
+for all $x_1, x_2, .... x_n$. The polynomials are mod 2.\\
+We want p($x_1, x_2, .... x_n$) = f($x_1, x_2, ... x_n$) for
+all possible inputs where f is a boolean function.\\
+Approximation by polynomials :\\
+Distance of a function from a polynomial is the number of disagrees.\\
+
+Lemma : C is a circuit of size m and depth d over and,or and parity, then for
+every $r \ge 1$, there exists a polynomial of degree $r^d$ over $F_2$ such that
+the dist(p, f) is atmost $m*2^{n-r}$.\\
+
+Lemma : Let $n/2 \le k \le n$ for any polynomial p of degree
+t less than or equal to $2k-n-1$ over $F_2$ then the $distance(p, Th_{n}^{k}) \ge n$
+choose k.\\
+
+Let us prove the first Lemma :\\
+For input variables and not of input variables can be approximated by an
+exact approximation of very small degree like for $x_i$ becomes $x_i$ and
+$x_i$ becomes $1 - x_i$.\\
+Let all g internal gates be over parity and or.\\
+Let us have $g' = g_1XORg_2$, this is simply $p_1 + p_2$ as it is over field 2.\\
+
+Razbarov(1987) :\\
+Every integer r greater than or equal to 1, for every prime q, there
+exists a p(x) of degree less than or equal to r*(q-1) over $F_q$, dist(p, $OR_n$)
+is less than or equal to $2^{n-r}$.\\
+Or of $x_1, x_2, ... x_n$ : If
+we replace it with $x_1 + x_2 .... + x_n$.\\
+This can cause error when or = 1 .\\
+$a \ne 0$ Notice that $a^{q-1} = 1 mod(q)$. Hence we can raise any
+number to $q-1$ power and we will get a polynomial which exactly outputs either 0 or 1.\\
+$c_i \in \{0, 1\}$. Choose a random $c_1$ to $c_n$ which are coefficients as follows :\\
+$c_i \in \{0, 1\}$ and consider the polynomial as ${(c_1*x_1 + c_2*x_2 + ....)}^{q-1}$.\\
+
+Fix an $x_1$ to $x_n$, choose $c_1$ to $c_n$ at random and let us study the
+probability that we would get the wrong output from the p(x).\\
+$S = \{i | x_i = 1\}$.
+$Pr[p(x) = 0]$ = $Pr[\Sigma c_i*x_i = 0] = Pr[\Sigma c_i = 0]$ over all S.\\
+The total number of possibilites is $q^n$ and the error case as above is $q^{n-1}/q^n$ = 1/q.\\
+This is because $c_q$ is uniquely decided from other $c_i$'s. The degree of the
+polynomial is $q-1$. Let $g_1$ to $g_r$ be the polynomials obtained by
+choosing $c_1$ to $c_n$ independently r times.\\
+Consider p(x) = $1 - \Pi(1-g_i (x))$ where $g_i$ are the polynomials.\\
+Now degree of $p(x) = r*(q-1)$.\\
+Therefore $Pr[p(x) \ne OR_n] \le 1/q^r$ over all y, where y refers
+to the r copies of $c_1$ to $c_n$ while repeating the experiment
+and length of y is l.\\
+Consider the matrix of $2^nX2^l$ where $2^n$ rows refers to different settings
+of $x_i$ and $2^l$ refers to the different y.\\
+The number of zeroes in the matrix is bounded by $2^l*1/q^r$.\\
+Total number of zeroes in N is less than or equal to $2^l*(1/q^r)*2^n$.\\
+Average number of zeroes in a column = $2^n/q^r$. Therefore
+there exists a column for which number of zeroes $is \le 2^n/q^r \le 2^{n-r}$.\\
+
+So let us move on to prove the first lemma.\\
+Induction : Base case is on inputs which is easily handled as above.\\
+We can again show that $Pr[p(x) \ne f(x)] \le 2^{n-r}$.\\
+Let us say the degree of each of the children of 'or' is h. Then the
+approximated polynomial with degree $r*(q-1)$.\\
+Now if we see the circuit the depth is specified by r and therefore, the
+polynomial is of atmost degree $r^d$ and union bound of errors on
+each gate is $M*2^{n-r}$ where M refers to the size of the circuit.\\
+
+Let p(x) be a polynomial of degree $2k - n + 1$.\\
+$U = \{ x \in {\{0, 1\}}^n | p(x) \ne Th_{n}^{k}(x)\}.$\\
+Aim to show $|u| \ge n$ choose k.\\
+
+A = \{ x | wt(x) = k \} where wt(x) refers to number of chosen ones in x.\\
+Both A and U are n bit vectors which denote whether a vertex belongs to
+or not in A or U respectively.\\
+Consider the matrix $AxU$. Size of A is trivially n choose k.
+Claim : The columns of the matrix will span the space of n choose k.\\
+$|u| \le dim(R^l) = l = $ n choose k.\\
+We will fix $m_{a, u}$ now based on A and U.\\
+$m_{a, u} = 1$ iff $a \ge u$.\\
+Claim : $a \in A$, define $U_a = \{u \in U | m_{a, u} = 1 \}$.\\
+(ie) set of u such that $m_{a, u}$ = 1 for that particular a.\\
+If we take sum of the columns $\Sigma m_{b, u} = 1$ if b = a and 0 if $b \ne a$
+and the summation is for $u \in U_a$.\\
+Note that the summation is a parity summation.\\
+Let us rewrite the above summation as follows :\\
+It is the same summation is $\Sigma 1$ it is over all : $u \in U, u \le a \& u \le b$.\\
+We can see that this is precisely counting all the 1's.\\
+Now q can be replaced by $Th_{n}^{k} + p(x)$ as u refers to those x which
+disagree. We initially had a condition $u \in U$, now $x \in U$. But
+when $x \not \in U$ then anyway threshold and polynomial cancels each other,
+and hence we get that $x \in U$ condition is redundant. Now for all $x < a$,
+we can see that Threshold goes to zero and for $x = a$, threshold goes to 1 as
+there are exactly k ones in a as a is in A. If x is less than a the trivially
+number of ones in x is less than k and it goes to zero.\\
+Therefore when $x = a$, The summation of $\Sigma Th_{n}^{k}$ goes to 1.\\
+h(x) = $\pi x_i$, over all $i \in S, |S| \le t$.\\
+$wt(e) \ge t+1$.\\
+Claim : $\Sigma h(x) = 0$ over all $x \le e$.\\
+If not($\forall i \in S, e_i = 1)$, then sum is trivially zero as h(e) = 0
+which would imply h(x) = 0 as $x \le a$. Number of such x is trivially even
+as there exists bits which can be set in x as wt(e) is greater than t.\\
+a = wt(k).\\
+When a is not equal to b, then trivially the threshold goes to zero and
+due to the above the second term goes to zero as well. Hence if a is not equal
+to b the whole summation goes to zero.\\
+No of zeroes in a = n - k.\\
+Number of zeroes in b (atleast) = n-k.\\
+Number of zeroes in a and b is less than 2*(n-k).\\
+Number of ones is greater than n - 2*n + 2*k which is equal to  2k - n.\\
+Now we can use some fixing of k to show that Threshold is not possible in $AC_0[mod(2)]$.\\
+
+Lemma 1' :\\
+Similar to lemma 1, but degree is less than ${(2*r)}^d$ but
+$dist(p, c) \le  M*2^{n-r}$.\\
+
+This is almost the same as shown before.\\
+
+Lemma 2' :\\
+$\exists c > 0$ such that for every polynomial p of degree sqrt(n) over
+$F_3$. $Dist(p, parity) \ge c*2^n$.\\
+In the input see all $x_i = 0$ as $y_i = 1$ and all $x_i = 0$ as $y_i = -1$,
+then we need to prove that $\Pi y_i = -1$ is hard as that term represents parity.\\
+A = \{ y in ${\{ -1, 1 \}}^n | p(y) = \Pi(y_i)$.\\
+suffices to show $|A| \le (1-c)*2^n$.\\
+
+F = \{ f : A to \{-1, 0, 1 \} \}.\\
+$|F| \ge 3^{|n|}$.\\
+We want to establish an upper bound as follows :\\
+Claim : Any fn f in F can be expressed using a polynomial of degree atmost
+$(n+sqrt(n))/2$.\\
+$|F| \le$ number of polynomials of degree less than or equal to (n + sqrt(n))/2
+which can be upper bounded by $3^N$ where N is the number of monomials possible.\\
+The would end up proving |A| is less than |N| and hence we would be done.\\
+We can always replace ${x_i}^2 = 1$ as we substitute either $x_i = 1$ or $x_i = -1$\\
+f can be written as :\\
+$q_f(y) = \Sigma f(a) (\pi (-a_i*y_i - 1))$ over all i = 1 to n and a in A.\\
+
+Look at reference after this.\\
+
+Monotone Circuits :\\
+(Over and/or).\\
+Monotone circuits can compute only monotone functions.\\
+Monotone functions can always be computed by monotone circuits.\\
+$x \le y \implies f(x) \le f(y)$.\\
+$CLIQUE_{k, n}(x) = 1$ if G represented by x has a clique of size k
+and 0 otherwise.\\
+x is the adjacency matrix of the graph G.\\
+Theorem :\\
+Clique n,k requires $\omega(n^{sqrt(k)})$ size for any
+monotone circuit computing it for $k \le n^{1/4}$.\\
+Approximation by DNF's called clique indicators :\\
+$I_X(x) = x$ if $X \subseteq [n]$ forms a clique and 0 otherwise.\\
+([n] denotes the set of n vertices).\\
+(m, l) approximator : Or($I_{X_i})$ over i from 1 to r
+and $|X_i| \le l$.\\
+
+Positive instances of inputs : These
+are synthesized test cases which are yes instances to the
+Clique problem. Minimal positive inputs are such that
+if you remove any edge it becomes a non k clique. That is
+it is a k vertex graph which contains a k clique in it
+with no more edges.\\
+
+Negative instances : Definition derivable from positive instances.
+Here we will look at (k-1) colourable graphs which is
+essentially building up a (k-1) partite graph.\\
+
+
+
+Approximation by Clique indicators :\\
+Clique indicator $I_{X_i}(i) = 1$ if $X_i \subseteq V$ in the graph rep by x and $X_i$ is
+a clique,
+and 0 otherwise.\\
+(m, l) approximator is or over all $I_{X_i}$ such that $i \le m$ and $|X_i| \le l$.\\
+
+Strategy :\\
+
+For monotone circuit C, inductively build an (m, l) approximation
+and analyze error/gate (upper bound). Analyze global errors.\\
+
+Positive instances of inputs : These
+are synthesized test cases which are yes instances to the
+Clique problem. Minimal positive inputs are such that
+if you remove any edge it becomes a non k clique. That is
+it is a n vertex graph which contains a k clique in it
+with no more edges.\\
+
+Negative instances : Definition derivable from positive instances.
+Here we will look at (k-1) colourable graphs which is
+essentially building up a (k-1) partite graph. Total ${(k-1)}^n$ of them (if
+you include less than $k-1$ colours as well). In each one of them we will connect all
+the vertices across the partition. Therefore if we add an edge between two
+in the same partition we would get a k clique.\\
+
+Building the approximator :\\
+
+$x_i \rightarrow I_X(x)$ X = \{u, v\} (ie) $e_i = (u, v)$.\\
+we accept if all edges in X are there in x in this trivial case where
+$x_i$ is an input variable. Notice that this is a (1, 2) approximator.\\
+
+We will look at fanin two or gates. Fanin n or gates are anyway peaceful
+as they can be converted to fanin 2.\\
+We need to approximate : Or($ \Sigma I_{X_i}$, $ \Sigma I_{Y_j}$)
+for i from 1 to r and j from 1 to s such that $r \le m$ and $j \le m$.
+We can directly approximate this as Or($ Or(I_{X_i}), Or(I_{Y_j})$).\\
+But this blows up the size to 2m. We would modify this into an (m, l)
+approximator.\\
+
+Sunflower lemma :\\
+$F \subseteq 2^{[n]} \forall S \in F, |S| \le l$.\\
+If $|F| > {(p-1)}^l * l!$, then there exists a p-petalled sunflower in F such that
+there exists $Z_1, Z_2, .... Z_p \in F$, then
+$Z_i \cap Z_j = Z$ such that $\forall i \ne j$.
+
+Lets see something like that now :\\
+$F = \{ X_1, X_2, ... X_r, Y_1, ... Y_s\}$.\\
+m = ${(p-1)}^l*l!, |X_i| \le l$.\\
+If $r+s > m$, then we have a sunflower to pluck, and
+we will take out all $I_{Z_1}, I_{Z_2}, ... I_{Z_k}$ and put in $I_Z$.
+If $Z_i$ forms a clique then $Z$ will definitely form a clique but if $Z$ forms
+a clique then $Z_i$ need not be a clique. Hence this is a negative error.\\
+
+If $r+s < m$ we can simply put them together and we anyway donot
+go to a (2*m, l) approximator.\\
+
+Let us look at the and approximator :\\
+Or($I_{X_i}$) and $Or(I_{y_j})$. This can be split up as
+Or(Or($I_{X_i}$ and $I_{Y_j}$))\\
+which can be split up as now replace $X_i$ and $Y_j$ by $X_i \cup Y_j$.\\
+Now there will be rs terms which we would reduce by sunflower lemma and
+if $|X_i \cup Y_j| > l$, then we just drop those terms.\\
+choose l = $sqrt(k), p = sqrt(k)*log(n), m = (p-1)^l*l!$.\\
+Lemma 1 :\\
+C' is the final approximator.
+C' has Or($I_{X_i}$) for $r \le m$, $|X_i| \le l$ which approximates C.\\
+Either C' is 0 on all positive inputs or C' is 1 on atleast
+(1 - (l choose 2)/(k-1))*${(k-1)}^n$.\\
+Lemma 2 :\\
+Number of positive tests on which C' fails is atmost size(C)*$m^2$*((n-l-1) choose (k-l-1)).\\
+Lemma 3 :\\
+Number of negative tests on which C' fails is atmost size(C)*$m^2*{(lC2/k-1)}^p*(k-1)^n$.\\
+All these three combined will give us a lower bound of size(C).\\
+
+Lemma 1 proof:\\
+Assume C' is not zero on all positive inputs.\\
+Pr[C' = 1] for some negative inputs = Pr[Or($I_{X_i}$)] = 1
+which $is \ge Pr[I_{X_1} = 1] \ge 1 - Pr[I_{X_1} = 0]$ which
+is essentially (1 - lC2/(k-1)). Hence lemma 1 is done.\\
+
+Lemma 2 proof :\\
+Positive errors made by or gates is zero. Positive errors are
+made by and gates when we replace two sets by an union.\\
+
+Refer reference suggested in course page for Lemma 1, 2, 3.\\
+
+Lemma 3 :\\
+Number of negative tests on which C' fails is :\\
+Plucking can induce a negative error as initially the different sets could
+have given error while the core doesnt. In Or we need to pluck m times
+so that 2*m becomes m. In and there are r*s terms which can have more than
+l terms in it, from which we will drop certain terms which could give a
+positive error nd now we will repeatedly pluck $r*s-m$ terms to get to
+m terms. Hence there is atmost $m^2$ pluckings.\\
+
+Therefore per plucking we will analyze errors :\\
+Pr[$I_Z = 1 \& Or(I_{Z_i}) = 0$] is less than or equal to
+Pr[$Or(I_{Z_i} = 0) | I_Z = 1$] (conditional probability) =
+$\Pi Pr[I_{Z_i} = 0 | I_Z = 1]$ where $\Pi$ is over all i's less than p.\\
+This is less than $\Pi Pr[I_{Z_i} = 0]$ as when $I_Z = 0$ then all $I_{Z_i} = 0$
+anyway. This is upper bounded by : ${(lC2/k-1)}^p*(k-1)^n$. Hence lemma 3
+is done.\\
+
+Sunflower lemma :\\
+Induction on l :\\
+l = 1, $|F| > (p-1)$ and has atleast p elements and hence $Z_1, Z_2, ... Z_p$
+are singleton sets in F. Here Z empty is one such Z as $|Z_i| \le l = 1$.\\
+Induction step :\\
+$|F| > (p-1)^l(l!)$.\\
+Let $Z_1, ... Z_r$ be the maximal collection of paiwise disjoint sets in F,
+if $r \ge p$, then we are done as the core can be chosen to be empty and we would
+be done.\\
+If $r < p$, then atleast one of these $Z_1, Z_2, ... Z_r$ should intersect
+with every other set in the family. Let Y = $\cup Z_1, .... Z_r$ which has
+atmost $|r*l| \le |(p-1)*l$. Therefore there exists a y in Y such that y is an
+element is more than ${(p-1)}^l*l!/(p-1)*l = {(p-1)}^{l-1}*{l-1}$ sets in F.\\
+Let $M_1, M_2, ... M_k$ be the sets with which y intersects is greater than
+or equal to ${(p-1)}^{l-1}*{l-1}$. Let $M_i'$ be $M_i - y$.\\
+$M_i'$ (i running from 1 to k), are sets of size atmost $l-1$ and $k > (p-1)^{l-1}*(l-1)!$.\\
+as induction is on l and hence M has a p sunflower and hence we are done !.\\
+
+Decision trees :\\
+Parity has to be exponential in size as every path would be of length n
+as it is dependent on all variables.\\
+
+Branching Programs :\\
+This is like a regular language automata.\\
+Start from 0 if(x1) goto xnor(x2) else goto xor(x2). This is like
+a branching program. The size is considered as the number of
+vertices in the branching program. Length is the number of
+layers (n for xor (the sidewise length)).\\
+
+Layered DAG :\\
+Vertices labelled with input variables, edges labelled with 0/1 and
+designated start and accept nodes. An instantiated graph is simply be
+a graph for xor. That is one input would go on a particular path for xor.\\
+Any function computable by log space uniform Branching program of
+polysize is in NL. This is because given an input, we would look
+at the subgraph which goes through the input (substitute the input
+and redraw the graph which denotes this path) and do reachability.\\
+
+Layered DAGREACH can be computed by a BP of polynomial size. As
+Layered DAGREACH is complete for NL, we are done.\\
+Given : (G, s, t) for an n vertex graph s is has no fanin
+and t has no fanout (wlog). We can see BP as edges being labelled.
+Let us assume that number of vertices in a layer is w. We would look
+at the $w^2$ edges which might cross this and assign 0 or 1. Basically
+in the BP we move from one vertex to another on some edge assigned 1. The
+graph will essentially modelled as branching program.\\
+
+Therefore NL = (Log space uniform polysize NBP).\\
+NBP is actually BP but stressing the fact that it is non deterministic.\\
+
+Skew circuits :\\
+For every and gate there can be atmost one 'non-literal' input and
+negations are at the leaves.\\
+Skew PSIZE = NL.\\
+We will convert BP to Skew PSIZE which essentially gives us the same result.\\
+Consider every node in BP as or and every edge as an and between the 'edge' literal
+and the 'or' gate corresponding to the node it feeds into. Hence it is
+easily a skew circuit, initiate the skew circuit by marking the start as 1.\\
+
+Branching program with constant width (ie) that max over all $V_i$ across
+the levels is the width is studied here :\\
+There was a conjecture that any constant width BP computing majority requires exponential
+size.\\
+But the answer to the above question is a surprising counter that majority can INDEED BE !.\\
+Every function in ${NC}^1$ can be computed by BP of constant width and polynomial size.\\
+The statement : If f is computed by a depth d bounded fanin circuit, then f can be computed
+by a BP of width 5 and size $4^d$.\\
+$5-BP \subseteq {NC}^1$.\\
+Here implement savitch's idea. But while searching for the middle vertex
+look only at the midde layer. But the number of middle vertices is only
+constant in constant width BP (in particular $5-BP$ as well). Therefore
+this easily tells us that implementing savitch's idea gives us a circuit in
+${NC}^1$ directly. Hence $5-BP \subseteq {NC}^1$.\\
+
+${NC}^1 \subseteq 5-BP$ (5 refers to the constant width).\\
+
+Lets prove The statement :\\
+A BP is said to be a PBP if for all inputs every layer of the BP is
+a permutation of $S_w$. Basically for one input there is only one output in one layer.
+Now we look at $5-PBP$. Note that PBP cannot be non deterministic as well.\\
+Let us look at general BP :\\
+$R_w$ = \{ Relations on w elements \}. Let F belong to $R_w$
+be the set of relations that contain \{s, t\} edge.
+Let relation can be thought of as
+$r_1, r_2, ... r_l$ where l is the number of layers. Then in the composition
+of $r_1$ to $r_l$ on the trivial relation and
+check whether $s-t$ edge exists.\\
+$R_w$ is associative, closure and identity mapping. These structures
+are called monoids. This again puts $5-PB$ in ${NC}^1$. Now there
+are only constant many w, and hence we can have a tree of products
+that is do $r_1.r_2....r_n$ like a binary tree and each product can
+be hard wired more or less (product is the output for each gate) (
+basically $r_1.r_2$ $r_3.r_4$ .... is how it is computed at the
+leaves and it is built up from the bottom.\\
+
+Wlog let us assume that every layer looks at only one variable.\\
+Sequence of instructions of the following kind :\\
+$(x_i, \sigma, \pi)$ where $\sigma, \pi \in R_w$
+where $\sigma$ is instantiated by substituting $x_1 = 1$ and the other
+$x_1 = 0$.\\
+Now each instance pops out a symbol which needs to be taken as a product (ie)
+if $x_i$ is looked at some layer find whether its $\sigma$ or $\pi$ comes
+out (ie) if $x_i$ = 1, $\sigma$ comes out and if $x_i$ = 0, $\pi$ comes out.\\
+
+
+This is called the programover the monoid.
+
 
 \end{document}

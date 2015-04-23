@@ -1146,7 +1146,183 @@ sub graph.\\
 % $Pr(\le 2*m/3^r$ edges are badly coloured $) \ge 1/2$.\\
 Given a 3 colouring graph, we set m so as to the number
 of vertices (which is atmost twice the number of edges badly coloured)
-which are badly coloured is less than or equal to $2*m*/3^r$.
+which are badly coloured is less than or equal to $2*m*/3^r$.\\
+
+Set r = $log_3(\delta) + 2$. Now we would get that
+the number of badly coloured edges is bounded by n/9 colours.
+The probability is actually inverse polynomial and hence repeating
+some number of times would end up giving us a better probability.\\
+Hence number of colours used finally would be
+$2^{log_3(\delta) + 2}$*log(n).\\
+As long as $\delta \ge b$ , use three colours to
+pick 3 colours and throw the vertices (ie) the one with
+more than b vertices out (this is because
+if we pick a vertex then the neighborhood is bipartite). Here we would use n/b
+rounds and in each round 3 colours and go about doing the algorithm we
+saw above. We can differentiate the total number of colours and we get
+the $n^{0.287}$ algorithm and choose the optimum b.\\
+
+Special sub classes of 3 colourable graphs :\\
+Planted k colour class model : Input comes
+from a special distribution such that the colouring
+uses each colour is used to colour exactly n/k variables.
+This problem can be solved in expected polynomial
+time with good probability.\\
+
+$LP-structure$ and complimentary slackness.\\
+Start of with a trivial dual feasible solution.
+
+The dual is maximization and primal is minimization say.\\
+At every point you will have a dual feasible solution
+with certain cost and a corresponding primal infeasible solution.
+
+Now do the following :\\
+At every point do the following :\\
+Select a violated constraint in the constraint and satisfy it
+as follows :\\
+Try to fix the primal constraint as follows :\\
+There would be a corresponding dual variable for this
+equation. Now raise this dual variable so as to make
+one equation containing the dual variable tight (let dual variable
+be y). Make y tight and find the x in primal we need to
+increase based on the y chosen in dual. At every step
+complimentary slackness is respected and hence primal
+dual feasible solution we finally end up with the optimal. The
+encoding of how to satisfy all the inequalities where y occurs
+is not an easy step.\\
+
+Any primal feasible solution has a value is atleast the
+dual feasible solution value.\\
+Set Cover :\\
+U = $\{e_1, e_2, e_3, ... e_n\}$.\\
+F = $\{c_1, c_2, c_3, ... c_m\}$.\\
+$S \subseteq \{1, 2, .... m\}$.\\
+Union over some $C_i$ gives universe.\\
+The dual of the primal for set cover is : \\
+$\Sigma y_j \le w_i$ for all sets $C_i$ is a set containing those $y_j$
+variables and maximizing $\Sigma y_j$.\\
+
+$S = \phi$.\\
+Each $y_j$ can be looked as the cost paid for that particular element.\\
+
+Iteration :\\
+Select an $e_j$ uncovered by S. Increase $y_j$ so that some constraint
+becomes tight in the dual. Choose the constraint which satisfied
+and add the corresponsing set to S (each constraint corresponds to a set).\\
+
+It is easy to see that this terminates.\\
+Now let us bound the solution we got.\\
+$w(S) = \Sigma w_i = \Sigma \forall i \in S \Sigma \forall j \in C_i y_j$.\\
+This is easy to see that this is upperbounded by f*$\Sigma y_j$ because
+any element occurs atmost f times. This proves that this algorithm is an f
+approximation.\\
+
+FeedBack Vertex Set :\\
+This is NP complete.\\
+G, $W_v$. A graph has many cycles. Every cycle should have one vertex picked
+from our Set.\\
+U = set of C such that there C is a cycle in G.\\
+f = set of v such that v is a vertex in G.\\
+Make the primal assignment feasible.\\
+Dual variables are $y_i$'s and primal variables are $x_i$'s.\\
+Increase $y_c$ in the dual solution till a constraint is tight.\\
+For the corresponding variable, pick it in the vertex set in the primal
+and proceed.\\
+Here we would again get an f approximation where f is
+the size of the largest cycle similar to set cover.\\
+At any point only vertices which I havent picked could form
+an uncovered cycle.\\
+A constraint would be $\Sigma y_C \le w_v$ where $y_C$ runs
+over all cycles which contain v.\\
+Preprocessing step :\\
+Pick all atmost two degree vertices and look at its subgraph.\\
+If there is a path you can simply remove the vertices and remove
+all the edges incident here as these cannot be part of a cycle.\\
+If there is a cycle, pick the minimum weighted vertex there and remove
+the vertices and correspondingly update the dual variable for that cycle.\\
+If there is a half baked path (ie) both the endpath two degree vertices
+are more than 2 degree, then replace the path by one variable which
+has weight as much as the minimum degree among everyone in the path
+(excluding end points which have more than 2 degree).\\
+Now after these two processes :\\
+In each connected component, in every cycle, no 2 two degree vertices
+will be together. Now we can be definitely sure that there is atmost
+2*log(n) depth from the root. This can be done by using the following :
+Do a Modified BFS (ie) short circuit any two vertices seperated by a
+two degree vertex.\\
+This gives us a 2*log(n) approximation. This is because of
+the f approximation handle we had in the set cover instance.\\
+
+$s-t$ shortest path :\\
+min $\Sigma w_i*x_i$ such that $\Sigma x_e \ge 1$, S, $s \in S$
+$t = V-S, x_e \ge 0$.\\
+
+Primal dual :\\
+Generalized steiner tree.\\
+minimum weight subgraph in which $s_i$, $t_i$ are connected where $s_i, t_i$
+are vertices. All pairs $s_i, t_i$ must be connected though $s_1, t_2$ neednot be connected.
+Edges are weighted, vertices are unweighted.\\
+
+LP formulation :\\
+$s_i-t_i$ cut is a partition of the vertices where $s_i$ is in one side
+and $t_i$ is on the other. For every $s_i-t_i$ cut, we have $\Sigma x_e \ge 1$
+and $c \in C_i$ where $x_e$ refers to the edges across the cut and $C_i$ is the cut set.\\
+min $\Sigma w_e*x_e$.\\
+
+Dual variable $y_c$ :\\
+max $\Sigma y_c$ :\\
+$\Sigma y_c \le w_e$ where $y_c$ is over all C in which the edge e passes over.\\
+$y_c \ge 0$.\\
+Iteration : over all i such that $s_i, t_i$ are in different components in E'.\\
+T = \{ C | $C \cap \{s_i, t_i\} = 1\}$ some i. These cuts have $s_i$ on one
+side and $t_i$ on the other (relevant cuts) and no edge
+in E' is already crossing it. Now increase all $y_c$
+simultaneously by the same anount so that some of them becomes constrained in the dual.\\
+
+Let $\epsilon_l$ be the increase for which the same edge e, $\Sigma y_c = w_e$.\\
+We stop when we find all of them getting connected.\\
+
+$w_e = \Sigma |\delta C \cap E'|*y_c \le 2*y_c$.\\
+
+E' is a forest.\\
+In each iteration $\Sigma |\delta*C \cap E'|*y_C \le 2*|\#$ of cuts in e|.\\
+From the $i^{th}$ iteration to the ${(i+1)}^{th}$ the change is :\\
+$2*\epsilon_{i+1}*|C_i|$ when we increase the duals to satisfy one condition in
+the RHS.\\
+LHS increase = $\epsilon_{i+1}*\Sigma|\delta_{c_i} \cap e_i|$ where
+summation is over ever $\delta$ in $C$ and $e_i$ is the chosen edge (the
+$i^{th}$ capture of E'.\\
+$\delta C$ is the number of edges crossing the cut.\\
+Now consider N as the cuts which require fixing and k be the
+already fixed cuts. Now we have fixed the edge, this edge would affect
+exactly two cuts in the partition between $s_i$ and $t_i$ for
+every $c_i$ in $C_i$, this corresponds to the increase on the LHS.\\
+
+Concentrate below the above paragraph is slightly off.\\
+
+$C_i = \{c | c \cap \{s_p, t_p\}$ for  some p.\}
+Therefore increase is $\epsilon_{i+1}$ for those cuts which is represented by :\\
+$\Sigma |\delta C \cap E'|*\epsilon_{i+1}$ for $c \in C_i$ which we will bound
+by 2*|$C_i$|.\\
+If the above statementis proved we are done.\\
+
+Let us prove the above statement :\\
+$E_k$ is a forest. Have some components called red coloured
+components and some other called blue coloured components.\\
+Blue component : Either a single vertex or a component with the property that
+$s_p \in C \leftrightarrow t_p \in C$. At every iteration
+we make up this red and blue components.\\
+$\Sigma |\delta C \cap E'| \le 2*|C_k| = 2*|R|$. $2*|C_k| = 2*|R|$
+because Red is precisely the components needing fixing.\\
+
+Consider this : $\Sigma d_c$, for $c \in R, \Sigma |\delta C \cap E'|$.
+This doesnot give us a reasonable bound so we will modify the algorithm
+to suit.\\
+Cleaning up E' :\\
+When you add only one edge from a blue component to some red
+component, then that edge would never have been useful. If it
+has more than 1 retain. This would help us throw us these edges out
+and finally give us the 2 approximation.\\
 
 
 

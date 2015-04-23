@@ -1178,8 +1178,77 @@ splits it into individual channels and each channel
 can be channelled into mulitple user based on time division
 multiplexing (TDM).
 \item Satellite. This was done by the Aloha protocol.
+If you have a packet to send, send it. This is lightly loaded.
+We will retransmit after some time. Stagger the users in time
+based on some random variable. If it is not lightly loaded
+then throughput goes down drastically.
 This was done for connecting Hawaai as wifi was not enough and
-wired was not possible.
+wired was not possible.\\
+
+Under light load, S = G where S is the throughput. But beyond a
+certain load G, the throughput tapers of. If G is about 0.5 per unit time
+it would be good.\\
+
+Now let us look at Slotted aloha :\\
+Time is slotted and unit length = 1 which implies fixed length packets.\\
+Slot is the time taken to transmit one packet. TDM has a fixed frame structure
+while this doesnot. A user will attempt to transmit a packet only at the
+beginning of a slot. Every transmitter has a queue in which the packets
+will be joined. Therefore if two packets collide we drop and ask to resend.
+Every node must have some backup policy.\\
+Let user x decide in slot no a and user y decide to send in slot b
+after they actually collided if we assume that there is collision
+between the users.\\
+
+Under light loads, average packet delay[packet
+generation to packet transmission] is less (slotting time).\\
+
+Let x be the number of arrivals in time t. If X is a poisson variable
+with parameter G where G represents the average number of arrivals per unit
+time. then what is the probability that there are $x = k$ arrivals at the
+time interval t = $e^{-Gt}*(Gt)^k/k!$.\\
+In slottted Aloha, consider 1 slot and there are
+3 possibilities : 0 transmissions, 1 transmission, 2+ transmissions.\\
+1 transmission is succesful transmission seeing probability is $G*e^{-g}$.
+Probability when X = 0 is $e^{-G}$. The collision probability
+is $1-e^{-G} - G*e^{-G}$.\\
+
+$S = G*e^{-g}$. Therefore $S_max$ will be around when $G = 1$ when $S_{max}$ is
+1/e which is approximately 0.368.\\
+Pure Aloha : Assume packet length = 1 slot. We will have something
+here which would have optimum at G = 0.5 and the maximum will be 1/2*e which
+is approximately 0.18.\\
+
+Roughly $N*\lambda = 1$ works well.\\
+Carrier sense multiple access (CSMA) : We are using wireless.\\
+
+Similar to aloha and before sending a packet we sense the medium for
+sometime.\\
+When a node decides to send a packet :\\
+Transmitter will sense the medium for some constant time.\\
+If medium is idle for some predefined time, start sending the packet
+else defer transmission and wait till the current transmission on the
+medium is over (ie) keep listening till free and then go back to the
+previous step.\\
+
+Propogation delay and length of bus. This impacts network
+performance. Before a signal reaches, I may send a retransmission.\\
+
+If there is no collision and ack is received just continue
+without changing anything.\\
+
+Else retransmit packet at a later point in time based on some
+backoff policy and start sensing the medium.\\
+
+Utilization depends on bitrate, thorughput and propogation delay.\\
+
+CSMA/CD :\\
+Then people sarted designing collision detection as well.\\
+Here we assume that there is something in the physical layer which
+tells us whether a collision is detected. Else if collision
+is detected, abandon transmission after sending some joining bits
+and retry based on some backoff packing.
+
 \end{itemize}
 
 The ring topology is like a bidirectional link
@@ -1218,11 +1287,57 @@ Total packet delay = (N-1)/2 + 1 = (N+1)/2 which
 is O(n) which is not exactly good.\\
 
 When $\lambda$ is greater than 1, then it is heavily
-loaded then each user always has a packet to send.
+loaded then each user always has a packet to send
+across all timeframes. In one timeframe,
+the number of packets sent could atmost be n in this
+case which is nice in the sense, TDM makes these active.
 
 \end{itemize}
 \item Random access : Collision Based. This is
-where everybody can talk at once even.
+where everybody can talk even at once.
 \end{itemize}
+Ethernet is baed on CSMA/CD :\\
+\begin{itemize}
+\item Xerox started it in 1975.
+\item DIX ethernet v1 was made in 1980.
+\end{itemize}
+
+IEEE 8023 was made in 1983.\\
+8023 Format :\\
+|Preamble | Destination MAC| Src MAC | Length  | Data          | CRC     |\\
+| 8 bytes |    6 bytes     | 6 bytes | 2 bytes | 46-1500 bytes | 4 bytes |\\
+Min packet length is 72 bytes and maximum is 1526 bytes.
+Preamble is used for a synchronization of bits. That is we need to find
+when we need to start accepting as bits from that port. This is for
+matching the initial sequence of bits which indicates that
+we need to expect a packet from that port.\\
+
+In Dix ethernet there is a type field (which is actually the length field)
+which indicates the higher layer protocol.\\
+If length value is less than 1500 then it is the length and if it is greater
+than 1500, it is considered as the type.\\
+
+For ethernet, we have 500m ethernet segment. Atmost
+4 repeaters between 2 hosts in an ethernet LAN.\\
+It takes $T$ units of time to reach Z which is the next layer.
+The minimum time that A should be sending till A hears Z's
+first packet. Minimum packet length is the function
+of the round trip time ($2*T$). Even if the last time slot
+at which Z sends back to A, then A would be able to receive $2*T$.\\
+Z would detect collision at T while A would sense a collision only
+at $2*T$ that is when the last link sends back a packet which
+would collide with the current sent packet.\\
+
+Based on some math and calculation, they fixed the
+length of the packet.\\
+This was theoritically, with a lot of assumptions, computed to be
+64.\\
+A is maximum when p = 1/k, where A is the rate of success.\\
+Channel utilization : p/(p+2T/A) where p is the probability that
+this sends. Let p = 1200 micro seconds, 2*T = 512 microseconds.\\
+This calculation is about 1200/(1200+512*2.7)
+which is approximately 0.89.\\
+
+
 
 \end{document}

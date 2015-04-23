@@ -1,0 +1,4 @@
+This assignment gave us an insight into threaded programs and
+I had reasonable fun in implementing the algorithm. I was
+releived and delighted after code started working after a hectic
+session of debugging.

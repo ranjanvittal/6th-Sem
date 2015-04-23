@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.8.12)  7 APR 2015 09:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.8.12)  20 APR 2015 19:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1012,14 +1012,210 @@ Underfull \hbox (badness 10000) in paragraph at lines 1857--1864
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 1869--1878
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1879--1880
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1881--1895
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1896--1916
+
+ []
+
 [36]
+Underfull \hbox (badness 10000) in paragraph at lines 1943--1945
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1946--1948
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1949--1959
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1960--1963
+
+ []
+
+[37]
+Underfull \hbox (badness 10000) in paragraph at lines 1964--1967
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1968--1974
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1975--1986
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1987--2006
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2007--2015
+
+ []
+
+[38]
+Underfull \hbox (badness 10000) in paragraph at lines 2016--2019
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2020--2059
+
+ []
+
+[39]
+Underfull \hbox (badness 10000) in paragraph at lines 2060--2063
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2064--2065
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2066--2073
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2074--2085
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2086--2087
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2088--2104
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2105--2111
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2112--2115
+
+ []
+
+[40]
+Underfull \hbox (badness 10000) in paragraph at lines 2118--2123
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2124--2125
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2126--2128
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2129--2135
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2136--2142
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2143--2144
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2145--2148
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2149--2156
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2163--2170
+
+ []
+
+[41]
+Underfull \hbox (badness 10000) in paragraph at lines 2171--2173
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2174--2191
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2192--2197
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2198--2201
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2202--2203
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2204--2212
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2213--2220
+
+ []
+
+[42]
+Underfull \hbox (badness 10000) in paragraph at lines 2221--2238
+
+ []
+
+[43]
 This exam contains 0 questions with 11 parts, 0 subparts, and 0 subsubparts.
 This exam has a total of 0 points.
 This exam has a total of 0 bonus points.
-
-Class exam Warning: Point totals have changed. Rerun to get point totals right.
-
-
 (./ACT.aux)
 
 LaTeX Warning: There were multiply-defined labels.
@@ -1051,10 +1247,10 @@ texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2014/te
 xmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2014/texm
 f-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2014/texmf-
 dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on ACT.pdf (36 pages, 316767 bytes).
+Output written on ACT.pdf (43 pages, 341160 bytes).
 PDF statistics:
- 189 PDF objects out of 1000 (max. 8388607)
- 132 compressed objects within 2 object streams
+ 214 PDF objects out of 1000 (max. 8388607)
+ 150 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

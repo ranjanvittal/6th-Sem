@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.8.12)  18 MAR 2015 09:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.8.12)  15 APR 2015 09:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -570,11 +570,136 @@ Underfull \hbox (badness 10000) in paragraph at lines 942--947
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 948--957
+Underfull \hbox (badness 10000) in paragraph at lines 948--986
 
  []
 
-[19] [20]
+[19]
+Underfull \hbox (badness 10000) in paragraph at lines 987--1003
+
+ []
+
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 1007--1023
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1025--1029
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1030--1031
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1032--1035
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1036--1040
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1041--1043
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1044--1056
+
+ []
+
+[21]
+Underfull \hbox (badness 10000) in paragraph at lines 1057--1060
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1061--1062
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1078--1082
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1092--1101
+
+ []
+
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 1102--1103
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1104--1111
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1112--1113
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1125--1126
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1134--1151
+
+ []
+
+[23]
+Underfull \hbox (badness 10000) in paragraph at lines 1153--1159
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1160--1162
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1168--1169
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1185--1189
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1190--1191
+
+ []
+
+[24]
+Underfull \hbox (badness 10000) in paragraph at lines 1192--1194
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1195--1200
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1211--1219
+
+ []
+
+[25]
 This exam contains 0 questions with 0 parts, 0 subparts, and 0 subsubparts.
 This exam has a total of 0 points.
 This exam has a total of 0 bonus points.
@@ -586,7 +711,7 @@ Here is how much of TeX's memory you used:
  5770 multiletter control sequences out of 15000+600000
  12913 words of font info for 38 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 28i,10n,26p,228b,242s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 28i,10n,26p,228b,300s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/cm-super/
 cm-super-t1.enc}</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmmi12.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/
@@ -598,10 +723,10 @@ mr8.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
 fb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb><
 /usr/local/texlive/2014/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on networks.pdf (20 pages, 179691 bytes).
+Output written on networks.pdf (25 pages, 194345 bytes).
 PDF statistics:
- 110 PDF objects out of 1000 (max. 8388607)
- 77 compressed objects within 1 object stream
+ 126 PDF objects out of 1000 (max. 8388607)
+ 88 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

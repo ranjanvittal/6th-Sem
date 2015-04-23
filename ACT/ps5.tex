@@ -1,0 +1,276 @@
+\documentclass[12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb,complexity}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+\begin{document}
+
+\hrule
+\vspace{3mm}
+\noindent
+{\sf IITM-CS6840-2015 : Advanced Complexity Theory  \hfill Given on: Apr 12, 4:00pm}
+\vspace{3mm} \\
+\noindent
+{\sf Problem Set \#5 \hfill Due on : Apr 21, 10:00pm}
+\vspace{3mm}
+\hrule
+Question 3)a) was discussed with Akshayram.S
+\begin{questions}
+\question[10]
+{(\bf Gate Elimination)}
+Let $\mathcal{F}$ be a family of functions which has the following property: there exists $a$ and $b$ in $\{0,1\}$ such that both $\phi(a,y)$ and $\phi(x,b)$ are constants.
+\begin{parts}
+\part Argue a lower bound of $3n-3$ for computing {\sc Parity} function on $n$ variables using circuits which can use any gate from $\mathcal{F}$ as an internal gate.
+\part Argue that the only two variable functions that does not have this property is $\phi(x,y) = x \oplus y$ or $\phi(x,y) = \lnot(x \oplus y)$.
+\end{parts}
+\begin{solution}
+\begin{parts}
+\part
+
+Let us assume till some k the number of gates required are atleast $3*k-3$
+or both xor and !(xor).
+For k = 3, we can verify that we require atleast 6 gates for recognizing this
+function.\\
+Let us look at XOR(k+1 variables).\\
+Any circuit made up of gates in F will have a gate(g) which looks at two input variables say x and y.
+If we assume g is the only gate x feeds into then, we can set y so as to eliminate g
+and thereby eliminating the role of x in the output function. But xor(if y = 0 is substituted) /
+xnor(if y = 1 is substituted) is dependent on
+x independent of y.\\
+Therefore let x feed into g and g'.\\
+Case 1:
+g is a child of only g'.\\
+Set x so as to eliminate g'. This inturn eliminates g as well as g is not used anywhere
+else in the circuit. By doing so, g' becomes a constant say c. Now g' cannot
+be the root because fixing one variable cannot decide the output of xor and
+hence it has to feed into another gate. Therefore g' has to feed into some gate say h.\\
+
+Step 1:\\
+Now h(g', g'') = h(c, g'') = 0/1/g''/!g'' where g'' is the other input
+to h. If h(c, g'') = 0/1, we are already done as we can eliminate h and replace them
+by constant wires. If h(c, g'') = g'', then take the wire output of g'' and feed
+it as the output of h wherever required and still we can go ahead and
+eliminate h.\\
+If h(c, g'') = !g''.\\
+Subcase 1 : h is the root : Then replace g'' by !g'' which is still available in F
+and !g'' would compute xor and hence we can eliminate h.\\
+
+Subcase 2 : Lets say h feeds into $h_1, h_2, ... h_t$.\\
+Now initially they were like $h_1(q_1, h), h_2(q_2, h), ...$ and so on.\\
+Now h = !g'', therefore we need to compute
+$h_1(q_1, !g''), h_2(q_2, !g''), ...$. Now replace $h_i$ to $r_i$
+such that $h_i(x, y) = r(x, !y)$. We can easily verify that $r_i$
+would still be in F. Therefore we can eliminate h and feed in $g''$
+to $r_i$'s and end up with f.\\
+
+Therefore in this case we end up eliminating 3 gates and end up with either
+xor of $k+1-1$ variables or !xor and hence by our induction claim we would
+require atleast 3 more gates implying we would require atleast $3*k-3+3$ = $3*k = 3*(k+1)-3$
+gates for xor.\\
+
+Case 2 :\\
+g is a child of h.\\
+By setting x to some constant, we can eliminate g to a constant say c.\\
+In a similar manner explained before, h becomes h(g'', c) and it can be removed
+similar to Step 1.\\
+g'' cannot be the root because if that is the case setting x could end
+up getting a trivial output from g' but xor depends on all
+input variables not just x.\\
+Therefore setting x might set g' as well in which case we can go ahead
+and remove g'.\\
+Otherwise g'(g''', x) would become g'(g''', c) where g''' is an input to g'.
+In a similar manner to Step 1, we could go ahead and remove g'.\\
+
+Therefore in any case we end up removing 3 gates while setting 1 variable
+to 0 or 1 and in these cases we would end up with either xor of the remaining
+variables or xnor of the remaining variables and our induction claim
+is on both that they would require $3*k-3$ till some k. Therefore for $k+1$
+also we hae shown that xor requires atleast $3*k-3+3 = 3*k = 3*(k+1)-3$ gates.\\
+
+Therefore by induction we have proved that atleast $3*n-3$ gates are required for computing
+xor of a function if all the input gates are guaranteed to be from F.
+
+
+\part
+There are $2^4 = 16$ functions in 2 variables :\\
+They are :\\
+$xy$ (f(x, 0) = 0, f(0, y) = 0)\\
+$\overline{x}*y$ (f(x, 0) = 0, f(1, y) = 0)\\
+$\overline{y}*x$ (f(x, 1) = 0, f(0, y) = 0)\\
+$\overline{y}*\overline{x}$ (f(x, 1) = 0, f(1, y) = 0)\\
+$x+y$ (f(x, 1) = 1, f(1, y) = 1)\\
+$\overline{x} + y$ (f(x, 1) = 1, f(0, y) = 1)\\
+$x + \overline{y}$ (f(x, 0) = 1, f(1, y) = 1)\\
+$\overline{x} + \overline{y}$ (f(x, 0) = 1, f(0, y) = 1)\\
+$x$ (Not two variable)\\
+$y$ (Not two variable)\\
+$\overline{x}$ (Not two variable)\\
+$\overline{y}$ (Not two variable)\\
+1 (Not two variable)\\
+0 (Not two variable)\\
+xor(x, y) (f(x, 0) = x and f(x, 1) = !x hence undecidable).\\
+!xor(x, y) (No such setting possible similar to above).
+Therefore xor and !xor are the only two two variable functions which
+donot belong to F.\\
+
+
+\end{parts}
+\end{solution}
+\question[10]{\bf ($\TC^0$ completeness)}
+Consider the following problem denoted by {\sc Sort} : \\
+Input : $n$ numbers with $n$ bits each.\\
+Output : the sequences of numbers in non-decreasing order.\\
+Show that {\sc Sort} is complete for $\TC^0$ under constant depth polynomial size reductions.
+\begin{solution}
+Let us first prove that sort is $TC^0$ hard. For this all we need to do is
+solve majority using SORT as Majority is $TC^0$ complete, SORT would be $TC^0$ hard.\\
+Given n bits look at each bit as prepended with $n-1$ zeroes. Now use SORT
+to sort the input bits. Now use an equality comparator (trivially in $AC^0$)
+the $n/2 + 1$ th number with an n bit 1. The output of this is the answer to majority.
+If there are more than $n/2$ ones in the input then this number would be 1 else it would be 0.
+Hence majority is reducible to SORT.\\
+
+$SORT \in TC^0$.\\
+Comparator(Greater than) is trivially in $AC^0$ and hence can be used as a free gate
+(Adding two's compliment of a number can be used to determine whether one number
+is greater than the other)
+. Let this comparator be called C. Let $\ge$ comparator be C'.\\
+
+Let the n n bit numbers be $I_1, I_2, ... I_n$.\\
+
+For every $I_i$ compute the following information :\\
+C($I_j, I_i$) for every $j < i$ and C'($I_j, I_i$) for every $j > i$,
+call this set of information
+as y. If $I_j > I_i$ or if $I_i = I_j$ and
+if $i < j$ the corresponding y bit will be 1.\\
+Now y will be an $n-1$ bit number.
+
+
+We can easily see that for different $I_i$'s the y we get would be different.
+
+Now on y compute the following information $Th_{n-1}^{0}$, ..... $Th_{n-1}^{n-1}$.
+($Th_{n-1}^{0}$ is always 1 though, we can easily see that
+this information will have a series of 1's followed by zeroes where number of
+ones is exactly one more than in y).\\
+Compute :\\
+$Q_i$ = $Th_{n-1}^{i} \& !Th_{n-1}^{i+1}$ and $Q_{n-1} = Th_{n-1}^{n-1}$.
+Essentially $Q_i$ will be one for exactly one bit as $Th$ as mentioned
+before is sorted and is like $1, 1, 1, .... 0, 0, ...$. So either
+there is a point at which $Th$ reaches zero, if it does than $Q_i$ would be 1
+(if $Th_{n}^{i+1}$ is zero), if all are 1 then $Q_{n-1}$ would be 1.
+It can be easily seen that $Q_i$ = 1 if in the sorted array $I_k$
+occurs in the ${i+1}^{th}$ position (If $Q_i = 1 \implies Th_{n-1}^{i+1} = 0 \& Th_{n-1}^{i} = 1
+\implies$ there are exactly i ones in Q implying this number is exceeded by
+exactly i numbers. If $Q_{n-1} = 1$, then it means all $Th_{n-1}^{i}$ were 1 hence implying
+that this is the least number and hence coming in the $n^{th}$ position).
+Now do bitwise 'AND' of an N BIT $Q_i$ and $I_i$ (If $Q_i = 1$ bloat it
+up to 111111 ... n times and if it is 0 bloat it up to an n bit zero, call this Step 1) .
+Now we would have n sequence n bits of output in which $I_i$ is placed in the
+position it would be placed in the sorted array and rest all bits are zero.
+Therefore take an 'OR' over all the outputs and we would get the sorted array.
+(eg) input : 0011 1001  this would generate 1001 0000 and 0000 0011 after Step 1.
+Now if we take a bit wise 'OR' of these two we would get 1001 0011 which is indeed
+the srted array.\\
+
+Therefore $SORT$ is in $TC^0$ and is hard for $TC^0$ and hence is $TC^0$ complete.
+
+\end{solution}
+\question[20]{\bf (Circuit Upperbounds)}
+\begin{parts}
+\part Design a constant depth Boolean circuit (with gates $\land$, $\lor$ and $\lnot$) for Th$_n^2$ which uses $O(\log n)$ gates and $O(n \log n)$ wires. (no restriction on fan-in of the gates).
+\part Modify the construction that we did in class to show that adding $\log^k(n)$ many $n$-bit numbers can be done in $\AC^0$. (Hint : The solution would have depth $O(k)$).
+\end{parts}
+\begin{solution}
+\begin{parts}
+\part
+Consider $n = 2^k$.\\
+Let x be the input :\\
+Consider the following depth 4 circuit with exactly 3*log(n) + 1 gates.\\
+Gate 1 :\\
+'Or' the first $2^{k-1}$ variables and Or the second $2^{k-1}$ variables
+and 'And' the output of these two gates. Now if there exists
+any two ones which are at a distance of more than $2^{k-1}$ in the inputs,
+then this circuit will give an output one. If there doesnot exist
+two ones in the input this circuit will ouput 0.\\
+
+Gate i :\\
+'Or' the first, third, fifth, ... $2^{i}-1$ set of $2^{k-i}$ output
+bits (the fanin of this gate is $2^{k-1}$) and similarly 'Or'
+the second, fourth, sixth, .... $2^i$ set of $2^{k-i}$ output bits
+and 'and' these two 'Or' gates. Now if there are two 1's at a distance
+of more than $2^{i-1}$ but at a distance less than $2^i$ then this
+circuit will output 1.\\
+
+Similarly Gate k would be:\\
+'Or' the odd bits of x and 'Or' the even bits of x and take
+an 'And' of the two. This would tell us if their existed two bits
+which are at a distance of atmost 1 and are both 1's.
+Now 'Or' all the outputs of the k 'And' gates.\\
+
+None of the gates would output one if there are not atleast two 1's in the
+input. If the distance between two input bits which are
+one is l such that $2^{t} < l \le 2^{t+1}$, then the $2^{k-t+1}$th gate
+would output 1. Hence the above outputs one when there exists atleast
+two ones in the input and zero if there are no two such ones. Hence
+we are done.\\
+
+If n is not a power of 2 then add as many zeroes to the input
+so that the size is a power of 2 (rounding of to the nearest two power).
+\part
+We already know that adding log(n) n bit numbers( O(n) bit numbers is still in $AC^0$) is in $AC^0$. Let this
+problem be solved with the use of an $AC^0$ gate called G.\\
+So consider the following :\\
+Group the input into $log^{k-1}(n)$ sets of $log(n)$ n bit numbers each and use
+G to generate the sum of each group. Now we would get $log^{k-1}(n)$ numbers each of
+atmost n + log(log(n)) bits. Now again group them into $log^{k-2}(n)$ sets of $log(n)$
+bits each and use G to generate the sum for each group. Similarly at every stage
+i group $log^{k-i}(n)$ sets of $log(n)$ numbers and generate the sum of
+each group each group and hence generating $log^{k-i}(n)$ output numbers.
+So at the $k^{th}$ stage we would get the output of the sum of all the $log^k(n)$ numbers.
+Hence this circuit is in $AC^0$ of depth k if G is given as a gate. As G is in $AC^0$,
+adding $log^k(n)$ numbers is in $AC^0$.
+\end{parts}
+\end{solution}
+\question[10]{(\bf Hard functions for Formulae)}
+Show that for every constant $\epsilon > 0$ and sufficiently large $n$, there is a Boolean function $f_n$ such that any formula computing $f_n$ must have size at least $$(1-\epsilon)\frac{2^n}{\log n}$$.
+\begin{solution}
+The size of a boolean formula can be looked as the size of a circuit which
+has fanout = 1 for all the gates(class BF).\\
+
+All input gates can be looked up as 2 input gates (there are 16 of them).\\
+
+If we duplicate inputs for each gate which uses the input, the boolean
+formula can be looked up as a tree. The number of trees possible are
+$(1/s+1)$*($2s_{C_s}$)  (catalan numbers). This can be upper bounded
+by $4^s$/s+1 as $2s_{C_s} \le 4^s$. Each gate could be one of the 16 two
+input gates ($16^s$ ways). Now the leaves (s+1 of them) of the tree are the
+input gates each of which can be chosen in n ways.\\
+
+Therefore there are $(4*16*n)^{s}*n/(s+1)$ total different boolean formulaes
+possible. This can be upper bounded by ${(64*n)}^{(s)}$ as $n < s+1$.
+${(64*n)}^{(s+1)} = 2^{(6+log(n))*(s+1)}$. Let us make up n
+such that $(6+log(n))*(s) < 2^n$.\\
+LHS = 6*s + log(n)*s = 6*$2^n*(1 - \epsilon)/log(n)$ + log(n)*($2^n*(1 - \epsilon)/log(n)$).\\
+LHS = 6*$2^n*(1 - \epsilon)/log(n)$  + $2^n$ - $2^n*\epsilon$.\\
+Therefore if $6*2^n*(1 - \epsilon)/log(n) < 2^n*\epsilon$, then $LHS < 2^n$.\\
+Therefore if $6*(1-\epsilon)/log(n) < \epsilon$, then $LHS < 2^n$.\\
+Therefore if $log(n) > 6*(1-\epsilon)/\epsilon$ or $n = 2^{6*(1-\epsilon)/\epsilon} + 1$,
+$LHS < 2^n$.\\
+Therefore the maximum number of different functions which can could
+be computed by s gates is bounded by $2^{(6+log(n))*(s+1)}$ which
+is less than $2^{2^n}$ for n stated above and hence it cannot recognize
+all n variable boolean functions.\\
+
+Therefore for every constant $\epsilon > 0$ and sufficiently large $n$,
+there is a Boolean function $f_n$ such that any formula computing
+$f_n$ must have size at least $$(1-\epsilon)\frac{2^n}{\log n}$$.
+
+\end{solution}
+\end{questions}
+\end{document}

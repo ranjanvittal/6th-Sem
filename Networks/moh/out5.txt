@@ -1,0 +1,1585 @@
+4 5 
+5 3 
+6 5 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+sending lsa start
+-1 -1 -1 -1 -1 -1 -1 
+0
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  0
+ src id : 5 
+entered dj
+7
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+out
+leaving DJ
+Received Hello reply from 6 and the val is 0
+ val set is 0.471
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.916
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.928
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.888
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.905
+BOOM LSA
+6
+2
+-1
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.924 
+-1 -1 -1 -1 -1 0.46 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.924 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.357
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.446
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.453
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.501
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.581
+BOOM LSA
+6
+3
+2
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.594 
+-1 -1 -1 -1 -1 3.186 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+entered dj
+7
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.594 
+-1 -1 -1 -1 -1 3.186 -1 
+out
+leaving DJ
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.594 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.338
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.461
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.527
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.551
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 2.192
+BOOM LSA
+6
+4
+3
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 2.204 
+-1 -1 -1 -1 -1 0.6 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 2.204 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.933
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.902
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.316
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.921
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.393
+BOOM LSA
+6
+5
+4
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.409 
+-1 -1 -1 -1 -1 1.469 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.409 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+entered dj
+7
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.409 
+-1 -1 -1 -1 -1 1.469 -1 
+out
+leaving DJ
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.927
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.917
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.551
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.416
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.571
+BOOM LSA
+6
+6
+5
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.587 
+-1 -1 -1 -1 -1 1.886 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.587 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.4
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.484
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.408
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.597
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 75.782
+BOOM LSA
+6
+7
+6
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 75.812 
+-1 -1 -1 -1 -1 2.245 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+entered dj
+7
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 75.812 
+-1 -1 -1 -1 -1 2.245 -1 
+out
+leaving DJ
+sending lsa start
+-1 -1 -1 -1 -1 -1 75.812 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.949
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.962
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.428
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.498
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.445
+BOOM LSA
+6
+8
+7
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.457 
+-1 -1 -1 -1 -1 2.181 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.457 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.409
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.467
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.469
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.929
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.92
+BOOM LSA
+6
+9
+8
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.932 
+-1 -1 -1 -1 -1 3.9 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.932 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+entered dj
+7
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.932 
+-1 -1 -1 -1 -1 3.9 -1 
+out
+leaving DJ
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.414
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.529
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.714
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.523
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 1.045
+BOOM LSA
+6
+10
+9
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 1.058 
+-1 -1 -1 -1 -1 1.195 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 1.058 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.459
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 7.501
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 2.643
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.909
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 71.801
+Recieved Hello from 6
+16
+received hello mudil
+entered dj
+7
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 71.814 
+-1 -1 -1 -1 -1 3.314 -1 
+out
+leaving DJ
+sending lsa start
+-1 -1 -1 -1 -1 -1 71.814 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.363
+BOOM LSA
+6
+21
+20
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.37 
+-1 -1 -1 -1 -1 0.54 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.399
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.611
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.491
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 25.505
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 25.519 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.397
+BOOM LSA
+6
+22
+21
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.405 
+-1 -1 -1 -1 -1 3.331 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.45
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 1.557
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.545
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.465
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.478 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+entered dj
+7
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.478 
+-1 -1 -1 -1 -1 3.331 -1 
+out
+leaving DJ
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.85
+BOOM LSA
+6
+23
+22
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.864 
+-1 -1 -1 -1 -1 0.447 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 1.95
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 6.999
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.84
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.912
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.924 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.366
+BOOM LSA
+6
+24
+23
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.374 
+-1 -1 -1 -1 -1 3.306 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.844
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.393
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.759
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.514
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.527 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+entered dj
+7
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.527 
+-1 -1 -1 -1 -1 3.306 -1 
+out
+leaving DJ
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.414
+BOOM LSA
+6
+25
+24
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.421 
+-1 -1 -1 -1 -1 3.324 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.39
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.605
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.464
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.56
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.573 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.851
+BOOM LSA
+6
+26
+25
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.858 
+-1 -1 -1 -1 -1 0.646 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.954
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.495
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.578
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.763
+Recieved Hello from 6
+16
+received hello mudil
+entered dj
+7
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.781 
+-1 -1 -1 -1 -1 0.646 -1 
+out
+leaving DJ
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.781 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.445
+BOOM LSA
+6
+27
+26
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.452 
+-1 -1 -1 -1 -1 3.262 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.585
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.588
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.93
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.499
+Recieved Hello from 6
+16
+received hello mudil
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.512 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 1.009
+BOOM LSA
+6
+28
+27
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 1.017 
+-1 -1 -1 -1 -1 0.505 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.745
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 3.202
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.64
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.918
+Recieved Hello from 6
+16
+received hello mudil
+entered dj
+7
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.936 
+-1 -1 -1 -1 -1 0.505 -1 
+out
+leaving DJ
+sending lsa start
+-1 -1 -1 -1 -1 -1 0.936 
+1
+I am here sending to : 4
+80
+I am here sending to : 3
+80
+I am here sending to : 6
+80
+lsa sent num entries :  1
+ src id : 5 
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.459
+BOOM LSA
+6
+29
+28
+bytes received : 64
+ src id : 6
+ num_entries : 1
+lsa middle
+Forwarding lsa to : 4
+Forwarding lsa to : 3
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 -1 
+-1 -1 -1 -1 -1 -1 0.467 
+-1 -1 -1 -1 -1 0.687 -1 
+if lsa mudiyil
+lsa mudil
+Recieved Hello from 6
+16
+received hello mudil
+hello sending
+4 node-4
+3 node-3
+6 node-6
+hello sent
+Received Hello reply from 6 and the val is 0
+ val set is 0.806

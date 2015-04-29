@@ -1333,11 +1333,30 @@ length of the packet.\\
 This was theoritically, with a lot of assumptions, computed to be
 64.\\
 A is maximum when p = 1/k, where A is the rate of success.\\
-Channel utilization : p/(p+2T/A) where p is the probability that
+A = T/p.\\
+Channel utilization : p/(p+2T/A) = 1/(1+54*a) where p is the probability that
 this sends. Let p = 1200 micro seconds, 2*T = 512 microseconds.\\
 This calculation is about 1200/(1200+512*2.7)
 which is approximately 0.89.\\
 
+As a increases, utilization decreases.\\
+A increases when T increases or when P decreases which means transmision time
+increases (ie) when bitrate increases.\\
+Consider 1 Gbps ethernet, 64 bytes min contention slot
+length and 1500 bytes packet length.\\
+Util = (F/B) / (F/B + 2L*e/c). Then Util = 1/(1 + 2*(L*e*B)/(c*F)) if
+we divide by F/B throughout. B is bitrate and F is frame size.\\
+When bitrate is increased also everything good.\\
+When bitrate is 1 Gbps and L is 2.5 Km. Assume c = $2*10^8$ m/s.\\
+min packet length = 2TB which is 3125 bytes. Therefore we have to reduce
+this and hence L has to be reduced (ie) the length of the bus
+has to go down to accomodate proper bitrate.\\
 
+Read up on bridged LANs before endsem.\\
+Constructing spanning tree in a distributed manner.\\
+Switched LANs (Ethernet) (Read about it in wiki) :\\
+switching is based on the mac addresses. So this is not broadcast
+and hence there is no need fro CSMA/CD.\\
+Hub is a broadcast switch. This is where CSMA and CD come in.\\
 
 \end{document}

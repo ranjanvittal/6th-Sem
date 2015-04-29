@@ -10,8 +10,8 @@ class P6 {
       try {
          QTACoJavaParser qtp = new QTACoJavaParser(System.in);
          Node n = qtp.Goal();
-         n.accept(new GJDepthFirst<Object, Object>(), null);
-         System.out.println("Parsed successfully");
+         Object returns = n.accept(new GJDepth2<Object, Object>(), null);
+         n.accept(new GJDepthFirst<Object, Object>(), returns);
       }
       catch (ParseException e) {
          System.out.println(e.toString());

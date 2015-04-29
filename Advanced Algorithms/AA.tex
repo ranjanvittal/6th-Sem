@@ -1324,6 +1324,26 @@ component, then that edge would never have been useful. If it
 has more than 1 retain. This would help us throw us these edges out
 and finally give us the 2 approximation.\\
 
+Line segment cover(LSC) : PTAS (like job scheduling) are there for planar
+vertex cover.
+More general than planar vertex cover. General vertex cover,
+if we find a $1.18 - \epsilon$ approximation, then P = NP.\\
+This is more restricted than hitting set because any two
+sets can intersect at atmost 1 point.\\
+
+LSC without a triangle (that is these three donot intersect at 3 points) :\\
+This is also NP complete.\\
+The variables for the linear program are easy to see as they are the
+intersection points. Therefore the line constraints are such that the
+primal variables add upto atleast 1 and dual variables are all less than
+1 (dual packing).\\
+Solve the primal problem.\\
+There is one point with degree atmost 3 intersection.\\
+Pick a low degree vertex and it is at a corner (ie) it is the
+endpoint of all the segments entering it. Now the vertex($x_i$) would
+be part of certain number of line segments say $y_l$. For each of the line segments,
+whenever the constraints is violated (ie) $y_l + x_i$ increases to above 1, choose
+$x_i$ in your set and continue on.
 
 
 \end{document}

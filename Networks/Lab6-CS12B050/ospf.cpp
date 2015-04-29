@@ -82,8 +82,8 @@ ll CURRENT_TIME() {
 int graph_size;
 int current_node;
 long long int hello_interval = 1000000 ;
-long long int lsa_interval = 2000000 ;
-long long int djikstra_interval = 5000000;
+long long int lsa_interval = 1500000 ;
+long long int djikstra_interval = 2000000;
 long long int overall_stop;
 
 // node information
@@ -179,6 +179,7 @@ void *my_listen(void* useless) {
             int i;
             int node2;
             int nodecost;
+
             if(sequence_no > sequence_no_map[node]) {
                 mass.lock();
                 for(i = 0; i < number_of_entries; i++) {
@@ -197,7 +198,6 @@ void *my_listen(void* useless) {
             }
         }
     }
-    printf("exiting listen\n");
     pthread_exit(NULL);
 }
 
@@ -212,7 +212,6 @@ void *send_hello(void* useless) {
 
         usleep(hello_interval);
     }
-    printf("exiting send hello\n");
     pthread_exit(NULL);
 }
 
@@ -233,7 +232,6 @@ void *send_lsa(void* useless) {
             mysend((void*) mylsa, mylsa_size, neighbour_list[i]);
         mass.unlock();
     }
-    printf("exiting send lsa\n");
     pthread_exit(NULL);
 }
 
@@ -260,7 +258,6 @@ void *djikstra(void* useless) {
             }
             adjlist.push_back(current_row);
         }
-        //cerr << "-------AA" << endl;
 
         bool visited[graph_size];
         for(i = 0; i < graph_size; i++)
@@ -288,14 +285,13 @@ void *djikstra(void* useless) {
         }
 
 
-        //cerr << "-------BB" << endl;
         fstream f;
         f.open(outfile, std::fstream::app | std::fstream::out);
         f << endl;
         ll current_time = CURRENT_TIME();
         f << "Routing Table for Node No. " << current_node <<
         " at Time " << time_diff(current_time, start_time) << endl;
-        f << "Destination\t\tPath\t\tCost" << endl;
+        f << "Destination\t\tPath\t\t\tCost" << endl;
 
         string parent_info;
         string cn = to_string(current_node);
@@ -309,13 +305,12 @@ void *djikstra(void* useless) {
             }
             parent_info = cn + parent_info;
             if(cost[i] != 0 && cost[i] != -1)
-                f<< i << "\t\t" << parent_info << "\t\t" << cost[i] << endl;
+                f<< i << "\t\t\t" << parent_info << "\t\t\t" << cost[i] << endl;
         }
 
         mass.unlock();
 
     }
-    printf("exiting djikstra\n");
     pthread_exit(NULL);
 }
 
@@ -333,7 +328,6 @@ int main (int argc, char** argv)
     pthread_t djikstra_thread;
     pthread_t hello_thread;
     pthread_t listen_thread;
-    pthread_attr_t attr;
 
     void *status;
 
@@ -352,15 +346,15 @@ int main (int argc, char** argv)
         }
         else if(!strcmp(argv[i], "-h")) {
             i++;
-            hello_interval = atoi(argv[i]);
+            hello_interval = atoi(argv[i])*1000000;
         }
         else if(!strcmp(argv[i], "-a")) {
             i++;
-            lsa_interval = atoi(argv[i]);
+            lsa_interval = atoi(argv[i])*1000000;
         }
         else if(!strcmp(argv[i], "-s")) {
             i++;
-            djikstra_interval = atoi(argv[i]);
+            djikstra_interval = atoi(argv[i])*1000000;
         }
     }
 
@@ -399,7 +393,7 @@ int main (int argc, char** argv)
             neighbour_list.push_back(node);
             neighbour_lower_costs[node] = mincost;
             neighbour_upper_costs[node] = maxcost;
-            sequence_no_map[node] = -1;
+
             set(node, current_node, mincost);
             set(current_node, node, mincost);
 
@@ -407,6 +401,9 @@ int main (int argc, char** argv)
         }
         i++;
     }
+
+    for(i = 0; i < graph_size; i++)
+        sequence_no_map[node] = -1;
 
     mylsa = (LSA*) malloc(sizeof(LSA) + sizeof(int)*(2*neighbour_size-1));
     mylsa_size = sizeof(LSA) + sizeof(int)*(2*neighbour_size-1);
@@ -420,13 +417,13 @@ int main (int argc, char** argv)
     }
 
     start_time = CURRENT_TIME();
-    overall_stop = CURRENT_TIME() + 10000000;
-
+    ll stop_now = 1*10000000;
+    overall_stop = CURRENT_TIME() + stop_now;
 
 
     // Initialize and set thread joinable
-    pthread_attr_init(&attr);
-    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+    // pthread_attr_init(&attr);
+    // pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
     int id = 0;
 
     if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
@@ -470,8 +467,6 @@ int main (int argc, char** argv)
 
    // free attribute and wait for the other threads
 
-    cerr << "Main: program exiting." << endl;
     pthread_exit(NULL);
 
-    pthread_attr_destroy(&attr);
 }

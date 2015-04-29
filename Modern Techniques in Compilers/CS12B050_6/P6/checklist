@@ -1,0 +1,26 @@
+Checklist for Assignment P6
+
+Q.) Have you named your main program as P6.java, that can be compiled with javac?
+Yes
+Q.) Does your P6.java take input from the Standard Input (System.in)?
+Yes
+Q.) Does your P6.java give output to the Standard Output (System.out)?
+Yes
+Q.) Have you removed all the debugging messages that your program may output? (Output of System.err isn't considered, and thus maybe kept)
+Yes
+Q.) Have you removed all the binaries, .jar and .class files from your project?
+Yes
+Q.) Is P6 the immediate parent of P6.java?
+Yes
+Q.) Is this checklist a file in P6?
+Yes
+Q.) Have you named your project directory as XXXXXXXX (your eight digit roll number in CAPITAL), and is P6 a part of it?
+
+Q.) Have you tar+gzipped the project directory as XXXXXXXX.P6.tar.gz?
+
+Q.) Is (some part of) your assignment plagiarized?
+No
+
+Any assumptions that you made in the implementation:
+The given program is correct. It is compilable with javac
+without errors.

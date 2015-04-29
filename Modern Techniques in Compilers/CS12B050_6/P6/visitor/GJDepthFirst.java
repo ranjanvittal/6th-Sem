@@ -11,753 +11,1197 @@ import java.util.*;
  * order.  Your visitors may extend this class.
  */
 public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
-   //
-   // Auto class visitors--probably don't need to be overridden.
-   //
-   public R visit(NodeList n, A argu) {
-      R _ret=null;
-      int _count=0;
-      for ( Enumeration<Node> e = n.elements(); e.hasMoreElements(); ) {
-         e.nextElement().accept(this,argu);
-         _count++;
-      }
-      return _ret;
-   }
-
-   public R visit(NodeListOptional n, A argu) {
-      if ( n.present() ) {
-         R _ret=null;
-         int _count=0;
-         for ( Enumeration<Node> e = n.elements(); e.hasMoreElements(); ) {
+    //
+    // Auto class visitors--probably don't need to be overridden.
+    //
+    public R visit(NodeList n, A argu) {
+        R _ret = null;
+        int _count = 0;
+        for ( Enumeration<Node> e  =  n.elements(); e.hasMoreElements(); ) {
             e.nextElement().accept(this,argu);
             _count++;
-         }
-         return _ret;
-      }
-      else
-         return null;
-   }
+        }
+        return _ret;
+    }
 
-   public R visit(NodeOptional n, A argu) {
-      if ( n.present() )
-         return n.node.accept(this,argu);
-      else
-         return null;
-   }
+    public R visit(NodeListOptional n, A argu) {
+        if ( n.present() ) {
+            R _ret = null;
+            int _count = 0;
+            for ( Enumeration<Node> e  =  n.elements(); e.hasMoreElements(); ) {
+                e.nextElement().accept(this,argu);
+                _count++;
+            }
+            return _ret;
+        }
+        else
+            return null;
+    }
 
-   public R visit(NodeSequence n, A argu) {
-      R _ret=null;
-      int _count=0;
-      for ( Enumeration<Node> e = n.elements(); e.hasMoreElements(); ) {
-         e.nextElement().accept(this,argu);
-         _count++;
-      }
-      return _ret;
-   }
+    public R visit(NodeOptional n, A argu) {
+        if ( n.present() )
+            return n.node.accept(this,argu);
+        else
+            return null;
+    }
 
-   public R visit(NodeToken n, A argu) { return null; }
+    public R visit(NodeSequence n, A argu) {
+        R _ret = null;
+        int _count = 0;
+        for ( Enumeration<Node> e  =  n.elements(); e.hasMoreElements(); ) {
+            e.nextElement().accept(this,argu);
+            _count++;
+        }
+        return _ret;
+    }
 
-   //
-   // User-generated visitor methods below
-   //
+    public R visit(NodeToken n, A argu) { return null; }
 
-   /**
-    * f0 -> MainClass()
-    * f1 -> ( TypeDeclaration() )*
-    * f2 -> <EOF>
-    */
-   public R visit(Goal n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      return _ret;
-   }
+    //
+    // User-generated visitor methods below
+    //
+    int overall_reg = 0;
 
-   /**
-    * f0 -> "class"
-    * f1 -> Identifier()
-    * f2 -> "{"
-    * f3 -> "public"
-    * f4 -> "static"
-    * f5 -> "void"
-    * f6 -> "main"
-    * f7 -> "("
-    * f8 -> "String"
-    * f9 -> "["
-    * f10 -> "]"
-    * f11 -> Identifier()
-    * f12 -> ")"
-    * f13 -> "{"
-    * f14 -> ( VarDeclaration() )*
-    * f15 -> ( QStatement() )*
-    * f16 -> "}"
-    * f17 -> "}"
-    */
-   public R visit(MainClass n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      n.f6.accept(this, argu);
-      n.f7.accept(this, argu);
-      n.f8.accept(this, argu);
-      n.f9.accept(this, argu);
-      n.f10.accept(this, argu);
-      n.f11.accept(this, argu);
-      n.f12.accept(this, argu);
-      n.f13.accept(this, argu);
-      n.f14.accept(this, argu);
-      n.f15.accept(this, argu);
-      n.f16.accept(this, argu);
-      n.f17.accept(this, argu);
-      return _ret;
-   }
+    Hashtable<String, Set<Register>> rho;
+    Hashtable<Register, Hashtable<String, Set<Register>>> sigma;
 
-   /**
-    * f0 -> ClassDeclaration()
-    *       | ClassExtendsDeclaration()
-    */
-   public R visit(TypeDeclaration n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      return _ret;
-   }
+    boolean inMethod = false;
+    boolean inLoop = false;
+    boolean firstPass = false;
+    boolean lastPass = false;
+    Hashtable<Query, Integer> answers = new Hashtable<Query, Integer>();
+    Hashtable<String, Hashtable<String, String>> renamedVariables;
 
-   /**
-    * f0 -> "class"
-    * f1 -> Identifier()
-    * f2 -> "{"
-    * f3 -> ( VarDeclaration() )*
-    * f4 -> ( MethodDeclaration() )*
-    * f5 -> "}"
-    */
-   public R visit(ClassDeclaration n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      return _ret;
-   }
+    void print(String toPrint) {
+        System.out.println(toPrint);
+    }
 
-   /**
-    * f0 -> "class"
-    * f1 -> Identifier()
-    * f2 -> "extends"
-    * f3 -> Identifier()
-    * f4 -> "{"
-    * f5 -> ( VarDeclaration() )*
-    * f6 -> ( MethodDeclaration() )*
-    * f7 -> "}"
-    */
-   public R visit(ClassExtendsDeclaration n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      n.f6.accept(this, argu);
-      n.f7.accept(this, argu);
-      return _ret;
-   }
+    class Register {
+        int id;
+        Register() {
+            id =  overall_reg++;
+        }
+        void print() {
+            System.out.println("R" + (new Integer(id)).toString());
+        }
+    }
 
-   /**
-    * f0 -> Type()
-    * f1 -> Identifier()
-    * f2 -> ";"
-    */
-   public R visit(VarDeclaration n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      return _ret;
-   }
 
-   /**
-    * f0 -> "public"
-    * f1 -> Type()
-    * f2 -> Identifier()
-    * f3 -> "("
-    * f4 -> ( FormalParameterList() )?
-    * f5 -> ")"
-    * f6 -> "{"
-    * f7 -> ( VarDeclaration() )*
-    * f8 -> ( QStatement() )*
-    * f9 -> "return"
-    * f10 -> Identifier()
-    * f11 -> ";"
-    * f12 -> "}"
-    */
-   public R visit(MethodDeclaration n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      n.f6.accept(this, argu);
-      n.f7.accept(this, argu);
-      n.f8.accept(this, argu);
-      n.f9.accept(this, argu);
-      n.f10.accept(this, argu);
-      n.f11.accept(this, argu);
-      n.f12.accept(this, argu);
-      return _ret;
-   }
+    void print() {
+        Enumeration<String> keySet = rho.keys();
+        String key;
+        Enumeration<Register> regset;
+        Register reg;
+        while(keySet.hasMoreElements()) {
+            key = keySet.nextElement();
+            print(key + " : ");
+            regset = new Vector(rho.get(key)).elements();
+            while(regset.hasMoreElements()) {
+                reg = regset.nextElement();
+                reg.print();
+            }
+        }
+        print("");
+        print("");
+    }
 
-   /**
-    * f0 -> FormalParameter()
-    * f1 -> ( FormalParameterRest() )*
-    */
-   public R visit(FormalParameterList n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      return _ret;
-   }
+    Register rg;
+    Set<Register> setRg;
+    Hashtable<String, String> typeInfo;
+    Register rnull;
+    Set<Register> setNull;
 
-   /**
-    * f0 -> Type()
-    * f1 -> Identifier()
-    */
-   public R visit(FormalParameter n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      return _ret;
-   }
+    void makeAllAttrRg(String obj) {
+        makeAllAttrRg(rho.get(obj));
 
-   /**
-    * f0 -> ","
-    * f1 -> FormalParameter()
-    */
-   public R visit(FormalParameterRest n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      return _ret;
-   }
+    }
 
-   /**
-    * f0 -> ArrayType()
-    *       | BooleanType()
-    *       | IntegerType()
-    *       | Identifier()
-    */
-   public R visit(Type n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      return _ret;
-   }
+    void makeAllAttrRg(Set<Register> obj) {
+        Enumeration<Register> regs = new Vector(obj).elements();
+        while(regs.hasMoreElements()) {
+            Register reg = regs.nextElement();
+            sigma.put(reg, new Hashtable<String, Set<Register>>());
+        }
+    }
 
-   /**
-    * f0 -> "int"
-    * f1 -> "["
-    * f2 -> "]"
-    */
-   public R visit(ArrayType n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      return _ret;
-   }
+    void update(String id1, String id2, String id3) {
+        Set<Register> s = rho.get(id1);
+        Enumeration<Register> regs = new Vector(s).elements();
+        Set<Register> assigned = rho.get(id3);
+        Register reg;
+        if(s == setRg)
+            return;
+        if(s.contains(rg))
+            return;
+        if(s.size() == 1) {
+            reg = regs.nextElement();
+            strongUpdate(reg, id2, assigned);
+        }
+        else {
+            while(regs.hasMoreElements()) {
+                reg = regs.nextElement();
+                weakUpdate(reg, id2, assigned);
+            }
+        }
+    }
 
-   /**
-    * f0 -> "boolean"
-    */
-   public R visit(BooleanType n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      return _ret;
-   }
+    void strongUpdate(Register reg, String field, Set<Register> set) {
+        sigma.get(reg).put(field, set);
+    }
 
-   /**
-    * f0 -> "int"
-    */
-   public R visit(IntegerType n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      return _ret;
-   }
+    void weakUpdate(Register reg, String field, Set<Register> set) {
+        if(sigma.get(reg).containsKey(field))
+            sigma.get(reg).get(field).addAll(set);
+        else
+            sigma.get(reg).put(field, set);
+    }
 
-   /**
-    * f0 -> ( Query() )*
-    * f1 -> Statement()
-    */
-   public R visit(QStatement n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      return _ret;
-   }
 
-   /**
-    * f0 -> <SCOMMENT1>
-    * f1 -> Identifier()
-    * f2 -> "alias?"
-    * f3 -> Identifier()
-    * f4 -> <SCOMMENT2>
-    */
-   public R visit(Query n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      return _ret;
-   }
+    boolean compareSet(Set<Register> s1, Set<Register> s2) {
+        Set<Register> s3;
+        boolean ret = true;
 
-   /**
-    * f0 -> Block()
-    *       | AssignmentStatement()
-    *       | ArrayAssignmentStatement()
-    *       | FieldAssignmentStatement()
-    *       | IfStatement()
-    *       | WhileStatement()
-    *       | ForStatement()
-    *       | PrintStatement()
-    */
-   public R visit(Statement n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      return _ret;
-   }
+        s3 = new HashSet<Register>(s1);
+        s3.addAll(s2);
+        if(s3.size() != s1.size())
+            ret = false;
 
-   /**
-    * f0 -> "{"
-    * f1 -> ( QStatement() )*
-    * f2 -> "}"
-    */
-   public R visit(Block n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      return _ret;
-   }
+        s3 = new HashSet<Register>(s2);
+        s3.addAll(s1);
+        if(s3.size() != s2.size())
+            ret = false;
 
-   /**
-    * f0 -> Identifier()
-    * f1 -> "="
-    * f2 -> Expression()
-    * f3 -> ";"
-    */
-   public R visit(AssignmentStatement n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      return _ret;
-   }
+        return ret;
+    }
 
-   /**
-    * f0 -> Identifier()
-    * f1 -> "["
-    * f2 -> Identifier()
-    * f3 -> "]"
-    * f4 -> "="
-    * f5 -> Identifier()
-    * f6 -> ";"
-    */
-   public R visit(ArrayAssignmentStatement n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      n.f6.accept(this, argu);
-      return _ret;
-   }
+    boolean compareRho(Hashtable<String, Set<Register>> m1, Hashtable<String, Set<Register>> m2) {
+        Enumeration<String> e1 = m1.keys();
+        String variable;
+        Set<Register> s1;
+        Set<Register> s2;
+        boolean ret = true;
 
-   /**
-    * f0 -> Identifier()
-    * f1 -> "."
-    * f2 -> Identifier()
-    * f3 -> "="
-    * f4 -> Identifier()
-    * f5 -> ";"
-    */
-   public R visit(FieldAssignmentStatement n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      return _ret;
-   }
+        while(e1.hasMoreElements()) {
+            variable = e1.nextElement();
 
-   /**
-    * f0 -> "if"
-    * f1 -> "("
-    * f2 -> Identifier()
-    * f3 -> ")"
-    * f4 -> Statement()
-    * f5 -> "else"
-    * f6 -> Statement()
-    */
-   public R visit(IfStatement n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      n.f6.accept(this, argu);
-      return _ret;
-   }
+            s1 = m1.get(variable);
+            s2 = m2.get(variable);
+            ret = ret && compareSet(s1, s2);
 
-   /**
-    * f0 -> "while"
-    * f1 -> "("
-    * f2 -> Identifier()
-    * f3 -> ")"
-    * f4 -> Statement()
-    */
-   public R visit(WhileStatement n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      return _ret;
-   }
+        }
+        return ret;
+    }
 
-   /**
-    * f0 -> "for"
-    * f1 -> "("
-    * f2 -> Identifier()
-    * f3 -> "="
-    * f4 -> Expression()
-    * f5 -> ";"
-    * f6 -> Expression()
-    * f7 -> ";"
-    * f8 -> Identifier()
-    * f9 -> "="
-    * f10 -> Expression()
-    * f11 -> ")"
-    * f12 -> Statement()
-    */
-   public R visit(ForStatement n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      n.f6.accept(this, argu);
-      n.f7.accept(this, argu);
-      n.f8.accept(this, argu);
-      n.f9.accept(this, argu);
-      n.f10.accept(this, argu);
-      n.f11.accept(this, argu);
-      n.f12.accept(this, argu);
-      return _ret;
-   }
+    boolean compareSigma(Hashtable<Register, Hashtable<String, Set<Register>>> m1, Hashtable<Register, Hashtable<String, Set<Register>>> m2) {
+        Enumeration<Register> e1 = m1.keys();
+        Enumeration<Register> e2 = m2.keys();
+        Register reg;
+        Hashtable<String, Set<Register>> fieldMap1;
+        Hashtable<String, Set<Register>> fieldMap2;
+        Set<Register> regset1;
+        Set<Register> regset2;
+        Enumeration<String> fields;
+        String field;
+        boolean ret = true;
 
-   /**
-    * f0 -> "System.out.println"
-    * f1 -> "("
-    * f2 -> Identifier()
-    * f3 -> ")"
-    * f4 -> ";"
-    */
-   public R visit(PrintStatement n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      return _ret;
-   }
 
-   /**
-    * f0 -> AndExpression()
-    *       | CompareExpression()
-    *       | PlusExpression()
-    *       | MinusExpression()
-    *       | TimesExpression()
-    *       | ArrayLookup()
-    *       | ArrayLength()
-    *       | MessageSend()
-    *       | FieldRead()
-    *       | PrimaryExpression()
-    */
-   public R visit(Expression n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      return _ret;
-   }
+        if(m1.size() != m2.size())
+            return false;
 
-   /**
-    * f0 -> Identifier()
-    * f1 -> "&"
-    * f2 -> Identifier()
-    */
-   public R visit(AndExpression n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      return _ret;
-   }
+        else {
+            while(e1.hasMoreElements()) {
+                reg = e1.nextElement();
+                if(!m2.containsKey(reg))
+                    return false;
+                else {
+                    fieldMap1 = m1.get(reg);
+                    fieldMap2 = m2.get(reg);
+                    if(fieldMap1.size() != fieldMap2.size())
+                        return false;
+                    else {
+                        fields = fieldMap1.keys();
+                        while(fields.hasMoreElements()) {
+                            field = fields.nextElement();
+                            regset1 = fieldMap1.get(field);
+                            regset2 = fieldMap2.get(field);
+                            ret = ret && compareSet(regset1, regset2);
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+    }
 
-   /**
-    * f0 -> Identifier()
-    * f1 -> "<"
-    * f2 -> Identifier()
-    */
-   public R visit(CompareExpression n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      return _ret;
-   }
 
-   /**
-    * f0 -> Identifier()
-    * f1 -> "+"
-    * f2 -> Identifier()
-    */
-   public R visit(PlusExpression n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      return _ret;
-   }
+    Hashtable<String, Set<Register>> deepcopyRho(Hashtable<String, Set<Register>> rho) {
+        Enumeration<String> keySet = rho.keys();
+        Hashtable<String, Set<Register>> creating = new Hashtable<String, Set<Register>>();
+        Set<Register> current;
+        while(keySet.hasMoreElements()) {
+            String key = keySet.nextElement();
+            current = new HashSet<Register>(rho.get(key));
+            creating.put(key, current);
+        }
+        return creating;
+    }
 
-   /**
-    * f0 -> Identifier()
-    * f1 -> "-"
-    * f2 -> Identifier()
-    */
-   public R visit(MinusExpression n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      return _ret;
-   }
 
-   /**
-    * f0 -> Identifier()
-    * f1 -> "*"
-    * f2 -> Identifier()
-    */
-   public R visit(TimesExpression n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      return _ret;
-   }
+    Hashtable<Register, Hashtable<String, Set<Register>>> deepcopySigma(Hashtable<Register, Hashtable<String, Set<Register>>> sigma) {
+        Hashtable<Register, Hashtable<String, Set<Register>>> creating = new Hashtable<Register, Hashtable<String, Set<Register>>>();
+        Enumeration<Register> keySet = sigma.keys();
+        Hashtable<String, Set<Register>> current;
+        while(keySet.hasMoreElements()) {
+            Register key = keySet.nextElement();
+            current = deepcopyRho(sigma.get(key));
+            creating.put(key, current);
+        }
+        return creating;
+    }
 
-   /**
-    * f0 -> Identifier()
-    * f1 -> "["
-    * f2 -> Identifier()
-    * f3 -> "]"
-    */
-   public R visit(ArrayLookup n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      return _ret;
-   }
 
-   /**
-    * f0 -> Identifier()
-    * f1 -> "."
-    * f2 -> "length"
-    */
-   public R visit(ArrayLength n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      return _ret;
-   }
+    Hashtable<String, Set<Register>> meetRho(Hashtable<String, Set<Register>> m1, Hashtable<String, Set<Register>> m2) {
+        Hashtable<String, Set<Register>> creating = new Hashtable<String, Set<Register>>();
+        Set<Register> regs;
+        Enumeration<String> keySet = m1.keys();
+        while(keySet.hasMoreElements()) {
+            String key = keySet.nextElement();
+            regs = new HashSet<Register>();
+            regs.addAll(m1.get(key));
+            regs.addAll(m2.get(key));
+            if(regs.contains(rg))
+                regs = setRg;
+            creating.put(key, regs);
+        }
+        return creating;
+    }
 
-   /**
-    * f0 -> Identifier()
-    * f1 -> "."
-    * f2 -> Identifier()
-    */
-   public R visit(FieldRead n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      return _ret;
-   }
 
-   /**
-    * f0 -> PrimaryExpression()
-    * f1 -> "."
-    * f2 -> Identifier()
-    * f3 -> "("
-    * f4 -> ( ArgList() )?
-    * f5 -> ")"
-    */
-   public R visit(MessageSend n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      n.f5.accept(this, argu);
-      return _ret;
-   }
+    Hashtable<Register, Hashtable<String, Set<Register>>> meetSigma(Hashtable<Register, Hashtable<String, Set<Register>>> m1, Hashtable<Register, Hashtable<String, Set<Register>>> m2) {
+        Hashtable<Register, Hashtable<String, Set<Register>>> creating;
 
-   /**
-    * f0 -> Identifier()
-    * f1 -> ( ArgRest() )*
-    */
-   public R visit(ArgList n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      return _ret;
-   }
+        Enumeration<Register> keySet = m2.keys();
+        Set<Register> regs;
+        Hashtable<String, Set<Register>> hash;
+        Hashtable<String, Set<Register>> createHash;
+        creating = deepcopySigma(m1);
+        Register key;
+        Enumeration<String> hashkeys;
+        String field;
+        String nextField;
 
-   /**
-    * f0 -> ","
-    * f1 -> Identifier()
-    */
-   public R visit(ArgRest n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      return _ret;
-   }
+        while(keySet.hasMoreElements()) {
+            key = keySet.nextElement();
+            hash = m2.get(key);
+            hashkeys = hash.keys();
+            if(creating.containsKey(key)) {
+                createHash = creating.get(key);
 
-   /**
-    * f0 -> IntegerLiteral()
-    *       | TrueLiteral()
-    *       | FalseLiteral()
-    *       | Identifier()
-    *       | ThisExpression()
-    *       | ArrayAllocationExpression()
-    *       | AllocationExpression()
-    *       | NotExpression()
-    */
-   public R visit(PrimaryExpression n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      return _ret;
-   }
+                while(hashkeys.hasMoreElements()) {
+                    nextField = hashkeys.nextElement();
+                    regs = hash.get(nextField);
+                    if(createHash.containsKey(nextField)) {
+                        createHash.get(nextField).addAll(regs);
+                        if(createHash.get(nextField).contains(rg))
+                            createHash.put(nextField, setRg);
+                    }
+                }
+            }
+            else
+                creating.put(key, new Hashtable<String, Set<Register>>());
+        }
 
-   /**
-    * f0 -> <INTEGER_LITERAL>
-    */
-   public R visit(IntegerLiteral n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      return _ret;
-   }
+        keySet = m1.keys();
 
-   /**
-    * f0 -> "true"
-    */
-   public R visit(TrueLiteral n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      return _ret;
-   }
+        while(keySet.hasMoreElements()) {
+            key = keySet.nextElement();
+            hash = m1.get(key);
+            hashkeys = hash.keys();
 
-   /**
-    * f0 -> "false"
-    */
-   public R visit(FalseLiteral n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      return _ret;
-   }
+            if(m2.containsKey(key)) {
+                createHash = creating.get(key);
 
-   /**
-    * f0 -> <IDENTIFIER>
-    */
-   public R visit(Identifier n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      return _ret;
-   }
+                while(hashkeys.hasMoreElements()) {
+                    nextField = hashkeys.nextElement();
 
-   /**
-    * f0 -> "this"
-    */
-   public R visit(ThisExpression n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      return _ret;
-   }
+                    if(!m2.get(key).containsKey(nextField))
+                        createHash.remove(nextField);
 
-   /**
-    * f0 -> "new"
-    * f1 -> "int"
-    * f2 -> "["
-    * f3 -> Identifier()
-    * f4 -> "]"
-    */
-   public R visit(ArrayAllocationExpression n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      n.f4.accept(this, argu);
-      return _ret;
-   }
+                }
+            }
+            else
+                creating.put(key, new Hashtable<String, Set<Register>>());
+        }
+        return creating;
+    }
 
-   /**
-    * f0 -> "new"
-    * f1 -> Identifier()
-    * f2 -> "("
-    * f3 -> ")"
-    */
-   public R visit(AllocationExpression n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      n.f2.accept(this, argu);
-      n.f3.accept(this, argu);
-      return _ret;
-   }
+    void query(Query n, String id1, String id2) {
+        boolean toPrint = !inLoop || lastPass;
+        Set<Register> union = new HashSet<Register>();
+        //System.out.println(toPrint);
+        if(!rho.containsKey(id1) || !rho.containsKey(id2)) {
+            if(toPrint)
+                print("Yes");
+            else
+                answers.put(n, new Integer(1));
+        }
+        else {
+            Set<Register> one = rho.get(id1);
+            Set<Register> two = rho.get(id2);
+            union.addAll(one);
+            union.addAll(two);
+            //print();
+            if(one.contains(rg) || two.contains(rg)) {
+                if(toPrint)
+                    print("Yes");
+                else
+                    answers.put(n, new Integer(1));
+            }
+            else if(union.size() == one.size() + two.size()) {
+                if(toPrint) {
+                    if(answers.containsKey(n)) {
+                        //print("SSA");
+                        if(answers.get(n) == 1)
+                            print("Yes");
+                        else
+                            print("No");
+                    }
+                    else
+                        print("No");
+                }
+                else if(!answers.containsKey(n))
+                    answers.put(n, new Integer(0));
+            }
+            else {
+                if(toPrint)
+                    print("Yes");
+                else
+                    answers.put(n, new Integer(1));
+            }
+        }
+    }
 
-   /**
-    * f0 -> "!"
-    * f1 -> Identifier()
-    */
-   public R visit(NotExpression n, A argu) {
-      R _ret=null;
-      n.f0.accept(this, argu);
-      n.f1.accept(this, argu);
-      return _ret;
-   }
+    /**
+     * f0 -> MainClass()
+     * f1 -> ( TypeDeclaration() )*
+     * f2 -> <EOF>
+     */
+    public R visit(Goal n, A argu) {
+        R _ret = null;
+        rg = new Register();
+        rnull = new Register();
+        setRg = new HashSet<Register>();
+        setNull = new HashSet<Register>();
+        setRg.add(rg);
+        setNull.add(rnull);
+        renamedVariables = (Hashtable<String, Hashtable<String, String>>) argu;
+
+        n.f0.accept(this, argu);
+        n.f1.accept(this, argu);
+        n.f2.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> "class"
+     * f1 -> Identifier()
+     * f2 -> "{"
+     * f3 -> "public"
+     * f4 -> "static"
+     * f5 -> "void"
+     * f6 -> "main"
+     * f7 -> "("
+     * f8 -> "String"
+     * f9 -> "["
+     * f10 -> "]"
+     * f11 -> Identifier()
+     * f12 -> ")"
+     * f13 -> "{"
+     * f14 -> ( VarDeclaration() )*
+     * f15 -> ( QStatement() )*
+     * f16 -> "}"
+     * f17 -> "}"
+     */
+    public R visit(MainClass n, A argu) {
+        R _ret = null;
+        inMethod = true;
+        typeInfo = new Hashtable<String, String>();
+        rho = new Hashtable<String, Set<Register>>();
+        sigma = new Hashtable<Register, Hashtable<String, Set<Register>>>();
+        sigma.put(rg, new Hashtable<String, Set<Register>>());
+        lastPass = true;
+        firstPass = false;
+        n.f0.accept(this, argu);
+        n.f1.accept(this, argu);
+        n.f2.accept(this, argu);
+        n.f3.accept(this, argu);
+        n.f4.accept(this, argu);
+        n.f5.accept(this, argu);
+        n.f6.accept(this, argu);
+        n.f7.accept(this, argu);
+        n.f8.accept(this, argu);
+        n.f9.accept(this, argu);
+        n.f10.accept(this, argu);
+        n.f11.accept(this, argu);
+        n.f12.accept(this, argu);
+        n.f13.accept(this, argu);
+        n.f14.accept(this, argu);
+        n.f15.accept(this, argu);
+        n.f16.accept(this, argu);
+        n.f17.accept(this, argu);
+        inMethod = false;
+        return _ret;
+    }
+
+    /**
+     * f0 -> ClassDeclaration()
+     *         | ClassExtendsDeclaration()
+     */
+    public R visit(TypeDeclaration n, A argu) {
+        R _ret = null;
+        n.f0.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> "class"
+     * f1 -> Identifier()
+     * f2 -> "{"
+     * f3 -> ( VarDeclaration() )*
+     * f4 -> ( MethodDeclaration() )*
+     * f5 -> "}"
+     */
+    public R visit(ClassDeclaration n, A argu) {
+        R _ret = null;
+        n.f0.accept(this, argu);
+        n.f1.accept(this, argu);
+        n.f2.accept(this, argu);
+        n.f3.accept(this, argu);
+        n.f4.accept(this, argu);
+        n.f5.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> "class"
+     * f1 -> Identifier()
+     * f2 -> "extends"
+     * f3 -> Identifier()
+     * f4 -> "{"
+     * f5 -> ( VarDeclaration() )*
+     * f6 -> ( MethodDeclaration() )*
+     * f7 -> "}"
+     */
+    public R visit(ClassExtendsDeclaration n, A argu) {
+        R _ret = null;
+        n.f0.accept(this, argu);
+        n.f1.accept(this, argu);
+        n.f2.accept(this, argu);
+        n.f3.accept(this, argu);
+        n.f4.accept(this, argu);
+        n.f5.accept(this, argu);
+        n.f6.accept(this, argu);
+        n.f7.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> Type()
+     * f1 -> Identifier()
+     * f2 -> ";"
+     */
+    public R visit(VarDeclaration n, A argu) {
+        R _ret = null;
+
+        if(inMethod && n.f0.f0.which == 3) {
+            String type = (String) n.f0.accept(this, argu);
+            String id = (String) n.f1.accept(this, argu);
+            typeInfo.put(id, type);
+            rho.put(id, setRg);
+        }
+        return _ret;
+    }
+
+    /**
+     * f0 -> "public"
+     * f1 -> Type()
+     * f2 -> Identifier()
+     * f3 -> "("
+     * f4 -> ( FormalParameterList() )?
+     * f5 -> ")"
+     * f6 -> "{"
+     * f7 -> ( VarDeclaration() )*
+     * f8 -> ( QStatement() )*
+     * f9 -> "return"
+     * f10 -> Identifier()
+     * f11 -> ";"
+     * f12 -> "}"
+     */
+    public R visit(MethodDeclaration n, A argu) {
+        R _ret = null;
+        inMethod = true;
+        typeInfo = new Hashtable<String, String>();
+        rho = new Hashtable<String, Set<Register>>();
+        sigma = new Hashtable<Register, Hashtable<String, Set<Register>>>();
+        sigma.put(rg, new Hashtable<String, Set<Register>>());
+
+        lastPass = true;
+        firstPass = false;
+
+        n.f0.accept(this, argu);
+        n.f1.accept(this, argu);
+        n.f2.accept(this, argu);
+        n.f3.accept(this, argu);
+        n.f4.accept(this, argu);
+        n.f5.accept(this, argu);
+        n.f6.accept(this, argu);
+        n.f7.accept(this, argu);
+        n.f8.accept(this, argu);
+        n.f9.accept(this, argu);
+        n.f10.accept(this, argu);
+        n.f11.accept(this, argu);
+        n.f12.accept(this, argu);
+        inMethod = false;
+        return _ret;
+    }
+
+    /**
+     * f0 -> FormalParameter()
+     * f1 -> ( FormalParameterRest() )*
+     */
+    public R visit(FormalParameterList n, A argu) {
+        R _ret = null;
+        n.f0.accept(this, argu);
+        n.f1.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> Type()
+     * f1 -> Identifier()
+     */
+    public R visit(FormalParameter n, A argu) {
+        R _ret = null;
+
+        if(inMethod && n.f0.f0.which == 3) {
+            String type = (String) n.f0.accept(this, argu);
+            String id = (String) n.f1.accept(this, argu);
+            typeInfo.put(id, type);
+            rho.put(id, setRg);
+        }
+        return _ret;
+    }
+
+    /**
+     * f0 -> ","
+     * f1 -> FormalParameter()
+     */
+    public R visit(FormalParameterRest n, A argu) {
+        R _ret = null;
+        n.f0.accept(this, argu);
+        n.f1.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> ArrayType()
+     *         | BooleanType()
+     *         | IntegerType()
+     *         | Identifier()
+     */
+    public R visit(Type n, A argu) {
+        return n.f0.accept(this, argu);
+    }
+
+    /**
+     * f0 -> "int"
+     * f1 -> "["
+     * f2 -> "]"
+     */
+    public R visit(ArrayType n, A argu) {
+        R _ret = null;
+        n.f0.accept(this, argu);
+        n.f1.accept(this, argu);
+        n.f2.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> "boolean"
+     */
+    public R visit(BooleanType n, A argu) {
+        R _ret = null;
+        n.f0.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> "int"
+     */
+    public R visit(IntegerType n, A argu) {
+        R _ret = null;
+        n.f0.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> ( Query() )*
+     * f1 -> Statement()
+     */
+    public R visit(QStatement n, A argu) {
+        R _ret = null;
+        n.f0.accept(this, argu);
+        n.f1.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> <SCOMMENT1>
+     * f1 -> Identifier()
+     * f2 -> "alias?"
+     * f3 -> Identifier()
+     * f4 -> <SCOMMENT2>
+     */
+    public R visit(Query n, A argu) {
+        R _ret = null;
+
+        String id1 = (String) n.f1.accept(this, argu);
+        String id2 = (String) n.f3.accept(this, argu);
+        query(n, id1, id2);
+
+        return _ret;
+    }
+
+    /**
+     * f0 -> Block()
+     *         | AssignmentStatement()
+     *         | ArrayAssignmentStatement()
+     *         | FieldAssignmentStatement()
+     *         | IfStatement()
+     *         | WhileStatement()
+     *         | ForStatement()
+     *         | PrintStatement()
+     */
+    public R visit(Statement n, A argu) {
+        R _ret = null;
+        n.f0.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> "{"
+     * f1 -> ( QStatement() )*
+     * f2 -> "}"
+     */
+    public R visit(Block n, A argu) {
+        R _ret = null;
+        n.f0.accept(this, argu);
+        n.f1.accept(this, argu);
+        n.f2.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> Identifier()
+     * f1 -> " = "
+     * f2 -> Expression()
+     * f3 -> ";"
+     */
+    public R visit(AssignmentStatement n, A argu) {
+        R _ret = null;
+        String id = (String) n.f0.accept(this, argu);
+        n.f1.accept(this, argu);
+        if(rho.containsKey(id)) {
+            if(!inLoop || !lastPass) {
+                Set<Register> exp = (Set<Register>) n.f2.accept(this, argu);
+                if(exp != null)
+                    rho.put(id, exp);
+            }
+        }
+        n.f3.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> Identifier()
+     * f1 -> "["
+     * f2 -> Identifier()
+     * f3 -> "]"
+     * f4 -> " = "
+     * f5 -> Identifier()
+     * f6 -> ";"
+     */
+    public R visit(ArrayAssignmentStatement n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> Identifier()
+     * f1 -> "."
+     * f2 -> Identifier()
+     * f3 -> " = "
+     * f4 -> Identifier()
+     * f5 -> ";"
+     */
+    public R visit(FieldAssignmentStatement n, A argu) {
+        R _ret = null;
+        String id1 = (String) n.f0.accept(this, argu);
+        if(rho.containsKey(id1)) {
+            if(!inLoop || !lastPass) {
+                String type = typeInfo.get(id1);
+                String id2 = (String) n.f2.accept(this, argu);
+                id2 = renamedVariables.get(type).get(id2);
+                String id3 = (String) n.f4.accept(this, argu);
+                update(id1, id2, id3);
+            }
+        }
+        return _ret;
+    }
+
+    /**
+     * f0 -> "if"
+     * f1 -> "("
+     * f2 -> Identifier()
+     * f3 -> ")"
+     * f4 -> Statement()
+     * f5 -> "else"
+     * f6 -> Statement()
+     */
+    public R visit(IfStatement n, A argu) {
+        R _ret = null;
+
+        Hashtable<String, Set<Register>> ifRho;
+        Hashtable<Register, Hashtable<String, Set<Register>>> ifSigma;
+
+        Hashtable<String, Set<Register>> copiedRho;
+        Hashtable<Register, Hashtable<String, Set<Register>>> copiedSigma;
+
+        copiedRho = deepcopyRho(rho);
+
+        copiedSigma = deepcopySigma(sigma);
+
+        n.f4.accept(this, argu);
+
+        ifRho = deepcopyRho(rho);
+        ifSigma = deepcopySigma(sigma);
+
+        rho = deepcopyRho(copiedRho);
+        sigma = deepcopySigma(copiedSigma);
+
+        n.f6.accept(this, argu);
+
+        rho = meetRho(rho, ifRho);
+        sigma = meetSigma(sigma, ifSigma);
+
+        return _ret;
+    }
+
+    /**
+     * f0 -> "while"
+     * f1 -> "("
+     * f2 -> Identifier()
+     * f3 -> ")"
+     * f4 -> Statement()
+     */
+    public R visit(WhileStatement n, A argu) {
+        R _ret = null;
+        boolean done = false;
+
+        Hashtable<String, Set<Register>> copiedRho1;
+        Hashtable<Register, Hashtable<String, Set<Register>>> copiedSigma1;
+
+        Hashtable<String, Set<Register>> copiedRho2;
+        Hashtable<Register, Hashtable<String, Set<Register>>> copiedSigma2;
+
+        boolean oldLastPass = lastPass;
+        boolean oldFirstPass = firstPass;
+        boolean oldInLoop = inLoop;
+
+        inLoop = true;
+        lastPass = false;
+        firstPass = true;
+
+
+        copiedRho1 = deepcopyRho(rho);
+        copiedSigma1 = deepcopySigma(sigma);
+
+        n.f4.accept(this, argu);
+        firstPass = false;
+
+
+        copiedRho2 = deepcopyRho(rho);
+        copiedSigma2 = deepcopySigma(sigma);
+        n.f4.accept(this, argu);
+
+        lastPass = oldLastPass;
+        n.f4.accept(this, argu);
+
+        rho = meetRho(rho, copiedRho1);
+        rho = meetRho(rho, copiedRho2);
+
+        sigma = meetSigma(sigma, copiedSigma1);
+        sigma = meetSigma(sigma, copiedSigma2);
+
+        firstPass = oldFirstPass;
+        inLoop =  oldInLoop;
+        return _ret;
+    }
+
+    /**
+     * f0 -> "for"
+     * f1 -> "("
+     * f2 -> Identifier()
+     * f3 -> " = "
+     * f4 -> Expression()
+     * f5 -> ";"
+     * f6 -> Expression()
+     * f7 -> ";"
+     * f8 -> Identifier()
+     * f9 -> " = "
+     * f10 -> Expression()
+     * f11 -> ")"
+     * f12 -> Statement()
+     */
+    public R visit(ForStatement n, A argu) {
+        R _ret = null;
+        Hashtable<String, Set<Register>> copiedRho1;
+        Hashtable<Register, Hashtable<String, Set<Register>>> copiedSigma1;
+
+        Hashtable<String, Set<Register>> copiedRho2;
+        Hashtable<Register, Hashtable<String, Set<Register>>> copiedSigma2;
+
+        String id1 = (String) n.f2.accept(this, argu);
+        n.f3.accept(this, argu);
+        Set<Register> index;
+
+        if(rho.containsKey(id1)) {
+            index = (Set<Register>) n.f4.accept(this, argu);
+            rho.put(id1, index);
+        }
+
+        String id2 = (String) n.f8.accept(this, argu);
+
+        boolean oldLastPass = lastPass;
+        boolean oldFirstPass = firstPass;
+        boolean oldInLoop = inLoop;
+
+
+        inLoop = true;
+        lastPass = false;
+        firstPass = true;
+
+
+        copiedRho1 = deepcopyRho(rho);
+        copiedSigma1 = deepcopySigma(sigma);
+
+        n.f12.accept(this, argu);
+
+        if(rho.containsKey(id2)) {
+            Set<Register> s = (Set<Register>) n.f10.accept(this, argu);
+            rho.put(id2, s);
+        }
+
+        firstPass = false;
+
+
+        copiedRho2 = deepcopyRho(rho);
+        copiedSigma2 = deepcopySigma(sigma);
+        n.f12.accept(this, argu);
+
+        if(rho.containsKey(id2)) {
+            Set<Register> s = (Set<Register>) n.f10.accept(this, argu);
+            rho.put(id2, s);
+        }
+
+        lastPass = oldLastPass;
+        n.f12.accept(this, argu);
+
+        if(rho.containsKey(id2)) {
+            Set<Register> s = (Set<Register>) n.f10.accept(this, argu);
+            rho.put(id2, s);
+        }
+
+        rho = meetRho(rho, copiedRho1);
+        rho = meetRho(rho, copiedRho2);
+
+        sigma = meetSigma(sigma, copiedSigma1);
+        sigma = meetSigma(sigma, copiedSigma2);
+
+        firstPass = oldFirstPass;
+        inLoop =  oldInLoop;
+
+        return _ret;
+    }
+
+    /**
+     * f0 -> "System.out.println"
+     * f1 -> "("
+     * f2 -> Identifier()
+     * f3 -> ")"
+     * f4 -> ";"
+     */
+    public R visit(PrintStatement n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> AndExpression()
+     *         | CompareExpression()
+     *         | PlusExpression()
+     *         | MinusExpression()
+     *         | TimesExpression()
+     *         | ArrayLookup()
+     *         | ArrayLength()
+     *         | MessageSend()
+     *         | FieldRead()
+     *         | PrimaryExpression()
+     */
+    public R visit(Expression n, A argu) {
+        return n.f0.accept(this, argu);
+    }
+
+    /**
+     * f0 -> Identifier()
+     * f1 -> "&"
+     * f2 -> Identifier()
+     */
+    public R visit(AndExpression n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> Identifier()
+     * f1 -> "<"
+     * f2 -> Identifier()
+     */
+    public R visit(CompareExpression n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> Identifier()
+     * f1 -> "+"
+     * f2 -> Identifier()
+     */
+    public R visit(PlusExpression n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> Identifier()
+     * f1 -> "-"
+     * f2 -> Identifier()
+     */
+    public R visit(MinusExpression n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> Identifier()
+     * f1 -> "*"
+     * f2 -> Identifier()
+     */
+    public R visit(TimesExpression n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> Identifier()
+     * f1 -> "["
+     * f2 -> Identifier()
+     * f3 -> "]"
+     */
+    public R visit(ArrayLookup n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> Identifier()
+     * f1 -> "."
+     * f2 -> "length"
+     */
+    public R visit(ArrayLength n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> Identifier()
+     * f1 -> "."
+     * f2 -> Identifier()
+     */
+    public R visit(FieldRead n, A argu) {
+        R _ret = null;
+
+        String id = (String) n.f0.accept(this, argu);
+        String field = (String) n.f2.accept(this, argu);
+        Set<Register> returnValue = new HashSet<Register>();
+        String type = typeInfo.get(id);
+
+        field = renamedVariables.get(type).get(field);
+
+        if(!rho.containsKey(id))
+            return (R) setRg;
+        else {
+            Set<Register> registers = rho.get(id);
+            Enumeration<Register> regs = new Vector(registers).elements();
+            while(regs.hasMoreElements()) {
+                Register r1 = regs.nextElement();
+                if(sigma.get(r1).containsKey(field))
+                    returnValue.addAll(sigma.get(r1).get(field));
+                else
+                    return (R) setRg;
+            }
+        }
+
+        return (R) returnValue;
+    }
+
+    /**
+     * f0 -> PrimaryExpression()
+     * f1 -> "."
+     * f2 -> Identifier()
+     * f3 -> "("
+     * f4 -> ( ArgList() )?
+     * f5 -> ")"
+     */
+    public R visit(MessageSend n, A argu) {
+        R _ret = null;
+        Set<Register> caller = (Set<Register>) n.f0.accept(this, argu);
+        makeAllAttrRg(caller);
+        n.f4.accept(this, argu);
+        return (R) setRg;
+    }
+
+    /**
+     * f0 -> Identifier()
+     * f1 -> ( ArgRest() )*
+     */
+    public R visit(ArgList n, A argu) {
+        R _ret = null;
+        String id = (String) n.f0.accept(this, argu);
+        makeAllAttrRg(id);
+        n.f1.accept(this, argu);
+        return _ret;
+    }
+
+    /**
+     * f0 -> ","
+     * f1 -> Identifier()
+     */
+    public R visit(ArgRest n, A argu) {
+        R _ret = null;
+        String id = (String) n.f1.accept(this, argu);
+        makeAllAttrRg(id);
+        return _ret;
+    }
+
+    /**
+     * f0 -> IntegerLiteral()
+     *         | TrueLiteral()
+     *         | FalseLiteral()
+     *         | Identifier()
+     *         | ThisExpression()
+     *         | ArrayAllocationExpression()
+     *         | AllocationExpression()
+     *         | NotExpression()
+     */
+    public R visit(PrimaryExpression n, A argu) {
+        if(n.f0.which == 3) {
+            String id = (String) n.f0.accept(this, argu);
+            if(rho.containsKey(id))
+                return (R) rho.get(id);
+            return (R) setRg;
+
+        }
+        return n.f0.accept(this, argu);
+    }
+
+    /**
+     * f0 -> <INTEGER_LITERAL>
+     */
+    public R visit(IntegerLiteral n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> "true"
+     */
+    public R visit(TrueLiteral n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> "false"
+     */
+    public R visit(FalseLiteral n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> <IDENTIFIER>
+     */
+    public R visit(Identifier n, A argu) {
+        R _ret = null;
+        n.f0.accept(this, argu);
+        return (R) n.f0.toString();
+    }
+
+    /**
+     * f0 -> "this"
+     */
+    public R visit(ThisExpression n, A argu) {
+        return (R) setRg;
+    }
+
+    /**
+     * f0 -> "new"
+     * f1 -> "int"
+     * f2 -> "["
+     * f3 -> Identifier()
+     * f4 -> "]"
+     */
+    public R visit(ArrayAllocationExpression n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
+
+    /**
+     * f0 -> "new"
+     * f1 -> Identifier()
+     * f2 -> "("
+     * f3 -> ")"
+     */
+    public R visit(AllocationExpression n, A argu) {
+        R _ret = null;
+        if(!inLoop || (inLoop && firstPass)) {
+            Register register  =  new Register();
+            Set<Register> singleton = new HashSet<Register>();
+            singleton.add(register);
+            sigma.put(register, new Hashtable<String, Set<Register>>());
+            return (R) singleton;
+        }
+        return _ret;
+    }
+
+    /**
+     * f0 -> "!"
+     * f1 -> Identifier()
+     */
+    public R visit(NotExpression n, A argu) {
+        R _ret = null;
+        return _ret;
+    }
 
 }

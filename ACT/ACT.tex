@@ -2323,7 +2323,89 @@ if $x_i$ is looked at some layer find whether its $\sigma$ or $\pi$ comes
 out (ie) if $x_i$ = 1, $\sigma$ comes out and if $x_i$ = 0, $\pi$ comes out.\\
 
 
-This is called the programover the monoid.
+This is called the program over the monoid.\\
+
+Derandomization :\\
+BPP = Bounded probabilistic polynomial.\\
+P = Polynomial time.\\
+When is it possible to equate BPP problems as P ?\\
+Review of BPP.\\
+Trivial derandomization takes $2^m$ time (ie) run over all random
+strings. If m is of the type O(log(n)).\\
+If we can constraint the random string, then if the probabilities
+remain, we can still get away (ie)
+Conditional probability same as original probability after restricting
+y.\\
+
+The algorithm (for BPP say A), then one random box (G) would take l
+random bits and produce m random bits where m is O(n) (ie) which
+is used by A.\\
+$Pr[A'(x) = L(x)] > 1/2 + \epsilon$ where A' is A composed with B.\\
+We donot mind reducing 2/3 to $1/2 + \epsilon$ because then we are
+done as anyway A' runs in P as it can run over all random strings.\\
+
+R is said to be $(s, \epsilon)$ pseudo random, if for
+every circuit c of size atmost s,\\
+$|Pr[C(w) = 1]$(Overall R) - $Pr[C(w) = 1]$(over uniform random bits$)| < \epsilon$.\\
+G : ${\{0, 1\}}^l \rightarrow {\{0, 1\}}^{s(l)}$. This s(l) (originally
+what we called as m) is called the $stretch$ of l.\\
+G is s(l) pseudo random generator (PRG) if for every l, the
+distribution of $G(u_l)$ must be $(s(l)^3, 1/10)$ where this is the
+$(s, \epsilon)$ characterization of pseudo random. G runs exponential
+in l.\\
+
+Observation :\\
+G can run in time $2^l$ ( Exponential in its input length).\\
+Even if each bit takes $2^l$ time we are cool with it because,
+$2^l*2^l$ would be done with.\\
+
+Lemma : If s(l) PRG's exists then :\\
+$BPTIME(s(l(n))) \subseteq DTIME(2^{c*l(n)})$.\\
+This is pretty clear from prg's definition is clear.\\
+$BPP \subseteq P$ if PRG's exist for BPP problems.\\
+
+$BPP \subseteq QuasiP$ is conjectured where QuasiP is
+$DTIME(2^{polylog(n)})$.\\
+
+Claim : $Pr[A'(x) = L(x)] >= 2/3 - 1/10$ given that
+$Pr[A(x) = L(x)] >= 2/3$.\\ This would follow from the pseudo
+random generator proof.\\ Suppose that the claim is not true,
+then it must not be true for infinitely many x's it must be not true
+as if it is only for finitely many then you can hardcode
+it. So for infinitely many x's if it is not true, from cook levin
+reduction and from PRG definition we would be done.\\
+
+Lemma : If we have S(l)-PRGs with $S(l) = 2^{\epsilon*l}$ then
+BPP = P.\\
+
+If there are hard functions in $E = DTIME(2^{O(n)})$ then
+there exists PRG as stated above and hence BPP = P.\\
+
+f is hard if it requires exponential size circuit. Maximum size s
+such that for any circuit of $size \le s$ on n variables.\\
+$Pr[C(x) = f(x)] \le 1/2 + 1/s$.\\
+
+Theorem :\\
+If $f \in E$, such that $H_{avg}(f)(n) \ge S(n)$,
+then there exists a $S(\delta*l)^{\delta}$ PRG for some $\delta > 0$.\\
+
+Toy example(1982 Yao) :\\
+Suppose we have a function which is average case hard then we have a
+S(l) PRG such that S(l) = l+1. (ie)\\
+G : ${\{ 0, 1 \}}^l$ to ${\{0, 1\}}^{l+1}$.
+G(z) = z f(z)  (ie) concatenating z and f(z) where f(z) is one bit.
+We will map pseudo randomness to unpredictability.\\
+Unpredictability : G is a function from
+${\{0, 1\}}^l \rightarrow {\{0, 1\}}^m$.\\
+G(z) : $y_1, y_2, .... y_{n-1}$ such that for every
+polynomial time algorithm B, there is negligible $\epsilon_n$
+Pr[B($y_1, )]
 
 
+Nisan Widgerson (1995):\\
+Hardness vs Randomness.
+
+Yao's xor lemma is about translating $H_{worst}$ to BPP = P
+and there is another proof which does the same without Yao's
+xor lemma named as without XOR lemma.
 \end{document}

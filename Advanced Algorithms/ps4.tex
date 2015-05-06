@@ -1,0 +1,121 @@
+\documentclass[solution,addpoints,12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb}
+\usepackage[T1]{fontenc}
+\begin{document}
+\hrule
+\vspace{3mm}
+\noindent
+{\sf IITM-CS6840-2015 : Advanced Algorithms  \hfill Given on: April 9}
+\vspace{3mm} \\
+\noindent
+{\sf Problem Set \#1 \hfill Due on : April 29}
+\vspace{3mm}
+\hrule
+
+\begin{questions}
+\question
+\begin{parts}
+\part
+1/3 CNF SAT = 3 CNF SAT with the additional constraint that every clause
+has exactly one literal satisfied.\\
+
+1/3 T CNF SAT is one in which all the literals are forced to be true.
+
+Consider the following reduction from 1/3 CNF SAT to 1/3 T CNF SAT as follows :\\
+
+Let input variables be $x_i$'s. Now in the formula of 1/3 CNF
+replace every $\overline{x_i}$ by a new variable $y_i$. Now add clauses
+as follows :\\
+($x_i$ + $y_i$ + f) for every variable $x_i$
+and finally a clause (f + f + t).\\
+It is easy to see that the now modified into an instance which is 1/3 T CNF SAT
+as all literals are positive.
+
+If 1/3 CNF says yes, then there exists a satisfying assignment such that
+exactly one of the literals in each clause are true. Therefore substitute the
+values according to the satisfying assignment by maintaining $y_i = \overline{x_i}$.
+Substitute f as false and t as true. As $y_i = \overline{x_i}$, all the
+extra clauses added of the form ($x_i$ + $y_i$ + f) will be satisfied (according to 1/3 CNF)
+and (f + f + t) will also be satisfied.
+Therefore if 1/3 CNF says yes then 1/3 T CNF for the modified formula also says yes.\\
+
+If 1/3 T CNF says yes :\\
+This definitely means that f has to be assigned to false and
+t has to be assigned to true as f + f + t was satisfed. Further this
+enforces $y_i$ = $\overline{x_i}$ as exactly one of them has to be true
+as ($x_i$ + $y_i$ + f) is satisfed and f is false. Therefore given a setting
+to these variables we can map all the $x_i$'s of the current satisfying setting
+as the variables to 1/3 CNF SAT and it would satisfy all the clauses as 1/3
+T CNF satisfies the other clauses as well and $y_i = \overline{x_i}$ is ensured.
+
+Therefore 1/3 T CNF is NP hard as 1/3 CNF is NP complete (easy to see that the reduction
+is in polynomial time).\\
+It is easy to see that checking whether an assignment is correct for
+1/3 T CNF is in P. Therefore 1/3 T CNF is NP complete.
+\part
+This problem is a generalized version of the first part (like 1/k T CNF). That is consider
+the following setup :\\
+For every person assign a variable and every group is represented as a clause
+as 'or' of the person's variables in the group (disjunction). Now take
+an 'and' over all such clauses and we would get a formula which is satisfiable
+iff every clause has exactly one true literal which essentially implies that
+each circle has exactly one guy chosen from it. Therefore 1/3 T CNF SAT
+is reducible to 1/k T CNF SAT as 1/3 T CNF SAT is a specific such instance.
+Therefore 1/k T CNF SAT is NP hard but hecking whether a given assignment
+is satisfiable is in P and hence 1/k T CNF SAT is in NP. Therefore 1/k
+CNF SAT is NP complete. Therefore there wouldnt exist an efficient algorithm for
+solving this unless P = NP.
+\end{parts}
+\question
+\begin{parts}
+\part
+Consider the following reduction from 3 CNF SAT to majority SAT as follows :\\
+To every clause $C_i$ which is like say ($z_i$ + $z_j$ + $z_k$) where
+$z_i$ represents a variable or its negation,
+add two more variables $y_1$ + $y_2$ to the clause making it ($z_i$ + $z_j$ + $z_k$ + $y_1$ + $y_2$)
+and feed it into the majority SAT solver.\\
+
+If 3 CNF SAT has a satisfying instance, assign $y_1$ = 1 and $y_2$ = 1 and substitute
+the satisfying assignment got from 3 CNF SAT in the formula we get after applying the
+above modification. Now every clause in the 3 CNF instance has atleast one positive
+literal and we have enforced two more positive literals in the formula made up
+for Majority SAT ($y_1$, $y_2$). Therefore every clause has atleast 3 true literals
+and hence is a satisfying instance of majority SAT.\\
+
+If majority SAT has a satisfying instance, then every clause has atleast 3 true literals.
+This means that apart from $y_1$ and $y_2$ some other literal in the clause also
+must evaluate to true in every clause. Therefore the original 3 SAT instance will
+also be satisfied with the same setting of variables which we get from majority SAT
+if majority SAT returns true. Therefore 3 SAT would also say true for its given input.\\
+
+It is easy to see that the reduction is in polynomial time and as 3 CNF SAT
+is NP complete, Majority SAT is NP hard. Given am assignment
+checking whether majority SAT is satisfied by the assignment is trivially in P.
+Therefore majority SAT is in NP. Therefore majority SAT is NP complete.
+Therefore unless P = NP, we cannot expect to find a polynomial time
+algorithm for this. We can get an exponential time algorithm though ($2^n*p(n)$ where
+n is the number of literals and p(n) is the
+time required to check each clause ) for solving this problem.
+
+\part
+We can propose an algorithm which can give us a half approximation as follows :\\
+Every clause can be majorly satisfied with a probability of 1/2. This is because
+either 0 is major occuring element or 1 is the major occuring element in each clause.\\
+Let the given formula have m clauses and n variables.
+Therefore number of assignments which are satisfiable for each clause is (1/2)*$2^n$ = $2^{n-1}$.\\
+Therefore sum total of all the clauses satisfied over all the assignments is
+exactly $2^{n-1}$*m. Total average number of clauses satisfied per assignment
+= $2^{n-1}*m/2^{n}$ as $2^n$ is the overall number of assignments possible. Therefore
+average number of clauses satisfied = m/2. Therefore a randomized algorithm
+can give us an assignment in expected polynomial time with m/2 clauses satisfied
+and hence gives us a half approximation (as maximum clauses which could be satisfied
+is m).\\
+The above procedure can be derandomized by the method of conditional probability
+(ie) at each step you fix one variable and move in the direction in which
+the expected number of clauses satisfied is higher. Therefore this algorithm
+is a polynomial time 1/2 approximation algorithm by the method
+of conditional probability.
+\end{parts}
+\end{questions}
+\end{document}

@@ -1,0 +1,17 @@
+loop optimization and dependency
+
+interprocedural analysis :
+    interprocedural constant propogation
+    context senstive interprocedural (analysis for every different type of parameters)
+    context insensitive interprocedure (analysis only as may)
+
+alias analysis (c and java) (flow sensitive / insensitive)
+
+register allocation :
+    Iterated register coalescing
+    bit width aware register allocation
+    Kempe's heuristic
+
+MHP analysis (call graph)
+
+runtime management (call stack, activation records).

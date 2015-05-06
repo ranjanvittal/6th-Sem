@@ -285,7 +285,7 @@ public class GJDepth2<R,A> extends GJDepthFirst<R, A> {
         if ( n.present() )
            return n.node.accept(this,argu);
         else
-           return null;
+           return (R)"";
     }
 
     public R visit(NodeSequence n, A argu) {
@@ -349,17 +349,21 @@ public class GJDepth2<R,A> extends GJDepthFirst<R, A> {
         inMethod = true;
         pto(id + ")\n{\n");
         NodeListOptional n1 = n.f14;
+        globalValidStrings = new HashSet<String>();// Changed
         for(int i = 0; i < n1.size(); i++) {
             VarDeclaration v = (VarDeclaration) n1.elementAt(i);
             String type = (String) v.f0.accept(this, argu);
             String var = v.f1.f0.toString();
             pto(type + " " + var + ";\n");
-
+            if(inMethod && (type.equals("int") || type.equals("boolean"))) {
+                globalValidStrings.add(var);
+            }
         }
         n1 = n.f15;
         PassOn passOn = new PassOn();
         for(int i = 0; i < n1.size(); i++)
             n1.elementAt(i).accept(this, (A) passOn);
+        pto(variableString);
         pto(methodString);
         pto("}\n");
         pto("}\n");

@@ -22,6 +22,9 @@ class T2 {
         six = 6;
         t1 = i < one;
         t2 = i < two;
+        if(t1)
+            a = new A();
+        else {a = new B();}
 
         b.b = a;
         b.b = c;

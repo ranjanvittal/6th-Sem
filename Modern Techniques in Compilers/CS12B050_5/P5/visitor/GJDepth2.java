@@ -190,7 +190,7 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
         inClass = false;
 
         n.f0.accept(this, argu);
-        String s = "funkyTaco" + n.f1.f0.toString();
+        String s = n.f1.f0.toString();
         currentVariables = new Hashtable<String, String>();
         n.f2.accept(this, argu);
         n.f3.accept(this, argu);
@@ -1166,6 +1166,7 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
         n.f2.accept(this, argu);
         n.f3.accept(this, argu);
         s = "new " + s + "()";
+        currentVariables.put(s, "funkyTaco" + n.f1.f0.toString());
         return (R) s;
     }
 

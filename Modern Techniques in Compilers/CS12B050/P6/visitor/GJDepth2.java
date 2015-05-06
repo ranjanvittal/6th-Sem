@@ -265,11 +265,13 @@ public class GJDepth2<R,A> extends GJDepthFirst<R,A> {
     public R visit(VarDeclaration n, A argu) {
         R _ret = null;
         if(inClass) {
-            String type = (String) n.f0.accept(this, argu);
-            String variable = (String) n.f1.accept(this, argu);
-            //System.out.println(className);
-            Hashtable<String, String> classV = classVariables.get(className);
-            classV.put(variable, type);
+            if(n.f0.f0.which == 3) {
+                String type = (String) n.f0.accept(this, argu);
+                String variable = (String) n.f1.accept(this, argu);
+                //System.out.println(className);
+                Hashtable<String, String> classV = classVariables.get(className);
+                classV.put(variable, type);
+            }
         }
         return _ret;
     }

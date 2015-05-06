@@ -266,7 +266,7 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
         if ( n.present() )
            return n.node.accept(this,argu);
         else
-           return null;
+           return (R)"";
     }
 
     public R visit(NodeSequence n, A argu) {
@@ -324,10 +324,13 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
          R _ret = null;
         String id = (String) n.f1.accept(this, argu);
         inLic = false;
+		id = id.substring(9);
         pto("class " + id + "\n{\n");
         pto("public static void main( String[] ");
         id = (String) n.f11.accept(this, argu);
         inMethod = true;
+        globalValidStrings = new HashSet<String>();// Changed
+        typer = new Hashtable<String, String>();// Changed
         pto(id + ")\n{\n");
         NodeListOptional n1 = n.f14;
         for(int i = 0; i < n1.size(); i++) {
@@ -335,12 +338,15 @@ public class GJDepth3<R,A> extends GJDepth2<R, A> {
             String type = (String) v.f0.accept(this, argu);
             String var = v.f1.f0.toString();
             pto(type + " " + var + ";\n");
-
+            if(inMethod && (type.equals("int") || type.equals("boolean"))) {
+                globalValidStrings.add(var);
+            }
         }
         n1 = n.f15;
         DistOn distOn = new DistOn();
         for(int i = 0; i < n1.size(); i++)
             n1.elementAt(i).accept(this, (A) distOn);
+        pto(variableString);
         pto(methodString);
         pto("}\n");
         pto("}\n");

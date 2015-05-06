@@ -10,9 +10,9 @@ public class P4 {
       try {
          LoopyTacoJavaParser loopyTacoJavaParser = new LoopyTacoJavaParser(System.in);
          Node root1 = loopyTacoJavaParser.Goal();
-         //System.out.println("Program Parsed Successfully");
+         // System.out.println("Program Parsed Successfully");
          String prog1 = (String) root1.accept(new GJDepthFirst<Object, Object>(), null);
-         //System.out.println(prog1);
+         // System.out.println(prog1);
          InputStream is1 = new ByteArrayInputStream( prog1.getBytes() );
          loopyTacoJavaParser.ReInit(is1);
          Node root2 = loopyTacoJavaParser.Goal();

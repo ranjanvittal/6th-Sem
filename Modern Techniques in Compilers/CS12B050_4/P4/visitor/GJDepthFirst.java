@@ -109,7 +109,7 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
         if ( n.present() )
            return n.node.accept(this,argu);
         else
-           return null;
+           return (R)"";
     }
 
     public R visit(NodeSequence n, A argu) {
@@ -177,12 +177,17 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
 
         }
         n1 = n.f15;
-        methodString = "";
+        pto("Dummy a;");// Changed
+        methodString = "a = new Dummy();";
         for(int i = 0; i < n1.size(); i++)
             n1.elementAt(i).accept(this, argu);
+        pto(variableString);// Changed
         pto(methodString);
         pto("}");
         pto("}");
+        pto("class Dummy {\n");// Changed
+        makeDivide(); // Changed
+        pto("}\n"); // Changed
         return _ret;
     }
 

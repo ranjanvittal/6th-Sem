@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{maggu max}
+\author{author }
+\date{29 April 2015}
+
+\begin{document}
+
+\maketitle
+
+\section{Question 1}
+{\bf (6 points)} Restricting SAT\\
+{\bf (a)} Consider the $1/3$-CNF-SAT problem of determining if a given $3$-CNF formula has a satisfying assignment that satisfies exactly one literal in each clause. This problem is as hard as SAT in general. However, if the input formula has no negated literals, does it make the problem easier to solve?\\\\
+{\bf (b)} Alice and Bob are announcing their wedding. As is customary, they are to send invites to the attendees. The previous generation members do not like e-invites and prefer paper-invites to be mailed. Further, the people in this set form groups and if one member of a group gets an invite, he/she forwards it to everyone in that group. Can you help Alice and Bob to efficiently figure a way to send out invites so that exactly one person in each circle gets an invite?\\\\
+{\bf Solution}:\\
+{\bf (a)} {\bf No}, it does not make the problem any easier. We prove that $1$-in-$3$ positive $3$-CNF SAT is as hard as $1$-in-$3$ $3$-CNF SAT by setting up a reduction and hence show that it is NP-Complete.\\
+Consider any input to the $1$-in-$3$ $3$-CNF SAT it consists of many clauses. Consider any clause which has a negated literal, say $\neg x_{1}$. Replace {\bf every} occurrence of $\neg x_{1}$ in the in the Boolean formula with a new variable $x_{11}$. Multiply the new formula with a new clause $x_{1}+x_{11}$. Do this {\bf for every} negated literal in the original Boolean formula.\\
+Since our transformation gets rid of one negated literal at a time, after polynomial number of steps we end up with a transformed formula $f'$. Give $f'$ as an input to $1$-in-$3$ positive $3$-CNF SAT-Solver. If it returns yes, then original formula is a yes-instance for the $1$-in-$3$ $3$-CNF SAT, else it's a no instance.\\
+This is because if the original formula had a satisfying assignment then exactly one literal in any clause, say $C_{j}$  would be set to true, say $x_{k}$. If $x_{k}$ was a non-negated literal in $C_{j}$, then in the corresponding clause $C_{j}'$ in $f'$ set $x_{k}$ to be true. Set other literals to be false. If $x_{k}$ was a negated literal then set $x_{k1}$ the newly introduced literal to be true. Then the corresponding clause stands satisfied is the original clause was satisfied. Also note that since $x_{k}$ would now have to be false, hence the newly added clause $x_{k} + x_{k1}$ is also satisfied. Hence, a yes-instance in $1$-in-$3$ $3$-CNF SAT maps to a yes instance in $1$-in-$3$ $3$-CNF positive SAT according to our transformation.\\
+In the reverse direction, consider any valid assignment to the transformed formula by $1$-in-$3$ $3$-CNF positive SAT-Solver. Then in the clause for negated literal $x_{k}$, that is $x_{k}+x_{k1}$ exactly one of $x_{k}$ and $x_{k1}$ would be set to true and other to false. Correspondingly we can set either $x_{k}$ or $\neg x_{k}$ to true in the original clause. Due to the fact that the assignment was satisfying in the modified formula, it is satisfying in the original formula (exactly one literal in a clause being true is still true since there is a direct correspondence between $x_{k1}$ and $\neg x_{k}$. Hence we have set up the reduction and we conclude that  $1$-in-$3$ positive $3$-CNF SAT is NP-Hard since  $1$-in-$3$ $3$-CNF SAT is NP-Complete. Also note that checking whether an assignment is a yes instance or not is possible in polynomial time and hence it is also NP-Complete. \\\\
+{\bf (b)} This problem can be modelled as Exactly-$1$ positive SAT. That is a restricting SAT in which each clause has exactly one literal set to true.\\ The {\it circles} of people form a clause and each clause must be satified. We show that it is NP-Complete by setting up a reduction from  $1$-in-$3$ positive $3$-CNF SAT.\\ Suppose we have a Exactly-$1$ positive SAT-Solver, then give it as input the same formula which we would give as input to  $1$-in-$3$ positive $3$-CNF SAT. Since  $1$-in-$3$ positive $3$-CNF SAT is a restriction of Exactly-$1$ positive SAT, hence Exactly-$1$ positive SAT-Solver can solve such inputs. If it outputs yes, then the input is a yes instance for the $1$-in-$3$ positive $3$-CNF SAT otherwise it is not. Since $1$-in-$3$ positive $3$-CNF SAT is a restriction of Exactly-$1$ positive SAT, hence the mapping is straight forward. We have shown that Exactly-$1$ positive SAT is NP-Hard. Also note that checking whether an assignment is a yes instance or not is possible in polynomial time and hence it is also NP-Complete. \\\\
+\section{Question 2}
+{\bf (6 points)} Consider the Majority-SAT problem where the input is a $k$-CNF formula with $k$ being an odd number.\\
+{\bf (a)} What is the complexity of checking if the formula has a satisfying assignment in which a majority of literals is true?\\\\
+{\bf (b)} What is the complexity of approximating the maximum number of clauses that can be satisfied, under this definition of satisfaction?\\\\
+{\bf Solution}:
+{\bf (a)} 
+We show that it is NP-Complete by setting up a reduction from SAT.\\
+For each clause $C_{j}$ in $f$, a Boolean formula, add new variables $x_{1j}, \cdots, x_{(l_{j}-1)j}$ where $l_{j}$ is the length of $C_{j}$. Give this new new transformed formula $f'$ to $2k-1$-Majority-SAT Solver, where original formula belonged to $k$-SAT. If it outputs a yes, then $f$ is a yes-instance of $k$-SAT and else it is a no instance. This is because if $f'$ has a majority of literals set to true in each clause, then this implies that there was at least one literal set to true in the original formula $f$ which implies that $f$ is a yes instance of $k$-SAT. In the other direction, if $f$ takes a truth assignment $t$ which makes it satisfiable for $k$-SAT, then each of the new variables $x_{ij}$ can be set to true to yield a truth assignment $t'$ for $f'$ in which majority of literals are set to true. Hence, the reduction is complete and hence Majority-SAT is NP-Hard. Also note that checking whether an assignment is a yes instance or not is possible in polynomial time and hence it is also NP-Complete.\\\\
+{\bf (b)}
+\end{document}

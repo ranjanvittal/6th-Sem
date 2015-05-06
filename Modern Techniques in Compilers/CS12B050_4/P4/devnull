@@ -1,0 +1,103 @@
+class LoopyTacoLU4
+{
+public static void main( String[] LoopyTacoargs)
+{
+int LoopyTacoi;
+int LoopyTacon;
+int LoopyTacocount;
+boolean LoopyTacof1;
+LoopyTacon = 13;
+LoopyTacocount = 0;
+temp1 = LoopyTacon;
+temp2 = 4;
+temp0 = a.divide(temp1, temp2);
+temp0 = temp0*4;
+for(LoopyTacoi=0;LoopyTacoi<temp0;LoopyTacoi = LoopyTacoi)
+{
+{
+LoopyTacof1 = false;
+if(LoopyTacof1)
+{
+System.out.println(LoopyTacoi);
+}
+else
+LoopyTacof1 = true;
+while(LoopyTacof1)
+{
+LoopyTacocount = LoopyTacocount+1;
+System.out.println(LoopyTacocount);
+LoopyTacof1 = false;
+}
+}
+LoopyTacoi = LoopyTacoi+1;
+{
+LoopyTacof1 = false;
+if(LoopyTacof1)
+{
+System.out.println(LoopyTacoi);
+}
+else
+LoopyTacof1 = true;
+while(LoopyTacof1)
+{
+LoopyTacocount = LoopyTacocount+1;
+System.out.println(LoopyTacocount);
+LoopyTacof1 = false;
+}
+}
+LoopyTacoi = LoopyTacoi+1;
+{
+LoopyTacof1 = false;
+if(LoopyTacof1)
+{
+System.out.println(LoopyTacoi);
+}
+else
+LoopyTacof1 = true;
+while(LoopyTacof1)
+{
+LoopyTacocount = LoopyTacocount+1;
+System.out.println(LoopyTacocount);
+LoopyTacof1 = false;
+}
+}
+LoopyTacoi = LoopyTacoi+1;
+{
+LoopyTacof1 = false;
+if(LoopyTacof1)
+{
+System.out.println(LoopyTacoi);
+}
+else
+LoopyTacof1 = true;
+while(LoopyTacof1)
+{
+LoopyTacocount = LoopyTacocount+1;
+System.out.println(LoopyTacocount);
+LoopyTacof1 = false;
+}
+}
+LoopyTacoi = LoopyTacoi+1;
+}
+for(LoopyTacoi=LoopyTacoi;LoopyTacoi<LoopyTacon;LoopyTacoi = LoopyTacoi+1)
+{
+{
+LoopyTacof1 = false;
+if(LoopyTacof1)
+{
+System.out.println(LoopyTacoi);
+}
+else
+LoopyTacof1 = true;
+while(LoopyTacof1)
+{
+LoopyTacocount = LoopyTacocount+1;
+System.out.println(LoopyTacocount);
+LoopyTacof1 = false;
+}
+}
+}
+System.out.println(LoopyTacocount);
+}
+}
+

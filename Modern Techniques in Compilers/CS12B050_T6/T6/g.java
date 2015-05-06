@@ -4,15 +4,16 @@ class T1 {
         A b;
         boolean t;
         t = true;
+        a = new B();
         if(t)
-            a = new B();
-        b = a;
+            a.a = new B();
+        b = a.a;
         /* a alias? b */{}
     }
 }
 
 class A {
-    int a;
+    A a;
 }
 
 class B extends A {

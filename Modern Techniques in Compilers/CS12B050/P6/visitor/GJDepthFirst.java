@@ -108,6 +108,8 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     Register rg;
     Set<Register> setRg;
     Hashtable<String, String> typeInfo;
+    Register rnull;
+    Set<Register> setNull;
 
     void makeAllAttrRg(String obj) {
         makeAllAttrRg(rho.get(obj));
@@ -148,10 +150,11 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     }
 
     void weakUpdate(Register reg, String field, Set<Register> set) {
-        if(sigma.get(reg).containsKey(field))
-            sigma.get(reg).get(field).addAll(set);
-        else
-            sigma.get(reg).put(field, set);
+        if(reg != rnull)
+            if(sigma.get(reg).containsKey(field))
+                sigma.get(reg).get(field).addAll(set);
+            else
+                sigma.get(reg).put(field, set);
     }
 
 
@@ -292,9 +295,8 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
             key = keySet.nextElement();
             hash = m2.get(key);
             hashkeys = hash.keys();
-            if(creating.containsKey(key)) {
+            if(m1.containsKey(key)) {
                 createHash = creating.get(key);
-
                 while(hashkeys.hasMoreElements()) {
                     nextField = hashkeys.nextElement();
                     regs = hash.get(nextField);
@@ -306,37 +308,16 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
                 }
             }
             else
-                creating.put(key, new Hashtable<String, Set<Register>>());
+                creating.put(key, m2.get(key));
+
         }
 
-        keySet = m1.keys();
-
-        while(keySet.hasMoreElements()) {
-            key = keySet.nextElement();
-            hash = m1.get(key);
-            hashkeys = hash.keys();
-
-            if(m2.containsKey(key)) {
-                createHash = creating.get(key);
-
-                while(hashkeys.hasMoreElements()) {
-                    nextField = hashkeys.nextElement();
-
-                    if(!m2.get(key).containsKey(nextField))
-                        createHash.remove(nextField);
-
-                }
-            }
-            else
-                creating.put(key, new Hashtable<String, Set<Register>>());
-        }
         return creating;
     }
 
     void query(Query n, String id1, String id2) {
         boolean toPrint = !inLoop || lastPass;
         Set<Register> union = new HashSet<Register>();
-        //System.out.println(toPrint);
         if(!rho.containsKey(id1) || !rho.containsKey(id2)) {
             if(toPrint)
                 print("Yes");
@@ -348,17 +329,17 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
             Set<Register> two = rho.get(id2);
             union.addAll(one);
             union.addAll(two);
-            //print();
             if(one.contains(rg) || two.contains(rg)) {
                 if(toPrint)
                     print("Yes");
                 else
                     answers.put(n, new Integer(1));
             }
+
+
             else if(union.size() == one.size() + two.size()) {
                 if(toPrint) {
                     if(answers.containsKey(n)) {
-                        //print("SSA");
                         if(answers.get(n) == 1)
                             print("Yes");
                         else
@@ -369,6 +350,26 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
                 }
                 else if(!answers.containsKey(n))
                     answers.put(n, new Integer(0));
+            }
+            else if (union.size() == one.size() + two.size() - 1) {
+                if(one.contains(rnull) && two.contains(rnull)) {
+                    if(toPrint) {
+                        if(answers.containsKey(n)) {
+                            if(answers.get(n) == 1)
+                                print("Yes");
+                            else
+                                print("No");
+                        }
+                        else
+                            print("No");
+                    }
+                    else if(!answers.containsKey(n))
+                        answers.put(n, new Integer(0));
+                }
+                else if(toPrint)
+                    print("Yes");
+                else
+                    answers.put(n, new Integer(1));
             }
             else {
                 if(toPrint)
@@ -387,9 +388,11 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
     public R visit(Goal n, A argu) {
         R _ret = null;
         rg = new Register();
+        rnull = new Register();
         setRg = new HashSet<Register>();
+        setNull = new HashSet<Register>();
         setRg.add(rg);
-
+        setNull.add(rnull);
         renamedVariables = (Hashtable<String, Hashtable<String, String>>) argu;
 
         n.f0.accept(this, argu);
@@ -513,7 +516,9 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
             String type = (String) n.f0.accept(this, argu);
             String id = (String) n.f1.accept(this, argu);
             typeInfo.put(id, type);
-            rho.put(id, setRg);
+            Set<Register> s = new HashSet<Register>();
+            s.add(rnull);
+            rho.put(id, s);
         }
         return _ret;
     }
@@ -539,7 +544,9 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
         typeInfo = new Hashtable<String, String>();
         rho = new Hashtable<String, Set<Register>>();
         sigma = new Hashtable<Register, Hashtable<String, Set<Register>>>();
+
         sigma.put(rg, new Hashtable<String, Set<Register>>());
+        sigma.put(rnull, new Hashtable<String, Set<Register>>());
 
         lastPass = true;
         firstPass = false;
@@ -714,7 +721,6 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
                     rho.put(id, exp);
             }
         }
-        n.f3.accept(this, argu);
         return _ret;
     }
 
@@ -1051,6 +1057,8 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
             Enumeration<Register> regs = new Vector(registers).elements();
             while(regs.hasMoreElements()) {
                 Register r1 = regs.nextElement();
+                if(r1 == rnull)
+                    return (R) setRg;
                 if(sigma.get(r1).containsKey(field))
                     returnValue.addAll(sigma.get(r1).get(field));
                 else
@@ -1181,11 +1189,27 @@ public class GJDepthFirst<R,A> implements GJVisitor<R,A> {
      */
     public R visit(AllocationExpression n, A argu) {
         R _ret = null;
+        Hashtable<String, Set<Register>> fields;
+        Hashtable<String, String> fieldNames;
+        Set<Register> fieldRegs;
+        String className;
+        className = (String) n.f1.accept(this, argu);
         if(!inLoop || (inLoop && firstPass)) {
             Register register  =  new Register();
             Set<Register> singleton = new HashSet<Register>();
+            Set<Register> s1;
             singleton.add(register);
             sigma.put(register, new Hashtable<String, Set<Register>>());
+            fields = sigma.get(register);
+            fieldNames = renamedVariables.get(className);
+            Enumeration<String> keySet = fieldNames.keys();
+            while(keySet.hasMoreElements()) {
+                String name = keySet.nextElement();
+                name = fieldNames.get(name);
+                s1 = new HashSet<Register>();
+                s1.add(rnull);
+                fields.put(name, s1);
+            }
             return (R) singleton;
         }
         return _ret;
